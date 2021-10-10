@@ -4,10 +4,10 @@ import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.common.dtos.KeyValue;
 import cana.codelessautomation.api.services.customer.verifiers.CustomerServiceVerifier;
 import cana.codelessautomation.api.services.environment.dtos.CreateEnvironmentDto;
+import cana.codelessautomation.api.services.environment.dtos.DeleteEnvironmentDto;
 import cana.codelessautomation.api.services.environment.errorcodes.EnvironmentErrorCode;
 import cana.codelessautomation.api.services.environment.repositories.EnvironmentRepository;
 import cana.codelessautomation.api.services.environment.repositories.daos.EnvironmentDao;
-import cana.codelessautomation.api.services.envvariable.dtos.CreateEnvVariableDto;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -37,6 +37,36 @@ public class EnvironmentVerifierImpl implements EnvironmentVerifier {
     }
 
     @Override
+    public List<ErrorMessageDto> verifyGetEnvironments(Long userId) {
+        return isUserIdValid(userId);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyDeleteEnvironment(DeleteEnvironmentDto deleteEnvironment) {
+        return isEnvironmentIdValid(deleteEnvironment);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isEnvironmentIdValid(DeleteEnvironmentDto deleteEnvironment) {
+        var response = isEnvironmentIdValid(deleteEnvironment.getEnvironmentId());
+        if (!response.getKey().isEmpty()) {
+            return response.getKey();
+        }
+
+        deleteEnvironment.setEnvironment(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isUserIdValid(Long userId) {
+        var response = customerServiceVerifier.isUserIdValid(userId);
+        if (!CollectionUtils.isEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<ErrorMessageDto> isUserIdValid(CreateEnvironmentDto createEnvironmentDto) {
         var response = customerServiceVerifier.isUserIdValid(createEnvironmentDto.getUserId());
         if (!CollectionUtils.isEmpty(response.getKey())) {
@@ -56,7 +86,14 @@ public class EnvironmentVerifierImpl implements EnvironmentVerifier {
     }
 
     @Override
-    public KeyValue<List<ErrorMessageDto>, EnvironmentDao> isEnvironmentIdValid(CreateEnvVariableDto createEnvVariableDto) {
-        return null;
+    public KeyValue<List<ErrorMessageDto>, EnvironmentDao> isEnvironmentIdValid(Long environmentId) {
+        KeyValue<List<ErrorMessageDto>, EnvironmentDao> response = new KeyValue<>();
+        var customDetailDao = environmentRepository.findByIdAndActive(environmentId);
+        if (customDetailDao == null) {
+            response.setKey(CanaUtility.getErrorMessages(environmentErrorCode.getEnvironmentIdNotFound()));
+            return response;
+        }
+        response.setValue(customDetailDao);
+        return response;
     }
 }

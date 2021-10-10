@@ -1,11 +1,9 @@
 package cana.codelessautomation.api.commons.exceptions;
 
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
-import lombok.Data;
 
 import java.util.List;
 
-@Data
 public class ValidationException extends Exception {
     private List<ErrorMessageModel> errorMessageModels;
 

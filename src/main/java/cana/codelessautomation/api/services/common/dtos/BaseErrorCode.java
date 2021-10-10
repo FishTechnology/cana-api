@@ -1,15 +1,14 @@
 package cana.codelessautomation.api.services.common.dtos;
 
-import io.vertx.core.http.HttpServerRequest;
-
-import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.ext.Provider;
+import java.net.http.HttpRequest;
 
-@RequestScoped
+
+@Provider
 public class BaseErrorCode {
     @Context
-    HttpServerRequest request;
-
+    HttpRequest request;
 
     public String getHttpMethod() {
         return "GET";

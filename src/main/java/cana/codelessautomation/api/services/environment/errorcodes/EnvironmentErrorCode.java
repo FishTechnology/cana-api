@@ -9,4 +9,8 @@ public class EnvironmentErrorCode extends BaseErrorCode {
     public String getDuplicateNameFound() {
         return "CanaApi.EnvironmentResource.CreateEnvironment." + getHttpMethod() + ".Environment.Name.Duplicated";
     }
+
+    public String getEnvironmentIdNotFound() {
+        return "CanaApi.EnvironmentResource.CreateEnvironment." + getHttpMethod() + ".Environment.Id.NotFound";
+    }
 }

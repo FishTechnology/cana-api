@@ -83,7 +83,7 @@ public class EnvVariableVerifierImpl implements EnvVariableVerifier {
 
     @Override
     public List<ErrorMessageDto> isEnvironmentIdValid(CreateEnvVariableDto createEnvVariableDto) {
-        var response = environmentVerifier.isEnvironmentIdValid(createEnvVariableDto);
+        var response = environmentVerifier.isEnvironmentIdValid(createEnvVariableDto.getEnvironmentId());
         if (!CollectionUtils.isEmpty(response.getKey())) {
             return response.getKey();
         }
