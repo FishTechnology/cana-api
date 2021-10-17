@@ -31,4 +31,6 @@ public class EnvVariableModel {
     private Long userId;
     @JMap
     private Long environmentId;
+    @JMap
+    private String content;
 }

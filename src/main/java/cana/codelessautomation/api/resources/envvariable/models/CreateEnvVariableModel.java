@@ -10,4 +10,5 @@ public class CreateEnvVariableModel {
     private Long environmentId;
     private String type;
     private String comments;
+    private String content;
 }

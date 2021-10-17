@@ -35,5 +35,7 @@ public class EnvironmentVariableDao {
     @JMap
     private Long userId;
     @JMap
+    private String content;
+    @JMap
     private Long environmentId;
 }

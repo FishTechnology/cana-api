@@ -2,10 +2,7 @@ package cana.codelessautomation.api.services.globalvariable;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.CreateGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.DeleteGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableByIdDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableDto;
+import cana.codelessautomation.api.services.globalvariable.dtos.*;
 import cana.codelessautomation.api.services.globalvariable.processors.GlobalVariableProcessor;
 import cana.codelessautomation.api.services.globalvariable.repositories.daos.GlobalVariableDao;
 import cana.codelessautomation.api.services.globalvariable.verifiers.GlobalVariableVerifier;
@@ -66,5 +63,15 @@ public class GlobalVariableServiceImpl implements GlobalVariableService {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }
         return globalVariableProcessor.processDeleteGlobalVariable(deleteGlobalVariableDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateGlobalVariable(UpdateGlobalVariableDto updateGlobalVariableDto) {
+        updateGlobalVariableDto.setCreatedOn(OffsetDateTime.now());
+        updateGlobalVariableDto.setModifiedOn(OffsetDateTime.now());
+        updateGlobalVariableDto.setCreatedBy(updateGlobalVariableDto.getUserId().toString());
+        updateGlobalVariableDto.setModifiedBy(updateGlobalVariableDto.getUserId().toString());
+        updateGlobalVariableDto.setIsActive(true);
+        return null;
     }
 }

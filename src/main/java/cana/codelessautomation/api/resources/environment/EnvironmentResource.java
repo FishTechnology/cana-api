@@ -13,6 +13,7 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
@@ -31,7 +32,7 @@ public class EnvironmentResource {
     @Path("/environments")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultModel createEnvironment(CreateEnvironmentModel createEnvVariableModel) throws ValidationException {
+    public ResultModel createEnvironment(@Valid CreateEnvironmentModel createEnvVariableModel) throws ValidationException {
         var createEnvironmentDto = environmentResourceMapper.mapCreateEnvVariableDto(createEnvVariableModel);
         var errorMessages = environmentService.createEnvironment(createEnvironmentDto);
         return environmentResourceMapper.mapResultModel(createEnvironmentDto, errorMessages);

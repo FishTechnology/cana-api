@@ -3,11 +3,9 @@ package cana.codelessautomation.api.resources.globalvariable.mappers;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.globalvariable.models.CreateGlobalVariableModel;
 import cana.codelessautomation.api.resources.globalvariable.models.GlobalVariableModel;
+import cana.codelessautomation.api.resources.globalvariable.models.UpdateGlobalVariableModel;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.CreateGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.DeleteGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableByIdDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableDto;
+import cana.codelessautomation.api.services.globalvariable.dtos.*;
 import cana.codelessautomation.api.services.globalvariable.repositories.daos.GlobalVariableDao;
 
 import java.util.List;
@@ -26,4 +24,6 @@ public interface GlobalVariableResourceMapper {
     GlobalVariableModel mapGlobalVariableModel(GetGlobalVariableByIdDto getGlobalVariableByIdDto);
 
     DeleteGlobalVariableDto mapDeleteGlobalVariableDto(Long globalVariableId);
+
+    UpdateGlobalVariableDto mapUpdateGlobalVariableDto(Long globalVariableId, UpdateGlobalVariableModel updateGlobalVariableModel);
 }

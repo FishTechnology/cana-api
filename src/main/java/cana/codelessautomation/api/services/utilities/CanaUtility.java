@@ -33,4 +33,19 @@ public class CanaUtility {
         }
         return errorMessageModels;
     }
+
+    public static List<ErrorMessageModel> getErrorMessageModels(String errorCode) {
+        return getErrorMessageModels(errorCode, "");
+    }
+
+    public static List<ErrorMessageModel> getErrorMessageModels(String errorCode, String message) {
+        List<ErrorMessageModel> errorMsgModels = new ArrayList<>();
+        ErrorMessageModel errorMessageModel = new ErrorMessageModel();
+        if (!StringUtils.isEmpty(message)) {
+            errorMessageModel.setMessage(message);
+        }
+        errorMessageModel.setErrorCode(errorCode);
+        errorMsgModels.add(errorMessageModel);
+        return errorMsgModels;
+    }
 }

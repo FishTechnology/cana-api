@@ -23,6 +23,8 @@ public class CreateEnvVariableDto {
     private Long environmentId;
     @JMap
     private String comments;
+    @JMap
+    private String content;
     private Boolean isActive;
     private OffsetDateTime createdOn;
     private OffsetDateTime modifiedOn;

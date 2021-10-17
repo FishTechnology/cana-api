@@ -21,13 +21,18 @@ public class EnvironmentResourceMapperImpl implements EnvironmentResourceMapper 
     JMapper<EnvironmentModel, EnvironmentDao> mapperEnvironmentModel;
 
     public EnvironmentResourceMapperImpl() {
-        mapperCreateEnvironment = new JMapper<>(CreateEnvironmentDto.class, CreateEnvironmentModel.class);
-        mapperEnvironmentModel = new JMapper<>(EnvironmentModel.class, EnvironmentDao.class);
+        // mapperCreateEnvironment = new JMapper<>(CreateEnvironmentDto.class, CreateEnvironmentModel.class);
+        //mapperEnvironmentModel = new JMapper<>(EnvironmentModel.class, EnvironmentDao.class);
     }
 
     @Override
     public CreateEnvironmentDto mapCreateEnvVariableDto(CreateEnvironmentModel createEnvVariableModel) {
-        return mapperCreateEnvironment.getDestination(createEnvVariableModel);
+        CreateEnvironmentDto createEnvironment = new CreateEnvironmentDto();
+        createEnvironment.setName(createEnvVariableModel.getName());
+        createEnvironment.setComments(createEnvVariableModel.getComments());
+        createEnvironment.setUserId(createEnvVariableModel.getUserId());
+        return createEnvironment;
+        // return mapperCreateEnvironment.getDestination(createEnvVariableModel);
     }
 
     @Override

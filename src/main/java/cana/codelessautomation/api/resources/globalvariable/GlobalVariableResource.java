@@ -6,12 +6,14 @@ import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.globalvariable.mappers.GlobalVariableResourceMapper;
 import cana.codelessautomation.api.resources.globalvariable.models.CreateGlobalVariableModel;
 import cana.codelessautomation.api.resources.globalvariable.models.GlobalVariableModel;
+import cana.codelessautomation.api.resources.globalvariable.models.UpdateGlobalVariableModel;
 import cana.codelessautomation.api.services.globalvariable.GlobalVariableService;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
@@ -38,11 +40,11 @@ public class GlobalVariableResource {
         return globalVariableResourceMapper.mapEnvironmentModels(globalVariables);
     }
 
-    @GET
+    @POST
     @Path("/globalVariables")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ResultModel createGlobalVariable(CreateGlobalVariableModel createGlobalVariableModel) throws ValidationException {
+    public ResultModel createGlobalVariable(@Valid CreateGlobalVariableModel createGlobalVariableModel) throws ValidationException {
         var createGlobalVariableDto = globalVariableResourceMapper.mapCreateGlobalVariableDto(createGlobalVariableModel);
         var errorMessages = globalVariableService.createGlobalVariable(createGlobalVariableDto);
         return globalVariableResourceMapper.mapResultModel(errorMessages, createGlobalVariableDto);
@@ -52,7 +54,7 @@ public class GlobalVariableResource {
     @Path("/globalVariables/{globalVariableId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public GlobalVariableModel getGlobalVariableById(@PathParam Long globalVariableId) throws ValidationException {
+    public GlobalVariableModel getGlobalVariableById(@Valid @PathParam Long globalVariableId) throws ValidationException {
         var getGlobalVariableByIdDto = globalVariableResourceMapper.mapGetGlobalVariableByIdDto(globalVariableId);
         var errorMessages = globalVariableService.getGlobalVariableById(getGlobalVariableByIdDto);
         return globalVariableResourceMapper.mapGlobalVariableModel(getGlobalVariableByIdDto);
@@ -62,9 +64,20 @@ public class GlobalVariableResource {
     @Path("/globalVariables/{globalVariableId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<ErrorMessageModel> deleteGlobalVariable(@PathParam Long globalVariableId) throws ValidationException {
+    public List<ErrorMessageModel> deleteGlobalVariable(@Valid @PathParam Long globalVariableId) throws ValidationException {
         var deleteGlobalVariableDto = globalVariableResourceMapper.mapDeleteGlobalVariableDto(globalVariableId);
         var errorMessages = globalVariableService.deleteGlobalVariable(deleteGlobalVariableDto);
+        return Collections.emptyList();
+    }
+
+    @PUT
+    @Path("/globalVariables/{globalVariableId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<ErrorMessageModel> updateGlobalVariable(@Valid @PathParam Long globalVariableId,
+                                                        UpdateGlobalVariableModel updateGlobalVariableModel) throws ValidationException {
+        var updateGlobalVariableDto = globalVariableResourceMapper.mapUpdateGlobalVariableDto(globalVariableId,updateGlobalVariableModel);
+        var errorMessages = globalVariableService.updateGlobalVariable(updateGlobalVariableDto);
         return Collections.emptyList();
     }
 }
