@@ -12,11 +12,21 @@ public class EnvironmentProcessorMapperImpl implements EnvironmentProcessorMappe
     JMapper<EnvironmentDao, CreateEnvironmentDto> mapperEnvironmentDao;
 
     public EnvironmentProcessorMapperImpl() {
-        mapperEnvironmentDao = new JMapper<>(EnvironmentDao.class, CreateEnvironmentDto.class);
+        //mapperEnvironmentDao = new JMapper<>(EnvironmentDao.class, CreateEnvironmentDto.class);
     }
 
     @Override
     public EnvironmentDao mapEnvironmentDao(CreateEnvironmentDto createEnvironment) {
-        return mapperEnvironmentDao.getDestination(createEnvironment);
+        EnvironmentDao environmentDao = new EnvironmentDao();
+        environmentDao.setName(createEnvironment.getName());
+        environmentDao.setUserId(createEnvironment.getUserId());
+        environmentDao.setComments(createEnvironment.getComments());
+        environmentDao.setIsActive(createEnvironment.getIsActive());
+        environmentDao.setCreatedOn(createEnvironment.getCreatedOn());
+        environmentDao.setModifiedOn(createEnvironment.getModifiedOn());
+        environmentDao.setCreatedBy(createEnvironment.getCreatedBy());
+        environmentDao.setModifiedBy(createEnvironment.getModifiedBy());
+        //return mapperEnvironmentDao.getDestination(createEnvironment);
+        return environmentDao;
     }
 }

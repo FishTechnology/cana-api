@@ -2,10 +2,14 @@ package cana.codelessautomation.api.resources.environment.mappers;
 
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.environment.models.CreateEnvironmentModel;
+import cana.codelessautomation.api.resources.environment.models.DeleteEnvironmentsModel;
 import cana.codelessautomation.api.resources.environment.models.EnvironmentModel;
+import cana.codelessautomation.api.resources.environment.models.UpdateEnvironmentModel;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.environment.dtos.CreateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.dtos.DeleteEnvironmentDto;
+import cana.codelessautomation.api.services.environment.dtos.DeleteEnvironmentsDto;
+import cana.codelessautomation.api.services.environment.dtos.UpdateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.repositories.daos.EnvironmentDao;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import com.googlecode.jmapper.JMapper;
@@ -50,7 +54,17 @@ public class EnvironmentResourceMapperImpl implements EnvironmentResourceMapper 
     public List<EnvironmentModel> mapEnvironmentModels(List<EnvironmentDao> environments) {
         List<EnvironmentModel> environmentModels = new ArrayList<>();
         for (EnvironmentDao environment : environments) {
-            environmentModels.add(mapperEnvironmentModel.getDestination(environment));
+            EnvironmentModel environmentModel = new EnvironmentModel();
+            environmentModel.setId(environment.getId());
+            environmentModel.setName(environment.getName());
+            environmentModel.setUserId(environment.getUserId());
+            environmentModel.setIsActive(environment.getIsActive());
+            environmentModel.setCreatedOn(environment.getCreatedOn().toString());
+            environmentModel.setModifiedOn(environment.getModifiedOn().toString());
+            environmentModel.setCreatedBy(environment.getCreatedBy());
+            environmentModel.setModifiedBy(environment.getModifiedBy());
+            // environmentModels.add(mapperEnvironmentModel.getDestination(environment));
+            environmentModels.add(environmentModel);
         }
         return environmentModels;
     }
@@ -60,5 +74,36 @@ public class EnvironmentResourceMapperImpl implements EnvironmentResourceMapper 
         DeleteEnvironmentDto deleteEnvironmentDto = new DeleteEnvironmentDto();
         deleteEnvironmentDto.setEnvironmentId(environmentId);
         return deleteEnvironmentDto;
+    }
+
+    @Override
+    public DeleteEnvironmentsDto mapDeleteEnvironmentsDto(DeleteEnvironmentsModel deleteEnvironmentsModel) {
+        DeleteEnvironmentsDto deleteEnvironments = new DeleteEnvironmentsDto();
+        deleteEnvironments.setEnvironmentIds(deleteEnvironmentsModel.getEnvironmentIds());
+        deleteEnvironments.setUserId(deleteEnvironmentsModel.getUserId());
+        return deleteEnvironments;
+    }
+
+    @Override
+    public EnvironmentModel mapEnvironmentModel(EnvironmentDao environment) {
+        EnvironmentModel environmentModel = new EnvironmentModel();
+        environmentModel.setId(environment.getId());
+        environmentModel.setName(environment.getName());
+        environmentModel.setComments(environment.getComments());
+        environmentModel.setCreatedBy(environment.getCreatedBy());
+        environmentModel.setModifiedBy(environment.getModifiedBy());
+        environmentModel.setModifiedOn(environment.getModifiedOn().toString());
+        environmentModel.setCreatedOn(environment.getCreatedOn().toString());
+        return environmentModel;
+    }
+
+    @Override
+    public UpdateEnvironmentDto mapUpdateEnvironmentDto(UpdateEnvironmentModel updateEnvVariableModel, Long environmentId) {
+        UpdateEnvironmentDto updateEnvironment = new UpdateEnvironmentDto();
+        updateEnvironment.setId(environmentId);
+        updateEnvironment.setName(updateEnvVariableModel.getName());
+        updateEnvironment.setComments(updateEnvVariableModel.getComments());
+        updateEnvironment.setUserId(updateEnvVariableModel.getUserId());
+        return updateEnvironment;
     }
 }

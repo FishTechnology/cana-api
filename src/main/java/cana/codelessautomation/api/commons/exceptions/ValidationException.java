@@ -5,15 +5,15 @@ import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import java.util.List;
 
 public class ValidationException extends Exception {
-    private List<ErrorMessageModel> errorMessageModels;
+    public List<ErrorMessageModel> errorMessageModels;
 
     public ValidationException(List<ErrorMessageModel> errorMessageModels) {
-        this(errorMessageModels,true);
+        this(errorMessageModels, true);
     }
 
     public ValidationException(List<ErrorMessageModel> errorMessageModels,
                                boolean suppressStacktrace) {
-        super("", null, suppressStacktrace, !suppressStacktrace);
+      //  super("", null, suppressStacktrace, !suppressStacktrace);
         this.errorMessageModels = errorMessageModels;
     }
 }

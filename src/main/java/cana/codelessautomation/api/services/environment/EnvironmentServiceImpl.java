@@ -4,7 +4,9 @@ import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.environment.dtos.CreateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.dtos.DeleteEnvironmentDto;
+import cana.codelessautomation.api.services.environment.dtos.UpdateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.processors.EnvironmentProcessor;
+import cana.codelessautomation.api.services.environment.repositories.EnvironmentRepository;
 import cana.codelessautomation.api.services.environment.repositories.daos.EnvironmentDao;
 import cana.codelessautomation.api.services.environment.verifiers.EnvironmentVerifier;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
@@ -22,6 +24,9 @@ public class EnvironmentServiceImpl implements EnvironmentService {
 
     @Inject
     EnvironmentProcessor environmentProcessor;
+
+    @Inject
+    EnvironmentRepository environmentRepository;
 
     @Override
     public List<ErrorMessageDto> createEnvironment(CreateEnvironmentDto createEnvironment) throws ValidationException {
@@ -54,5 +59,25 @@ public class EnvironmentServiceImpl implements EnvironmentService {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }
         return environmentProcessor.processDeleteEnvironment(deleteEnvironment);
+    }
+
+    @Override
+    public EnvironmentDao getEnvironment(Long environmentId) {
+        return environmentRepository.findByIdAndActive(environmentId);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateEnvironment(UpdateEnvironmentDto updateEnvironment) throws ValidationException {
+        updateEnvironment.setCreatedOn(OffsetDateTime.now());
+        updateEnvironment.setModifiedOn(OffsetDateTime.now());
+        updateEnvironment.setCreatedBy(updateEnvironment.getUserId().toString());
+        updateEnvironment.setModifiedBy(updateEnvironment.getUserId().toString());
+        updateEnvironment.setIsActive(true);
+
+        var errorMessages = environmentVerifier.verifyUpdateEnvironment(updateEnvironment);
+        if (!errorMessages.isEmpty()) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return environmentProcessor.processUpdateEnvironment(updateEnvironment);
     }
 }

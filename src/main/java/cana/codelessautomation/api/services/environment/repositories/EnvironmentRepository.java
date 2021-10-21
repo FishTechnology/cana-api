@@ -1,5 +1,6 @@
 package cana.codelessautomation.api.services.environment.repositories;
 
+import cana.codelessautomation.api.services.environment.dtos.UpdateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.repositories.daos.EnvironmentDao;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
@@ -23,5 +24,14 @@ public class EnvironmentRepository implements PanacheRepository<EnvironmentDao> 
 
     public void deleteEnvironment(Long environmentId) {
         update("isactive = false , modifiedon = ?1 WHERE id = ?2 ", OffsetDateTime.now(), environmentId);
+    }
+
+    public void updateEnv(UpdateEnvironmentDto updateEnvironment) {
+        update("name = ?1 , modifiedOn = ?2, comments = ?3  , modifiedBy = ?4 WHERE id = ?5",
+                updateEnvironment.getName(),
+                OffsetDateTime.now(),
+                updateEnvironment.getComments(),
+                updateEnvironment.getModifiedBy(),
+                updateEnvironment.getId());
     }
 }

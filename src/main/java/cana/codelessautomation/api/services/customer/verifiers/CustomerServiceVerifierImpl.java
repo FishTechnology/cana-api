@@ -2,7 +2,7 @@ package cana.codelessautomation.api.services.customer.verifiers;
 
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.common.dtos.KeyValue;
-import cana.codelessautomation.api.services.customer.errorcodes.CustomerErrorCodes;
+import cana.codelessautomation.api.services.customer.errorcodes.CustomerErrorCode;
 import cana.codelessautomation.api.services.customer.repository.CustomerRepository;
 import cana.codelessautomation.api.services.customer.repository.daos.CustomDetailDao;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
@@ -17,7 +17,7 @@ public class CustomerServiceVerifierImpl implements CustomerServiceVerifier {
     CustomerRepository customerRepository;
 
     @Inject
-    CustomerErrorCodes customerErrorCodes;
+    CustomerErrorCode customerErrorCodes;
 
     @Override
     public KeyValue<List<ErrorMessageDto>, CustomDetailDao> isUserIdValid(Long userId) {

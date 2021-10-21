@@ -5,11 +5,13 @@ import cana.codelessautomation.api.services.common.dtos.KeyValue;
 import cana.codelessautomation.api.services.customer.verifiers.CustomerServiceVerifier;
 import cana.codelessautomation.api.services.environment.dtos.CreateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.dtos.DeleteEnvironmentDto;
+import cana.codelessautomation.api.services.environment.dtos.UpdateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.errorcodes.EnvironmentErrorCode;
 import cana.codelessautomation.api.services.environment.repositories.EnvironmentRepository;
 import cana.codelessautomation.api.services.environment.repositories.daos.EnvironmentDao;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -49,7 +51,7 @@ public class EnvironmentVerifierImpl implements EnvironmentVerifier {
     @Override
     public List<ErrorMessageDto> isEnvironmentIdValid(DeleteEnvironmentDto deleteEnvironment) {
         var response = isEnvironmentIdValid(deleteEnvironment.getEnvironmentId());
-        if (!response.getKey().isEmpty()) {
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }
 
@@ -95,5 +97,34 @@ public class EnvironmentVerifierImpl implements EnvironmentVerifier {
         }
         response.setValue(customDetailDao);
         return response;
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyUpdateEnvironment(UpdateEnvironmentDto updateEnvironment) {
+        var error = isEnvironmentIdValid(updateEnvironment);
+        return isNameValid(updateEnvironment);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isNameValid(UpdateEnvironmentDto updateEnvironment) {
+        if (StringUtils.equalsAnyIgnoreCase(updateEnvironment.getName(), updateEnvironment.getEnvironment().getName())) {
+            return Collections.emptyList();
+        }
+        var environmentDao = environmentRepository.findByNameAndUserId(updateEnvironment.getName(), updateEnvironment.getUserId());
+        if (environmentDao != null) {
+            return CanaUtility.getErrorMessages(environmentErrorCode.getDuplicateNameFound());
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isEnvironmentIdValid(UpdateEnvironmentDto updateEnvironment) {
+        var response = isEnvironmentIdValid(updateEnvironment.getId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+
+        updateEnvironment.setEnvironment(response.getValue());
+        return Collections.emptyList();
     }
 }

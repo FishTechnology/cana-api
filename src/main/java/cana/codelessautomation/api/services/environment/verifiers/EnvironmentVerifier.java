@@ -4,6 +4,7 @@ import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.common.dtos.KeyValue;
 import cana.codelessautomation.api.services.environment.dtos.CreateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.dtos.DeleteEnvironmentDto;
+import cana.codelessautomation.api.services.environment.dtos.UpdateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.repositories.daos.EnvironmentDao;
 
 import java.util.List;
@@ -24,4 +25,10 @@ public interface EnvironmentVerifier {
     List<ErrorMessageDto> verifyDeleteEnvironment(DeleteEnvironmentDto deleteEnvironment);
 
     KeyValue<List<ErrorMessageDto>, EnvironmentDao> isEnvironmentIdValid(Long environmentId);
+
+    List<ErrorMessageDto> verifyUpdateEnvironment(UpdateEnvironmentDto updateEnvironment);
+
+    List<ErrorMessageDto> isNameValid(UpdateEnvironmentDto updateEnvironment);
+
+    List<ErrorMessageDto> isEnvironmentIdValid(UpdateEnvironmentDto updateEnvironment);
 }

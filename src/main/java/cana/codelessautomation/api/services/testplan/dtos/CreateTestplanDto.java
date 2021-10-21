@@ -1,17 +1,14 @@
-package cana.codelessautomation.api.services.environment.repositories.daos;
+package cana.codelessautomation.api.services.testplan.dtos;
 
+import cana.codelessautomation.api.services.customer.repository.daos.CustomDetailDao;
+import cana.codelessautomation.api.services.environment.repositories.daos.TestPlanStatus;
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Data
-@Entity
-@Table(name = "environment")
-public class EnvironmentDao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CreateTestplanDto {
     private Long id;
     @JMap
     private Long userId;
@@ -28,5 +25,6 @@ public class EnvironmentDao {
     @JMap
     private String modifiedBy;
     @JMap
-    private Boolean isActive;
+    private TestPlanStatus status;
+    private CustomDetailDao customDetail;
 }

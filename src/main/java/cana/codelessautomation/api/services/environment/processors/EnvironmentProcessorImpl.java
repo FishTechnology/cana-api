@@ -3,6 +3,7 @@ package cana.codelessautomation.api.services.environment.processors;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.environment.dtos.CreateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.dtos.DeleteEnvironmentDto;
+import cana.codelessautomation.api.services.environment.dtos.UpdateEnvironmentDto;
 import cana.codelessautomation.api.services.environment.processors.mappers.EnvironmentProcessorMapper;
 import cana.codelessautomation.api.services.environment.repositories.EnvironmentRepository;
 import cana.codelessautomation.api.services.environment.repositories.daos.EnvironmentDao;
@@ -29,6 +30,17 @@ public class EnvironmentProcessorImpl implements EnvironmentProcessor {
     @Override
     public List<ErrorMessageDto> processDeleteEnvironment(DeleteEnvironmentDto deleteEnvironment) {
         return deleteEnvironment(deleteEnvironment);
+    }
+
+    @Override
+    public List<ErrorMessageDto> processUpdateEnvironment(UpdateEnvironmentDto updateEnvironment) {
+        return updateEnvironment(updateEnvironment);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateEnvironment(UpdateEnvironmentDto updateEnvironment) {
+        environmentRepository.updateEnv(updateEnvironment);
+        return Collections.emptyList();
     }
 
     @Override

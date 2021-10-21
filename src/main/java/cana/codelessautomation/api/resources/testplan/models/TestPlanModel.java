@@ -1,17 +1,13 @@
-package cana.codelessautomation.api.services.environment.repositories.daos;
+package cana.codelessautomation.api.resources.testplan.models;
 
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Data
-@Entity
-@Table(name = "environment")
-public class EnvironmentDao {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TestPlanModel {
+    @JMap
     private Long id;
     @JMap
     private Long userId;
@@ -28,5 +24,5 @@ public class EnvironmentDao {
     @JMap
     private String modifiedBy;
     @JMap
-    private Boolean isActive;
+    private String status;
 }

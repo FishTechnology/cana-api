@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class CreateEnvironmentModel {
+public class UpdateEnvironmentModel {
     @Valid
     @NotNull(message = EnvironmentErrorCode.getEnvironmentNameIsNull)
     @NotEmpty(message = EnvironmentErrorCode.getEnvironmentNameIsEmpty)
