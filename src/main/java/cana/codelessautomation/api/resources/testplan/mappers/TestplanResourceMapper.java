@@ -4,6 +4,7 @@ import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.testplan.models.CreateTestplanModel;
 import cana.codelessautomation.api.resources.testplan.models.TestPlanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanModel;
+import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanStatusModel;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.testplan.dtos.CreateTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.DeleteTestplanDto;

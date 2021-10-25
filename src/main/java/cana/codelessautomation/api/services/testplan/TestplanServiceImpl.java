@@ -2,7 +2,6 @@ package cana.codelessautomation.api.services.testplan;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.environment.repositories.daos.TestPlanStatus;
 import cana.codelessautomation.api.services.testplan.dtos.CreateTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.DeleteTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanDto;
@@ -10,6 +9,7 @@ import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanStatusDt
 import cana.codelessautomation.api.services.testplan.errorcodes.TestplanErrorCode;
 import cana.codelessautomation.api.services.testplan.processors.TestPlanProcessor;
 import cana.codelessautomation.api.services.testplan.repositories.TestPlanRepository;
+import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatus;
 import cana.codelessautomation.api.services.testplan.repositories.daos.TestplanDao;
 import cana.codelessautomation.api.services.testplan.verifiers.TestplanVerifier;
 import cana.codelessautomation.api.services.utilities.CanaUtility;

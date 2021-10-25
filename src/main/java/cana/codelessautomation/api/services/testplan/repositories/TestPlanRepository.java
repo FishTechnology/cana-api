@@ -1,8 +1,8 @@
 package cana.codelessautomation.api.services.testplan.repositories;
 
-import cana.codelessautomation.api.services.environment.repositories.daos.TestPlanStatus;
 import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanStatusDto;
+import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatus;
 import cana.codelessautomation.api.services.testplan.repositories.daos.TestplanDao;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
@@ -17,11 +17,11 @@ public class TestPlanRepository implements PanacheRepository<TestplanDao> {
     }
 
     public List<TestplanDao> findByUserId(Long userId) {
-        return list("userid = ?1 and status != ?2", userId, TestPlanStatus.DELETED);
+        return list("userid = ?1 and status NOT IN ( ?2 )", userId, TestPlanStatus.DELETED);
     }
 
     public TestplanDao findByIdAndStatus(Long testplanId) {
-        return find("id = ?1 and status NOT IN (?2)", testplanId, TestPlanStatus.DELETED).firstResult();
+        return find("id = ?1 and status NOT IN ( ?2 )", testplanId, TestPlanStatus.DELETED).firstResult();
     }
 
     public void deleteTestplan(Long testplanId) {

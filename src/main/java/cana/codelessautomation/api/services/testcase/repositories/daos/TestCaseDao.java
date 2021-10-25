@@ -1,4 +1,4 @@
-package cana.codelessautomation.api.services.testplan.repositories.daos;
+package cana.codelessautomation.api.services.testcase.repositories.daos;
 
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
@@ -6,10 +6,10 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 
-@Data
 @Entity
-@Table(name = "testplan")
-public class TestplanDao {
+@Data
+@Table(name = "testcase")
+public class TestCaseDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +28,5 @@ public class TestplanDao {
     @JMap
     private String modifiedBy;
     @JMap
-    @Enumerated(EnumType.STRING)
-    private TestPlanStatus status;
+    private Boolean isActive;
 }

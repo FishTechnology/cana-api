@@ -4,14 +4,17 @@ import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.testplan.models.CreateTestplanModel;
 import cana.codelessautomation.api.resources.testplan.models.TestPlanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanModel;
+import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanStatusModel;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.testplan.dtos.CreateTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.DeleteTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanStatusDto;
+import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatus;
 import cana.codelessautomation.api.services.testplan.repositories.daos.TestplanDao;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.EnumUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
@@ -93,6 +96,7 @@ public class TestplanResourceMapperImpl implements TestplanResourceMapper {
         UpdateTestplanStatusDto updateTestplanStatus = new UpdateTestplanStatusDto();
         updateTestplanStatus.setUserId(updateTestplanStatus.getUserId());
         updateTestplanStatus.setTestplanId(testplanId);
+        updateTestplanStatus.setStatus(EnumUtils.getEnum(TestPlanStatus.class, updateTestplanStatusModel.getStatus()));
         return updateTestplanStatus;
     }
 }

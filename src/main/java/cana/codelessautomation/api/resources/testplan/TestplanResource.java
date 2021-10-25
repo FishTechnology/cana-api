@@ -4,10 +4,10 @@ import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.testplan.mappers.TestplanResourceMapper;
-import cana.codelessautomation.api.resources.testplan.mappers.UpdateTestplanStatusModel;
 import cana.codelessautomation.api.resources.testplan.models.CreateTestplanModel;
 import cana.codelessautomation.api.resources.testplan.models.TestPlanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanModel;
+import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanStatusModel;
 import cana.codelessautomation.api.services.testplan.TestplanService;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
@@ -64,6 +64,7 @@ public class TestplanResource {
     @Path("/testPlans/{testplanId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
     public List<ErrorMessageModel> deleteTestplan(@Valid @PathParam Long testplanId) throws ValidationException {
         var deleteTestplanDto = testplanResourceMapper.mapDeleteTestplanDto(testplanId);
         var errorMessages = testplanService.deleteTestplan(deleteTestplanDto);
@@ -77,6 +78,7 @@ public class TestplanResource {
     @Path("/testPlans/{testplanId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
     public List<ErrorMessageModel> updateTestplan(@Valid @PathParam Long testplanId, @Valid UpdateTestplanModel updateTestplanModel) throws ValidationException {
         var updateTestplan = testplanResourceMapper.mapUpdateTestplanDto(updateTestplanModel, testplanId);
         var errorMessages = testplanService.updateTestplan(updateTestplan);
@@ -90,6 +92,7 @@ public class TestplanResource {
     @Path("/testPlans/{testplanId}/status")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
     public List<ErrorMessageModel> updateTestplanStatus(@Valid @PathParam Long testplanId, @Valid UpdateTestplanStatusModel updateTestplanStatusModel) throws ValidationException {
         var updateTestplanStatus = testplanResourceMapper.mapUpdateTestplanStatusDto(updateTestplanStatusModel, testplanId);
         var errorMessages = testplanService.updateTestplanStatus(updateTestplanStatus);

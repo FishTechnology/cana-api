@@ -1,4 +1,4 @@
-package cana.codelessautomation.api.services.testplan.repositories.daos;
+package cana.codelessautomation.api.services.testcase.repositories.daos;
 
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
@@ -8,17 +8,17 @@ import java.time.OffsetDateTime;
 
 @Data
 @Entity
-@Table(name = "testplan")
-public class TestplanDao {
+@Table(name = "testplan_testcase_grouping")
+public class TestplanTestcaseGroupingDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JMap
     private Long userId;
     @JMap
-    private String name;
+    private Long testPlanId;
     @JMap
-    private String comments;
+    private Long testCaseId;
     @JMap
     private OffsetDateTime createdOn;
     @JMap
@@ -28,6 +28,8 @@ public class TestplanDao {
     @JMap
     private String modifiedBy;
     @JMap
-    @Enumerated(EnumType.STRING)
-    private TestPlanStatus status;
+    private Boolean isActive;
+    @JMap
+    @Column(name = "execution_order")
+    private Long executionOrder;
 }

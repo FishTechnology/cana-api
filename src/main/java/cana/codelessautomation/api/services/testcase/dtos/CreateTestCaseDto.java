@@ -1,31 +1,20 @@
-package cana.codelessautomation.api.services.testplan.dtos;
+package cana.codelessautomation.api.services.testcase.dtos;
 
 import cana.codelessautomation.api.services.customer.repository.daos.CustomDetailDao;
-import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatus;
-import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
 
 @Data
-public class CreateTestplanDto {
+public class CreateTestCaseDto {
     private Long id;
-    @JMap
     private Long userId;
-    @JMap
     private String name;
-    @JMap
     private String comments;
-    @JMap
+    private Boolean isActive;
     private OffsetDateTime createdOn;
-    @JMap
     private OffsetDateTime modifiedOn;
-    @JMap
     private String createdBy;
-    @JMap
     private String modifiedBy;
-    @JMap
-    private TestPlanStatus status;
-
     private CustomDetailDao customDetail;
 }

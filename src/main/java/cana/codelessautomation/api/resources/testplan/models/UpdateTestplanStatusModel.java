@@ -1,4 +1,4 @@
-package cana.codelessautomation.api.resources.testplan.mappers;
+package cana.codelessautomation.api.resources.testplan.models;
 
 import lombok.Data;
 
