@@ -16,4 +16,12 @@ public class TestplanTestcaseGroupingRepository implements PanacheRepository<Tes
     public TestplanTestcaseGroupingDao findLastTestCaseByTestPlanId(Long testPlanId) {
         return find("testPlanId = ?1", Sort.descending("execution_order"), testPlanId).firstResult();
     }
+
+    public TestplanTestcaseGroupingDao findByTestPlanIdAndTestCaseId(Long testPlanId, Long testCaseId) {
+        return find("testPlanId = ?1 and testCaseId = ?2 and isActive=true", testPlanId, testCaseId).firstResult();
+    }
+
+    public List<TestplanTestcaseGroupingDao> findByTestCaseId(Long testCaseId) {
+        return list("testCaseId = ?1 and isActive=true", testCaseId);
+    }
 }

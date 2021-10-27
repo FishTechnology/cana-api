@@ -1,15 +1,18 @@
 package cana.codelessautomation.api.services.globalvariable.verifiers;
 
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.CreateGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.DeleteGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableByIdDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableDto;
+import cana.codelessautomation.api.services.globalvariable.dtos.*;
 
 import java.util.List;
 
 public interface GlobalVariableVerifier {
     List<ErrorMessageDto> verifyGlobalVariables(GetGlobalVariableDto getGlobalVariableDto);
+
+    List<ErrorMessageDto> isUserIdValid(UpdateGlobalVariableDto updateGlobalVariableDto);
+
+    List<ErrorMessageDto> isKeyValid(UpdateGlobalVariableDto updateGlobalVariableDto);
+
+    List<ErrorMessageDto> isGlobalVariableIdValid(UpdateGlobalVariableDto updateGlobalVariableDto);
 
     List<ErrorMessageDto> isGlobalVariableIdValid(DeleteGlobalVariableDto deleteGlobalVariableDto);
 
@@ -26,4 +29,6 @@ public interface GlobalVariableVerifier {
     List<ErrorMessageDto> verifyGetGlobalVariableById(GetGlobalVariableByIdDto getGlobalVariableByIdDto);
 
     List<ErrorMessageDto> verifyDeleteGlobalVariable(DeleteGlobalVariableDto deleteGlobalVariableDto);
+
+    List<ErrorMessageDto>  verifyUpdateGlobalVariable(UpdateGlobalVariableDto updateGlobalVariableDto);
 }

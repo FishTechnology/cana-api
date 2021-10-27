@@ -4,6 +4,7 @@ import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseByTestPlanIdDto;
 import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseDto;
 import cana.codelessautomation.api.services.testcase.dtos.GetTestCaseByTestPlanIdDto;
+import cana.codelessautomation.api.services.testcase.dtos.UpdateTestCaseByIdDto;
 import cana.codelessautomation.api.services.testcase.processors.mappers.TestCaseProcessorMapper;
 import cana.codelessautomation.api.services.testcase.repositories.TestCaseRepository;
 import cana.codelessautomation.api.services.testcase.repositories.TestplanTestcaseGroupingRepository;
@@ -101,6 +102,22 @@ public class TestCaseProcessorImpl implements TestCaseProcessor {
     @Override
     public List<TestCaseDao> getTestCaseByUserId(Long userId) {
         return testCaseRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<ErrorMessageDto> processUpdateTestCaseById(UpdateTestCaseByIdDto updateTestCaseByIdDto) {
+        return updateTestCase(updateTestCaseByIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateTestCase(UpdateTestCaseByIdDto updateTestCaseByIdDto) {
+        testCaseRepository.updateTestCase(
+                updateTestCaseByIdDto.getName(),
+                updateTestCaseByIdDto.getComments(),
+                updateTestCaseByIdDto.getModifiedOn(),
+                updateTestCaseByIdDto.getModifiedBy(),
+                updateTestCaseByIdDto.getTestCaseId());
+        return Collections.emptyList();
     }
 
     public List<ErrorMessageDto> getTestCaseByTestCaseIds(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto) {

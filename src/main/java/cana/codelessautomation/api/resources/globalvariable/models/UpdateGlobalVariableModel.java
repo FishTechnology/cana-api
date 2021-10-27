@@ -7,7 +7,6 @@ public class UpdateGlobalVariableModel {
     private String key;
     private String value;
     private String valueType;
-    private String content;
     private String comments;
     private Long userId;
 }

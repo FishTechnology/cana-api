@@ -1,13 +1,9 @@
 package cana.codelessautomation.api.resources.testcase.mappers;
 
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.resources.testcase.models.CreateTestCaseByTestPlanIdModel;
-import cana.codelessautomation.api.resources.testcase.models.CreateTestCaseModel;
-import cana.codelessautomation.api.resources.testcase.models.TestCaseModel;
+import cana.codelessautomation.api.resources.testcase.models.*;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseByTestPlanIdDto;
-import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseDto;
-import cana.codelessautomation.api.services.testcase.dtos.GetTestCaseByTestPlanIdDto;
+import cana.codelessautomation.api.services.testcase.dtos.*;
 import cana.codelessautomation.api.services.testcase.repositories.daos.TestCaseDao;
 
 import java.util.List;
@@ -26,4 +22,16 @@ public interface TestCaseServiceMapper {
     GetTestCaseByTestPlanIdDto mapGetTestCaseByTestPlanIdDto(Long testPlanId);
 
     List<TestCaseModel> mapTestCaseModels(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto);
+
+    CheckTestCaseIsDeletableDto mapCheckTestCaseIsDeletableDto(Long testCaseId);
+
+    CheckTestCaseIsDeletableModel mapCheckTestCaseIsDeletableModel(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto, List<ErrorMessageDto> errors);
+
+    GetTestCaseByIdDto mapGetTestCaseByIdDto(Long testCaseId);
+
+    TestCaseModel mapTestCaseModel(GetTestCaseByIdDto getTestCaseByIdDto);
+
+    UpdateTestCaseByTestPlanIdDto mapUpdateTestCaseByTestPlanIdDto(Long testPlanId, Long testCaseId, UpdateTestCaseModel updateTestCaseModel);
+
+    UpdateTestCaseByIdDto mapUpdateTestCaseByIdDto(Long testCaseId, UpdateTestCaseModel updateTestCaseModel);
 }

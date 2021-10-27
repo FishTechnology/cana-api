@@ -4,6 +4,7 @@ import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.globalvariable.dtos.CreateGlobalVariableDto;
 import cana.codelessautomation.api.services.globalvariable.dtos.DeleteGlobalVariableDto;
 import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableDto;
+import cana.codelessautomation.api.services.globalvariable.dtos.UpdateGlobalVariableDto;
 import cana.codelessautomation.api.services.globalvariable.processors.mappers.GlobalVariableProcessorMapper;
 import cana.codelessautomation.api.services.globalvariable.repositories.GlobalVariableRepository;
 import cana.codelessautomation.api.services.globalvariable.repositories.daos.GlobalVariableDao;
@@ -41,6 +42,7 @@ public class GlobalVariableProcessorImpl implements GlobalVariableProcessor {
     public List<ErrorMessageDto> createGlobalVariable(CreateGlobalVariableDto createGlobalVariable) {
         var globalVariable = globalVariableProcessorMapper.mapGlobalVariableDao(createGlobalVariable);
         globalVariableRepository.persist(globalVariable);
+        createGlobalVariable.setId(globalVariable.getId());
         return Collections.emptyList();
     }
 
@@ -52,6 +54,18 @@ public class GlobalVariableProcessorImpl implements GlobalVariableProcessor {
     @Override
     public List<ErrorMessageDto> deleteGlobalVariable(DeleteGlobalVariableDto deleteGlobalVariableDto) {
         globalVariableRepository.deleteByIdAndIsActive(deleteGlobalVariableDto.getGlobalVariableId());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> processUpdateGlobalVariable(UpdateGlobalVariableDto updateGlobalVariableDto) {
+        return updateGlobalVariable(updateGlobalVariableDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateGlobalVariable(UpdateGlobalVariableDto updateGlobalVariableDto) {
+        var globalVariable = globalVariableProcessorMapper.mapGlobalVariableDao(updateGlobalVariableDto);
+        globalVariableRepository.persist(globalVariable);
         return Collections.emptyList();
     }
 }

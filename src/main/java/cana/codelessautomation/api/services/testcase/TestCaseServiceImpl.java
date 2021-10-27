@@ -2,9 +2,7 @@ package cana.codelessautomation.api.services.testcase;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseByTestPlanIdDto;
-import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseDto;
-import cana.codelessautomation.api.services.testcase.dtos.GetTestCaseByTestPlanIdDto;
+import cana.codelessautomation.api.services.testcase.dtos.*;
 import cana.codelessautomation.api.services.testcase.processors.TestCaseProcessor;
 import cana.codelessautomation.api.services.testcase.repositories.daos.TestCaseDao;
 import cana.codelessautomation.api.services.testcase.verifiers.TestCaseVerifier;
@@ -14,6 +12,7 @@ import org.apache.commons.collections.CollectionUtils;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.time.OffsetDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @ApplicationScoped
@@ -71,5 +70,41 @@ public class TestCaseServiceImpl implements TestCaseService {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }
         return testCaseProcessor.processGetTestCaseByTestPlanId(getTestCaseByTestPlanIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> checkTestCaseIsDeletable(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto) throws ValidationException {
+        var errorMessages = testCaseVerifier.verifyCheckTestCaseIsDeletable(checkTestCaseIsDeletableDto);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public void getTestCaseById(GetTestCaseByIdDto getTestCaseByIdDto) throws ValidationException {
+        var errorMessages = testCaseVerifier.verifyGetTestCaseById(getTestCaseByIdDto);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateTestCaseById(UpdateTestCaseByIdDto updateTestCaseByIdDto) throws ValidationException {
+        updateTestCaseByIdDto.setCreatedOn(OffsetDateTime.now());
+        updateTestCaseByIdDto.setModifiedOn(OffsetDateTime.now());
+        updateTestCaseByIdDto.setCreatedBy(updateTestCaseByIdDto.getUserId().toString());
+        updateTestCaseByIdDto.setModifiedBy(updateTestCaseByIdDto.getUserId().toString());
+
+        var errorMessages = testCaseVerifier.verifyUpdateTestCaseById(updateTestCaseByIdDto);
+        if (!errorMessages.isEmpty()) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return testCaseProcessor.processUpdateTestCaseById(updateTestCaseByIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateTestCaseByTestPlanId(UpdateTestCaseByTestPlanIdDto updateTestCaseByTestPlanIdDto) {
+        return null;
     }
 }

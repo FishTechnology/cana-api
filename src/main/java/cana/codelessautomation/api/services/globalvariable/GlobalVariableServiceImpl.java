@@ -71,7 +71,11 @@ public class GlobalVariableServiceImpl implements GlobalVariableService {
         updateGlobalVariableDto.setModifiedOn(OffsetDateTime.now());
         updateGlobalVariableDto.setCreatedBy(updateGlobalVariableDto.getUserId().toString());
         updateGlobalVariableDto.setModifiedBy(updateGlobalVariableDto.getUserId().toString());
-        updateGlobalVariableDto.setIsActive(true);
-        return null;
+
+        var errorMessages = globalVariableVerifier.verifyUpdateGlobalVariable(updateGlobalVariableDto);
+        if (!errorMessages.isEmpty()) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return globalVariableProcessor.processUpdateGlobalVariable(updateGlobalVariableDto);
     }
 }

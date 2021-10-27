@@ -4,6 +4,7 @@ import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.globalvariable.dtos.CreateGlobalVariableDto;
 import cana.codelessautomation.api.services.globalvariable.dtos.DeleteGlobalVariableDto;
 import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableDto;
+import cana.codelessautomation.api.services.globalvariable.dtos.UpdateGlobalVariableDto;
 import cana.codelessautomation.api.services.globalvariable.repositories.daos.GlobalVariableDao;
 
 import java.util.List;
@@ -20,4 +21,8 @@ public interface GlobalVariableProcessor {
     List<ErrorMessageDto> processDeleteGlobalVariable(DeleteGlobalVariableDto deleteGlobalVariableDto);
 
     List<ErrorMessageDto> deleteGlobalVariable(DeleteGlobalVariableDto deleteGlobalVariableDto);
+
+    List<ErrorMessageDto> processUpdateGlobalVariable(UpdateGlobalVariableDto updateGlobalVariableDto);
+
+    List<ErrorMessageDto> updateGlobalVariable(UpdateGlobalVariableDto updateGlobalVariableDto);
 }

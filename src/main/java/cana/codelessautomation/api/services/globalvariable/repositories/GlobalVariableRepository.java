@@ -18,10 +18,10 @@ public class GlobalVariableRepository implements PanacheRepository<GlobalVariabl
     }
 
     public GlobalVariableDao findByIdAndIsActive(Long globalVariableId) {
-        return find("id = ? and isactive=true", globalVariableId).firstResult();
+        return find("id = ?1 and isActive=true", globalVariableId).firstResult();
     }
 
     public void deleteByIdAndIsActive(Long globalVariableId) {
-        update("isactive=false , modifiedon = ?1 WHERE id = ?2", globalVariableId, OffsetDateTime.now());
+        update(" modifiedOn = ?1 , isActive=false  WHERE id = ?2", OffsetDateTime.now(), globalVariableId);
     }
 }

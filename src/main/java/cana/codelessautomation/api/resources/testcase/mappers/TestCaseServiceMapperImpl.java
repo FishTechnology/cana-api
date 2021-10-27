@@ -1,13 +1,9 @@
 package cana.codelessautomation.api.resources.testcase.mappers;
 
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.resources.testcase.models.CreateTestCaseByTestPlanIdModel;
-import cana.codelessautomation.api.resources.testcase.models.CreateTestCaseModel;
-import cana.codelessautomation.api.resources.testcase.models.TestCaseModel;
+import cana.codelessautomation.api.resources.testcase.models.*;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseByTestPlanIdDto;
-import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseDto;
-import cana.codelessautomation.api.services.testcase.dtos.GetTestCaseByTestPlanIdDto;
+import cana.codelessautomation.api.services.testcase.dtos.*;
 import cana.codelessautomation.api.services.testcase.repositories.daos.TestCaseDao;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
@@ -89,4 +85,68 @@ public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
     public List<TestCaseModel> mapTestCaseModels(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto) {
         return mapTestCaseModels(getTestCaseByTestPlanIdDto.getTestCaseDaos());
     }
+
+    @Override
+    public CheckTestCaseIsDeletableDto mapCheckTestCaseIsDeletableDto(Long testCaseId) {
+        CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto = new CheckTestCaseIsDeletableDto();
+        checkTestCaseIsDeletableDto.setTestCaseId(testCaseId);
+        return checkTestCaseIsDeletableDto;
+    }
+
+    @Override
+    public CheckTestCaseIsDeletableModel mapCheckTestCaseIsDeletableModel(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto, List<ErrorMessageDto> errors) {
+        var checkTestCaseIsDeletableModel = new CheckTestCaseIsDeletableModel();
+        checkTestCaseIsDeletableModel.setErrorMessageModels(CanaUtility.getErrorMessageModels(errors));
+        for (var testplanTestcaseGroupingDao : checkTestCaseIsDeletableDto.getTestplanTestcaseGroupings()) {
+            var testPlanMappedModel = new TestPlanMappedModel();
+            testPlanMappedModel.setId(testplanTestcaseGroupingDao.getId());
+            checkTestCaseIsDeletableModel.getTestPlanMappedModels().add(testPlanMappedModel);
+        }
+        return checkTestCaseIsDeletableModel;
+    }
+
+    @Override
+    public GetTestCaseByIdDto mapGetTestCaseByIdDto(Long testCaseId) {
+        GetTestCaseByIdDto getTestCaseByIdDto = new GetTestCaseByIdDto();
+        getTestCaseByIdDto.setTestCaseId(testCaseId);
+        return getTestCaseByIdDto;
+    }
+
+    @Override
+    public TestCaseModel mapTestCaseModel(GetTestCaseByIdDto getTestCaseByIdDto) {
+        var testCaseDao = getTestCaseByIdDto.getTestCase();
+        TestCaseModel testCaseModel = new TestCaseModel();
+        testCaseModel.setId(testCaseDao.getId());
+        testCaseModel.setComments(testCaseDao.getComments());
+        testCaseModel.setName(testCaseDao.getName());
+        testCaseModel.setIsActive(testCaseDao.getIsActive());
+        testCaseModel.setUserId(testCaseDao.getUserId());
+        testCaseModel.setCreatedBy(testCaseDao.getCreatedBy());
+        testCaseModel.setCreatedOn(testCaseDao.getCreatedOn().toString());
+        testCaseModel.setModifiedBy(testCaseDao.getModifiedBy());
+        testCaseModel.setModifiedOn(testCaseDao.getModifiedOn().toString());
+        return testCaseModel;
+    }
+
+    @Override
+    public UpdateTestCaseByTestPlanIdDto mapUpdateTestCaseByTestPlanIdDto(Long testPlanId, Long testCaseId, UpdateTestCaseModel updateTestCaseModel) {
+        UpdateTestCaseByTestPlanIdDto updateTestCaseByTestPlanId = new UpdateTestCaseByTestPlanIdDto();
+        updateTestCaseByTestPlanId.setTestCaseId(testCaseId);
+        updateTestCaseByTestPlanId.setTestPlanId(testPlanId);
+        updateTestCaseByTestPlanId.setComments(updateTestCaseModel.getComments());
+        updateTestCaseByTestPlanId.setName(updateTestCaseModel.getName());
+        updateTestCaseByTestPlanId.setUserId(updateTestCaseModel.getUserId());
+        return updateTestCaseByTestPlanId;
+    }
+
+    @Override
+    public UpdateTestCaseByIdDto mapUpdateTestCaseByIdDto(Long testCaseId, UpdateTestCaseModel updateTestCaseModel) {
+        UpdateTestCaseByIdDto updateTestCaseById = new UpdateTestCaseByIdDto();
+        updateTestCaseById.setTestCaseId(testCaseId);
+        updateTestCaseById.setComments(updateTestCaseModel.getComments());
+        updateTestCaseById.setName(updateTestCaseModel.getName());
+        updateTestCaseById.setUserId(updateTestCaseModel.getUserId());
+        return updateTestCaseById;
+    }
 }
+

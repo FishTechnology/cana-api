@@ -1,9 +1,9 @@
 package cana.codelessautomation.api.services.testcase.verifiers;
 
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseByTestPlanIdDto;
-import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseDto;
-import cana.codelessautomation.api.services.testcase.dtos.GetTestCaseByTestPlanIdDto;
+import cana.codelessautomation.api.services.common.dtos.KeyValue;
+import cana.codelessautomation.api.services.testcase.dtos.*;
+import cana.codelessautomation.api.services.testcase.repositories.daos.TestCaseDao;
 
 import java.util.List;
 
@@ -28,9 +28,31 @@ public interface TestCaseVerifier {
 
     List<ErrorMessageDto> verifyGetTestCaseByUserId(Long userId);
 
+    List<ErrorMessageDto> isTestCaseNameValid(UpdateTestCaseByIdDto updateTestCaseByIdDto);
+
+    List<ErrorMessageDto> isTestCaseIdValid(UpdateTestCaseByIdDto updateTestCaseByIdDto);
+
+    List<ErrorMessageDto> isTestCaseIdValid(GetTestCaseByIdDto getTestCaseByIdDto);
+
+    List<ErrorMessageDto> isTestCaseIdMapToAnyTestPlanIdValid(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto);
+
+    List<ErrorMessageDto> isTestPlanAndTestCaseMappingValid(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto);
+
+    List<ErrorMessageDto> isTestCaseIdValid(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto);
+
+    KeyValue<List<ErrorMessageDto>, TestCaseDao> isTestCaseIdValid(Long testCaseId);
+
+    List<ErrorMessageDto> isTestPlanIdValid(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto);
+
     List<ErrorMessageDto> isTestPlanIdValid(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto);
 
     List<ErrorMessageDto> isUserIdValid(Long userId);
 
     List<ErrorMessageDto> verifyGetTestCaseByTestPlanId(GetTestCaseByTestPlanIdDto testPlanId);
+
+    List<ErrorMessageDto> verifyCheckTestCaseIsDeletable(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto);
+
+    List<ErrorMessageDto> verifyGetTestCaseById(GetTestCaseByIdDto getTestCaseByIdDto);
+
+    List<ErrorMessageDto> verifyUpdateTestCaseById(UpdateTestCaseByIdDto updateTestCaseByIdDto);
 }

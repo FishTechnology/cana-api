@@ -1,17 +1,18 @@
 package cana.codelessautomation.api.services.testcase.verifiers;
 
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.services.common.dtos.KeyValue;
 import cana.codelessautomation.api.services.customer.verifiers.CustomerServiceVerifier;
-import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseByTestPlanIdDto;
-import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseDto;
-import cana.codelessautomation.api.services.testcase.dtos.GetTestCaseByTestPlanIdDto;
+import cana.codelessautomation.api.services.testcase.dtos.*;
 import cana.codelessautomation.api.services.testcase.errorcodes.TestCaseErrorCode;
 import cana.codelessautomation.api.services.testcase.repositories.TestCaseRepository;
 import cana.codelessautomation.api.services.testcase.repositories.TestplanTestcaseGroupingRepository;
+import cana.codelessautomation.api.services.testcase.repositories.daos.TestCaseDao;
 import cana.codelessautomation.api.services.testcase.repositories.daos.TestplanTestcaseGroupingDao;
 import cana.codelessautomation.api.services.testplan.verifiers.TestplanVerifier;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -66,6 +67,112 @@ public class TestCaseVerifierImpl implements TestCaseVerifier {
     @Override
     public List<ErrorMessageDto> verifyGetTestCaseByTestPlanId(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto) {
         return isTestPlanIdValid(getTestCaseByTestPlanIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyCheckTestCaseIsDeletable(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto) {
+        var errors = isTestCaseIdValid(checkTestCaseIsDeletableDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isTestCaseIdMapToAnyTestPlanIdValid(checkTestCaseIsDeletableDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyGetTestCaseById(GetTestCaseByIdDto getTestCaseByIdDto) {
+        return isTestCaseIdValid(getTestCaseByIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyUpdateTestCaseById(UpdateTestCaseByIdDto updateTestCaseByIdDto) {
+        var errors = isTestCaseIdValid(updateTestCaseByIdDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isTestCaseNameValid(updateTestCaseByIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestCaseNameValid(UpdateTestCaseByIdDto updateTestCaseByIdDto) {
+        if (StringUtils.equalsAnyIgnoreCase(updateTestCaseByIdDto.getName(), updateTestCaseByIdDto.getTestCase().getName())) {
+            return Collections.emptyList();
+        }
+
+        return this.isTestCaseNameValid(updateTestCaseByIdDto.getUserId(), updateTestCaseByIdDto.getName());
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestCaseIdValid(UpdateTestCaseByIdDto updateTestCaseByIdDto) {
+        var response = isTestCaseIdValid(updateTestCaseByIdDto.getTestCaseId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        updateTestCaseByIdDto.setTestCase(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestCaseIdValid(GetTestCaseByIdDto getTestCaseByIdDto) {
+        var response = isTestCaseIdValid(getTestCaseByIdDto.getTestCaseId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        getTestCaseByIdDto.setTestCase(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestCaseIdMapToAnyTestPlanIdValid(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto) {
+        var testplanTestcaseGroupings = testplanTestcaseGroupingRepository.findByTestCaseId(checkTestCaseIsDeletableDto.getTestCaseId());
+        if (CollectionUtils.isEmpty(testplanTestcaseGroupings)) {
+            return Collections.emptyList();
+        }
+
+        checkTestCaseIsDeletableDto.setTestplanTestcaseGroupings(testplanTestcaseGroupings);
+
+        return CanaUtility.getErrorMessages(testCaseErrorCode.getTestCaseIdMappedToTestPlanIdFound());
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestPlanAndTestCaseMappingValid(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto) {
+//        var testplanTestcaseGroupingDao = testplanTestcaseGroupingRepository.findByTestPlanIdAndTestCaseId(checkTestCaseIsDeletableDto.getTestPlanId(), checkTestCaseIsDeletableDto.getTestCaseId());
+//
+//        if (testplanTestcaseGroupingDao == null) {
+//            return CanaUtility.getErrorMessages(testCaseErrorCode.getTestPlanIdAndTestCaseIdNotMappedFound());
+//        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestCaseIdValid(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto) {
+        var response = isTestCaseIdValid(checkTestCaseIsDeletableDto.getTestCaseId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        checkTestCaseIsDeletableDto.setTestCase(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public KeyValue<List<ErrorMessageDto>, TestCaseDao> isTestCaseIdValid(Long testCaseId) {
+        KeyValue<List<ErrorMessageDto>, TestCaseDao> response = new KeyValue<>();
+        var testCaseDao = testCaseRepository.findByIdAndStatus(testCaseId);
+        if (testCaseDao == null) {
+            response.setKey(CanaUtility.getErrorMessages(testCaseErrorCode.getTestCaseIdNotFound()));
+            return response;
+        }
+        response.setValue(testCaseDao);
+        return response;
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestPlanIdValid(CheckTestCaseIsDeletableDto checkTestCaseIsDeletableDto) {
+//        var response = testplanVerifier.isTestplanIdValid(checkTestCaseIsDeletableDto.getTestPlanId());
+//        if (CollectionUtils.isNotEmpty(response.getKey())) {
+//            return response.getKey();
+//        }
+//        checkTestCaseIsDeletableDto.setTestplan(response.getValue());
+        return Collections.emptyList();
     }
 
     @Override

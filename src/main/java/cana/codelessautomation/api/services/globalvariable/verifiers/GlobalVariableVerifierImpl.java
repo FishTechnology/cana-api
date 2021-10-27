@@ -2,14 +2,12 @@ package cana.codelessautomation.api.services.globalvariable.verifiers;
 
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.customer.verifiers.CustomerServiceVerifier;
-import cana.codelessautomation.api.services.globalvariable.dtos.CreateGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.DeleteGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableByIdDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableDto;
+import cana.codelessautomation.api.services.globalvariable.dtos.*;
 import cana.codelessautomation.api.services.globalvariable.errorcodes.GlobalVariableErrorCode;
 import cana.codelessautomation.api.services.globalvariable.repositories.GlobalVariableRepository;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -50,6 +48,52 @@ public class GlobalVariableVerifierImpl implements GlobalVariableVerifier {
     @Override
     public List<ErrorMessageDto> verifyDeleteGlobalVariable(DeleteGlobalVariableDto deleteGlobalVariableDto) {
         return isGlobalVariableIdValid(deleteGlobalVariableDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyUpdateGlobalVariable(UpdateGlobalVariableDto updateGlobalVariableDto) {
+        var errors = isGlobalVariableIdValid(updateGlobalVariableDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        errors = isKeyValid(updateGlobalVariableDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isUserIdValid(updateGlobalVariableDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isUserIdValid(UpdateGlobalVariableDto updateGlobalVariableDto) {
+        var response = customerServiceVerifier.isUserIdValid(updateGlobalVariableDto.getUserId());
+        if (!CollectionUtils.isEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        updateGlobalVariableDto.setCustomDetail(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isKeyValid(UpdateGlobalVariableDto updateGlobalVariableDto) {
+        if (StringUtils.equalsAnyIgnoreCase(updateGlobalVariableDto.getGlobalVariable().getKey(), updateGlobalVariableDto.getKey())) {
+            return Collections.emptyList();
+        }
+        var globalVariables = globalVariableRepository.findByKeyAndUserId(updateGlobalVariableDto.getKey(), updateGlobalVariableDto.getUserId());
+        if (CollectionUtils.isNotEmpty(globalVariables)) {
+            updateGlobalVariableDto.setGlobalVariables(globalVariables);
+            return CanaUtility.getErrorMessages(globalVariableErrorCode.getDuplicateKey());
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isGlobalVariableIdValid(UpdateGlobalVariableDto updateGlobalVariableDto) {
+        var globalVariables = globalVariableRepository.findByIdAndIsActive(updateGlobalVariableDto.getGlobalVariableId());
+        if (globalVariables == null) {
+            return CanaUtility.getErrorMessages(globalVariableErrorCode.getGlobalVariableIdNotFound());
+        }
+        updateGlobalVariableDto.setGlobalVariable(globalVariables);
+        return Collections.emptyList();
     }
 
     @Override

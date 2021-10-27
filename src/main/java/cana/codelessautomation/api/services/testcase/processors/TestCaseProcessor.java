@@ -4,6 +4,7 @@ import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseByTestPlanIdDto;
 import cana.codelessautomation.api.services.testcase.dtos.CreateTestCaseDto;
 import cana.codelessautomation.api.services.testcase.dtos.GetTestCaseByTestPlanIdDto;
+import cana.codelessautomation.api.services.testcase.dtos.UpdateTestCaseByIdDto;
 import cana.codelessautomation.api.services.testcase.repositories.daos.TestCaseDao;
 
 import java.util.List;
@@ -28,4 +29,8 @@ public interface TestCaseProcessor {
     List<ErrorMessageDto> processGetTestCaseByTestPlanId(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto);
 
     List<TestCaseDao> getTestCaseByUserId(Long userId);
+
+    List<ErrorMessageDto> processUpdateTestCaseById(UpdateTestCaseByIdDto updateTestCaseByIdDto);
+
+    List<ErrorMessageDto> updateTestCase(UpdateTestCaseByIdDto updateTestCaseByIdDto);
 }

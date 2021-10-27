@@ -4,7 +4,7 @@ import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 
 import java.util.List;
 
-public class ValidationException extends Exception {
+public class ValidationException extends RuntimeException {
     public List<ErrorMessageModel> errorMessageModels;
 
     public ValidationException(List<ErrorMessageModel> errorMessageModels) {
