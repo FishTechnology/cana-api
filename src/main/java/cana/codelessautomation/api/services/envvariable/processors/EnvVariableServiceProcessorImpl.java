@@ -6,6 +6,7 @@ import cana.codelessautomation.api.services.envvariable.dtos.CreateEnvVariableDt
 import cana.codelessautomation.api.services.envvariable.dtos.DeleteEnvVariableDto;
 import cana.codelessautomation.api.services.envvariable.processors.mappers.EnvVariableServiceProcessorMapper;
 import cana.codelessautomation.api.services.envvariable.repositories.EnvVariableRepository;
+import cana.codelessautomation.api.services.envvariable.repositories.daos.EnvironmentVariableDao;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -28,7 +29,9 @@ public class EnvVariableServiceProcessorImpl implements EnvVariableServiceProces
 
     @Override
     public List<ErrorMessageDto> processorDeleteEnvVariable(DeleteEnvVariableDto deleteEnvVariableDto) {
-        envVariableRepository.deleteByEnvId(deleteEnvVariableDto.getEnvVariableId());
+        envVariableRepository.deleteByEnvId(deleteEnvVariableDto.getUserid(),
+                deleteEnvVariableDto.getEnvironmentId(),
+                deleteEnvVariableDto.getEnvVariableId());
         return Collections.emptyList();
     }
 
@@ -43,5 +46,15 @@ public class EnvVariableServiceProcessorImpl implements EnvVariableServiceProces
         envVariableRepository.persist(environmentVariable);
         createEnvVariableDto.setId(environmentVariable.getId());
         return Collections.emptyList();
+    }
+
+    @Override
+    public List<EnvironmentVariableDao> processorGetEnvVariables(long environmentId) {
+        return getEnvVariables(environmentId);
+    }
+
+    @Override
+    public List<EnvironmentVariableDao> getEnvVariables(long environmentId) {
+        return envVariableRepository.findByEnvId(environmentId);
     }
 }

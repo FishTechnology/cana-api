@@ -5,6 +5,8 @@ import cana.codelessautomation.api.services.envvariable.repositories.daos.Enviro
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
+import java.util.List;
 
 @ApplicationScoped
 public class EnvVariableRepository implements PanacheRepository<EnvironmentVariableDao> {
@@ -25,11 +27,19 @@ public class EnvVariableRepository implements PanacheRepository<EnvironmentVaria
         return find("id = ?1 and isactive=true", envVariableId).firstResult();
     }
 
-    public void deleteByEnvId(Long envVariableId) {
-        update("isactive=false WHERE id = ?1", envVariableId);
+    public void deleteByEnvId(Long userId, Long environmentId, Long envVariableId) {
+        update("isactive=false , modifiedOn = ?1 , modifiedBy = ?2  WHERE id = ?3 and environmentId = ?4",
+                OffsetDateTime.now(),
+                userId,
+                envVariableId,
+                environmentId);
     }
 
-    public EnvironmentVariableDao findByUserIdAndKey(Long userId, String key) {
-        return find("key = ?1 and and userid = ?2 and isactive=true", key, userId).firstResult();
+    public EnvironmentVariableDao findByUserIdAndKeyAndEnvId(Long userId, String key, Long environmentId) {
+        return find("key = ?1 and  userid = ?2 and isactive=true and environmentId = ?3", key, userId, environmentId).firstResult();
+    }
+
+    public List<EnvironmentVariableDao> findByEnvId(long environmentId) {
+        return list("environmentId = ?1 and isactive=true", environmentId);
     }
 }

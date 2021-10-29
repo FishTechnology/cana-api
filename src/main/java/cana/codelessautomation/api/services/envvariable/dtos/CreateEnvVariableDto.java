@@ -3,6 +3,7 @@ package cana.codelessautomation.api.services.envvariable.dtos;
 import cana.codelessautomation.api.services.customer.repository.daos.CustomDetailDao;
 import cana.codelessautomation.api.services.environment.repositories.daos.EnvironmentDao;
 import cana.codelessautomation.api.services.envvariable.repositories.daos.EnvironmentVariableDao;
+import cana.codelessautomation.api.services.envvariable.repositories.daos.EnvironmentVariableType;
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class CreateEnvVariableDto {
     @JMap
     private Long userId;
     @JMap
-    private String type;
+    private EnvironmentVariableType type;
     @JMap
     private Long environmentId;
     @JMap

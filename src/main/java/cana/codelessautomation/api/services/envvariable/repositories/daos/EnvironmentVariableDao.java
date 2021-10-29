@@ -3,23 +3,23 @@ package cana.codelessautomation.api.services.envvariable.repositories.daos;
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Data
 @Entity
-@Table(name = "environmentvariable")
+@Table(name = "environmentVariable")
 public class EnvironmentVariableDao {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JMap
     private String key;
     @JMap
     private String value;
     @JMap
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private EnvironmentVariableType type;
     @JMap
     private OffsetDateTime createdOn;
     @JMap

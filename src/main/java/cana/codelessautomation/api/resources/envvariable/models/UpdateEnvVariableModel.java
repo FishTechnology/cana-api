@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class CreateEnvVariableModel {
+public class UpdateEnvVariableModel {
     @Valid
     @NotEmpty(message = EnvironmentVariableErrorCodes.getEnvironmentVariableKeyIsEmpty)
     @NotNull(message = EnvironmentVariableErrorCodes.getEnvironmentVariableKeyIsNull)
