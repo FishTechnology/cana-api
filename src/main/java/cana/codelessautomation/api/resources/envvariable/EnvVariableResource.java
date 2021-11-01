@@ -21,7 +21,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
 
-@Path("/api/environments")
+@Path("/api")
 public class EnvVariableResource {
 
     @Inject
@@ -31,7 +31,7 @@ public class EnvVariableResource {
     EnvVariableResourceMapper envVariableResourceMapper;
 
     @GET
-    @Path("/{environmentId}/envVariables")
+    @Path("/environments/{environmentId}/envVariables")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<EnvVariableModel> getEnvVariables(@PathParam Long environmentId) throws ValidationException {
@@ -40,7 +40,7 @@ public class EnvVariableResource {
     }
 
     @GET
-    @Path("/{environmentId}/envVariables/{envVariableId}")
+    @Path("/environments/{environmentId}/envVariables/{envVariableId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public EnvVariableModel getEnvVariableById(@PathParam Long environmentId, @PathParam Long envVariableId) throws ValidationException {
@@ -54,7 +54,7 @@ public class EnvVariableResource {
 
 
     @DELETE
-    @Path("/{environmentId}/envVariables/{envVariableId}")
+    @Path("/environments/{environmentId}/envVariables/{envVariableId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -70,7 +70,7 @@ public class EnvVariableResource {
     }
 
     @POST
-    @Path("/{environmentId}/envVariables")
+    @Path("/environments/{environmentId}/envVariables")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -83,7 +83,7 @@ public class EnvVariableResource {
     }
 
     @POST
-    @Path("/envVariables/{envVariableId}")
+    @Path("/environments/envVariables/{envVariableId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
