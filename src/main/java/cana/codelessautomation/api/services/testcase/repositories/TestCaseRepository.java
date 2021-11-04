@@ -15,7 +15,7 @@ public class TestCaseRepository implements PanacheRepository<TestCaseDao> {
     }
 
     public List<TestCaseDao> findByIds(List<Long> testCaseIds) {
-        return list("isActive=true and id IN ( ?2 )", testCaseIds);
+        return list("isActive=true and id IN ( ?1 )", testCaseIds);
     }
 
     public TestCaseDao findByIdAndStatus(Long testCaseId) {

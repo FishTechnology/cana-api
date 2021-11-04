@@ -1,6 +1,8 @@
 package cana.codelessautomation.api.services.globalvariable.processors.mappers;
 
+import cana.codelessautomation.api.services.action.repositories.daos.ActionOptionDao;
 import cana.codelessautomation.api.services.globalvariable.dtos.CreateGlobalVariableDto;
+import cana.codelessautomation.api.services.globalvariable.dtos.UIControlOptionDto;
 import cana.codelessautomation.api.services.globalvariable.dtos.UpdateGlobalVariableDto;
 import cana.codelessautomation.api.services.globalvariable.repositories.daos.GlobalVariableDao;
 import com.googlecode.jmapper.JMapper;
@@ -20,7 +22,7 @@ public class GlobalVariableProcessorMapperImpl implements GlobalVariableProcesso
     @Override
     public GlobalVariableDao mapGlobalVariableDao(CreateGlobalVariableDto createGlobalVariable) {
         GlobalVariableDao globalVariableDao = new GlobalVariableDao();
-        globalVariableDao.setContent(createGlobalVariable.getContent());
+        globalVariableDao.setFileId(createGlobalVariable.getFileId());
         globalVariableDao.setCreatedBy(createGlobalVariable.getCreatedBy());
         globalVariableDao.setCreatedOn(createGlobalVariable.getCreatedOn());
         globalVariableDao.setIsActive(createGlobalVariable.getIsActive());
@@ -55,5 +57,20 @@ public class GlobalVariableProcessorMapperImpl implements GlobalVariableProcesso
         }
 
         return globalVariableDao;
+    }
+
+    @Override
+    public ActionOptionDao mapActionOptionDao(CreateGlobalVariableDto createGlobalVariable, UIControlOptionDto uiControlOptionDto) {
+        ActionOptionDao actionOptionDao = new ActionOptionDao();
+        actionOptionDao.setActionId(createGlobalVariable.getId());
+        actionOptionDao.setOptionType(uiControlOptionDto.getOptionType());
+        actionOptionDao.setOrderNumber(uiControlOptionDto.getOrder());
+        actionOptionDao.setWaitDuration(uiControlOptionDto.getWaitDuration());
+        actionOptionDao.setCreatedBy(createGlobalVariable.getCreatedBy());
+        actionOptionDao.setCreatedOn(createGlobalVariable.getCreatedOn());
+        actionOptionDao.setIsActive(createGlobalVariable.getIsActive());
+        actionOptionDao.setModifiedBy(createGlobalVariable.getModifiedBy());
+        actionOptionDao.setModifiedOn(createGlobalVariable.getModifiedOn());
+        return actionOptionDao;
     }
 }

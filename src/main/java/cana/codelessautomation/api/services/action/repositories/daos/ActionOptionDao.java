@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
 
 @Data
 @Entity
-@Table(name = "ActionOption")
+@Table(name = "actionOption")
 public class ActionOptionDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,11 +16,12 @@ public class ActionOptionDao {
     @JMap
     private Long actionId;
     @JMap
+    @Enumerated(EnumType.STRING)
     private ActionOptionTypeDao optionType;
     @JMap
     private Long waitDuration;
     @JMap
-    private Long order;
+    private Long orderNumber;
     @JMap
     private OffsetDateTime createdOn;
     @JMap

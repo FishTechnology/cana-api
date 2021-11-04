@@ -3,7 +3,9 @@ package cana.codelessautomation.api.resources.globalvariable.mappers;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.globalvariable.models.CreateGlobalVariableModel;
 import cana.codelessautomation.api.resources.globalvariable.models.GlobalVariableModel;
+import cana.codelessautomation.api.resources.globalvariable.models.UIControlOptionModel;
 import cana.codelessautomation.api.resources.globalvariable.models.UpdateGlobalVariableModel;
+import cana.codelessautomation.api.services.action.repositories.daos.ActionOptionTypeDao;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.globalvariable.dtos.*;
 import cana.codelessautomation.api.services.globalvariable.repositories.daos.GlobalVariableDao;
@@ -40,7 +42,13 @@ public class GlobalVariableResourceMapperImpl implements GlobalVariableResourceM
             globalVariableModel.setModifiedOn(globalVariableDao.getModifiedOn());
             globalVariableModel.setValue(globalVariableDao.getValue());
             globalVariableModel.setKey(globalVariableDao.getKey());
-            globalVariableModel.setContent(globalVariableDao.getContent());
+            globalVariableModel.setValueType(globalVariableDao.getValueType().name());
+            globalVariableModel.setFileId(globalVariableDao.getFileId());
+            if (globalVariableDao.getFileDaos() != null) {
+                globalVariableModel.setContent(globalVariableDao.getFileDaos().getContent());
+                globalVariableModel.setFileId(globalVariableDao.getFileDaos().getId());
+                globalVariableModel.setValue(globalVariableDao.getFileDaos().getFileName());
+            }
             globalVariableModels.add(globalVariableModel);
         }
         return globalVariableModels;
@@ -60,9 +68,26 @@ public class GlobalVariableResourceMapperImpl implements GlobalVariableResourceM
         createGlobalVariable.setValue(createGlobalVariableModel.getValue());
         createGlobalVariable.setComments(createGlobalVariableModel.getComments());
         createGlobalVariable.setValueType(EnumUtils.getEnumIgnoreCase(GlobalVariableType.class, createGlobalVariableModel.getValueType()));
-        //createGlobalVariable.setContent(createGlobalVariableModel.getContent());
+        createGlobalVariable.setFileId(createGlobalVariableModel.getFileId());
         createGlobalVariable.setUserId(createGlobalVariableModel.getUserId());
+        if (CollectionUtils.isEmpty(createGlobalVariableModel.getUiControlOptions())) {
+            return createGlobalVariable;
+        }
+
+        for (UIControlOptionModel uiControlOptionModel : createGlobalVariableModel.getUiControlOptions()) {
+            createGlobalVariable.getUiControlOptions().add(mapUIControlOptionDto(uiControlOptionModel));
+        }
+
         return createGlobalVariable;
+    }
+
+    @Override
+    public UIControlOptionDto mapUIControlOptionDto(UIControlOptionModel uiControlOption) {
+        UIControlOptionDto uiControlOptionDto = new UIControlOptionDto();
+        uiControlOptionDto.setOptionType(EnumUtils.getEnumIgnoreCase(ActionOptionTypeDao.class, uiControlOption.getOptionType()));
+        uiControlOptionDto.setOrder(uiControlOption.getOrder());
+        uiControlOptionDto.setWaitDuration(uiControlOption.getWaitDuration());
+        return uiControlOptionDto;
     }
 
     @Override
@@ -96,7 +121,7 @@ public class GlobalVariableResourceMapperImpl implements GlobalVariableResourceM
         globalVariableModel.setModifiedOn(globalVariableDao.getModifiedOn());
         globalVariableModel.setValue(globalVariableDao.getValue());
         globalVariableModel.setKey(globalVariableDao.getKey());
-        globalVariableModel.setContent(globalVariableDao.getContent());
+        globalVariableModel.setFileId(globalVariableDao.getFileId());
         globalVariableModel.setValueType(globalVariableDao.getValueType().name());
         return globalVariableModel;
     }

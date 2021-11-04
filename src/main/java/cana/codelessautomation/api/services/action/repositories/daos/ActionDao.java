@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -17,15 +18,26 @@ public class ActionDao {
     @Enumerated(EnumType.STRING)
     private ActionTypeDao type;
     @JMap
+    @Enumerated(EnumType.STRING)
+    private UIActionTypeDao uiActionType;
+    @JMap
     private String key;
     @JMap
     private String value;
     @JMap
     private String comments;
     @JMap
+    @Enumerated(EnumType.STRING)
+    @Column(name = "browser_actionType")
+    private BrowserActionTypeDao browserActionType;
+    @JMap
+    private String url;
+    @JMap
     private Long userId;
     @JMap
     private Long testCaseId;
+    @JMap
+    private Long orderNumber;
     @JMap
     private OffsetDateTime createdOn;
     @JMap
@@ -36,4 +48,7 @@ public class ActionDao {
     private String modifiedBy;
     @JMap
     private Boolean isActive;
+
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "actionId")
+    private List<ActionOptionDao> actionOptionDaos;
 }

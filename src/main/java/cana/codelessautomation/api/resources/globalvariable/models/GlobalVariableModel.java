@@ -17,6 +17,7 @@ public class GlobalVariableModel {
     private String valueType;
     @JMap
     private String content;
+    private Long fileId;
     @JMap
     private OffsetDateTime createdOn;
     @JMap

@@ -130,7 +130,8 @@ public class TestCaseProcessorImpl implements TestCaseProcessor {
             testCaseIds.add(testplanTestcaseGroupingDao.getTestCaseId());
         }
 
-        testCaseRepository.findByIds(testCaseIds);
+        var testCaseDaos = testCaseRepository.findByIds(testCaseIds);
+        getTestCaseByTestPlanIdDto.setTestCaseDaos(testCaseDaos);
         return Collections.emptyList();
     }
 }

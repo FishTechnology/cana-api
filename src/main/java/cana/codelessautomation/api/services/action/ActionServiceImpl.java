@@ -2,6 +2,7 @@ package cana.codelessautomation.api.services.action;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.services.action.dtos.CreateActionDto;
+import cana.codelessautomation.api.services.action.dtos.GetActionsByTestCaseIdDto;
 import cana.codelessautomation.api.services.action.processors.ActionServiceProcessor;
 import cana.codelessautomation.api.services.action.verifiers.ActionServiceVerifier;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
@@ -35,5 +36,14 @@ public class ActionServiceImpl implements ActionService {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }
         return actionServiceProcessor.processCreateAction(createActionDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> getActionsByTestCaseId(GetActionsByTestCaseIdDto getActionsByTestCaseIdDto) {
+        var errorMessages = actionServiceVerifier.verifyGetActionsByTestCaseId(getActionsByTestCaseIdDto);
+        if(CollectionUtils.isNotEmpty(errorMessages)){
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return actionServiceProcessor.processGetActionsByTestCaseId(getActionsByTestCaseIdDto);
     }
 }

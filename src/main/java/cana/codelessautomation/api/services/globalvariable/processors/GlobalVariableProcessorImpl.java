@@ -1,13 +1,12 @@
 package cana.codelessautomation.api.services.globalvariable.processors;
 
+import cana.codelessautomation.api.services.action.repositories.ActionOptionRepository;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.CreateGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.DeleteGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.GetGlobalVariableDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.UpdateGlobalVariableDto;
+import cana.codelessautomation.api.services.globalvariable.dtos.*;
 import cana.codelessautomation.api.services.globalvariable.processors.mappers.GlobalVariableProcessorMapper;
 import cana.codelessautomation.api.services.globalvariable.repositories.GlobalVariableRepository;
 import cana.codelessautomation.api.services.globalvariable.repositories.daos.GlobalVariableDao;
+import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -16,12 +15,14 @@ import java.util.List;
 
 @ApplicationScoped
 public class GlobalVariableProcessorImpl implements GlobalVariableProcessor {
-
     @Inject
     GlobalVariableRepository globalVariableRepository;
 
     @Inject
     GlobalVariableProcessorMapper globalVariableProcessorMapper;
+
+    @Inject
+    ActionOptionRepository actionOptionRepository;
 
     @Override
     public List<GlobalVariableDao> processGetGlobalVariables(GetGlobalVariableDto getGlobalVariableDto) {
@@ -35,7 +36,20 @@ public class GlobalVariableProcessorImpl implements GlobalVariableProcessor {
 
     @Override
     public List<ErrorMessageDto> processCreateGlobalVariable(CreateGlobalVariableDto createGlobalVariable) {
-        return createGlobalVariable(createGlobalVariable);
+        var errors= createGlobalVariable(createGlobalVariable);
+        if(CollectionUtils.isNotEmpty(errors)){
+            return errors;
+        }
+        return createUIControlOptions(createGlobalVariable);
+    }
+
+    @Override
+    public List<ErrorMessageDto> createUIControlOptions(CreateGlobalVariableDto createGlobalVariable) {
+        for (UIControlOptionDto uiControlOptionDto: createGlobalVariable.getUiControlOptions()){
+            var actionOptionDao = globalVariableProcessorMapper.mapActionOptionDao(createGlobalVariable, uiControlOptionDto);
+            actionOptionRepository.persist(actionOptionDao);
+        }
+        return Collections.emptyList();
     }
 
     @Override

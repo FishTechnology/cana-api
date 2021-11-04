@@ -24,7 +24,7 @@ public class CreateGlobalVariableDto {
     @JMap
     private GlobalVariableType valueType;
     @JMap
-    private String content;
+    private Long fileId;
     private OffsetDateTime createdOn;
     private OffsetDateTime modifiedOn;
     private String createdBy;
@@ -37,4 +37,5 @@ public class CreateGlobalVariableDto {
     private Long userId;
     private CustomDetailDao customDetail;
     private List<GlobalVariableDao> globalVariables;
+    private List<UIControlOptionDto> uiControlOptions;
 }

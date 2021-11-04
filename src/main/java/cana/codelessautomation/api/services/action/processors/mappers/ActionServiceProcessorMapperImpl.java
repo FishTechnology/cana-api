@@ -23,14 +23,22 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionDao.setModifiedOn(createActionDto.getModifiedOn());
         actionDao.setCreatedBy(createActionDto.getCreatedBy());
         actionDao.setModifiedBy(createActionDto.getModifiedBy());
+        actionDao.setOrderNumber(createActionDto.getOrder());
+        actionDao.setUiActionType(createActionDto.getUiActionType());
+        if (createActionDto.getBrowserDetailDto() != null
+                && createActionDto.getBrowserDetailDto().getActionType() != null) {
+            actionDao.setBrowserActionType(createActionDto.getBrowserDetailDto().getActionType());
+            actionDao.setComments(createActionDto.getBrowserDetailDto().getComments());
+            actionDao.setUrl(createActionDto.getBrowserDetailDto().getUrl());
+        }
         return actionDao;
     }
 
     @Override
-    public ActionOptionDao mapActionOptionDao(CreateActionDto createActionDto , CreateActionOptionDto createActionOptionDto) {
+    public ActionOptionDao mapActionOptionDao(CreateActionDto createActionDto, CreateActionOptionDto createActionOptionDto) {
         ActionOptionDao actionOptionDao = new ActionOptionDao();
         actionOptionDao.setActionId(createActionDto.getId());
-        actionOptionDao.setOrder(createActionOptionDto.getOrder());
+        actionOptionDao.setOrderNumber(createActionOptionDto.getOrder());
         actionOptionDao.setWaitDuration(createActionOptionDto.getWaitDuration());
         actionOptionDao.setOptionType(createActionOptionDto.getOptionType());
         actionOptionDao.setIsActive(createActionDto.getIsActive());

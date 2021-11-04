@@ -1,5 +1,6 @@
 package cana.codelessautomation.api.services.globalvariable.repositories.daos;
 
+import cana.codelessautomation.api.services.file.repositories.daos.FileDao;
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
 
@@ -21,7 +22,7 @@ public class GlobalVariableDao {
     @Enumerated(EnumType.STRING)
     private GlobalVariableType valueType;
     @JMap
-    private String content;
+    private Long fileId;
     @JMap
     private OffsetDateTime createdOn;
     @JMap
@@ -36,4 +37,7 @@ public class GlobalVariableDao {
     private String comments;
     @JMap
     private Long userId;
+    @OneToOne(orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "fileId", insertable = false, updatable = false)
+    private FileDao fileDaos;
 }

@@ -14,4 +14,7 @@ public class ActionErrorCode extends BaseErrorCode {
     public static final String getActionOptionTypeIsInValid = "CanaApi.{0}.{1}.Action.OptionType.InValid";
     public static final String getActionOptionTypeIsEmpty = "CanaApi.{0}.{1}.Action.OptionType.Empty";
     public static final String getActionOptionTypeIsNull = "CanaApi.{0}.{1}.Action.OptionType.Null";
+    public static final String getActionBrowserActionTypeIsNotValid = "CanaApi.{0}.{1}.Action.Browser.ActionType.IsNotValid";
+    public static final String getActionBrowserActionTypeIsEmpty = "CanaApi.{0}.{1}.Action.Browser.ActionType.IsEmpty";
+    public static final String getActionBrowserActionTypeIsNull = "CanaApi.{0}.{1}.Action.Browser.ActionType.IsNull";
 }

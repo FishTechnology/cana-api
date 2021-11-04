@@ -16,6 +16,8 @@ public interface GlobalVariableProcessor {
 
     List<ErrorMessageDto> processCreateGlobalVariable(CreateGlobalVariableDto createGlobalVariable);
 
+    List<ErrorMessageDto> createUIControlOptions(CreateGlobalVariableDto createGlobalVariable);
+
     List<ErrorMessageDto> createGlobalVariable(CreateGlobalVariableDto createGlobalVariable);
 
     List<ErrorMessageDto> processDeleteGlobalVariable(DeleteGlobalVariableDto deleteGlobalVariableDto);
