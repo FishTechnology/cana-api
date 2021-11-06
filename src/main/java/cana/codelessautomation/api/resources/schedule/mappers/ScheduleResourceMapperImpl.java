@@ -1,12 +1,17 @@
 package cana.codelessautomation.api.resources.schedule.mappers;
 
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.resources.schedule.models.CreateScheduleModel;
-import cana.codelessautomation.api.resources.schedule.models.ScheduleItemModel;
-import cana.codelessautomation.api.resources.schedule.models.ScheduleIterationModel;
-import cana.codelessautomation.api.resources.schedule.models.SchedulePageModel;
+import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultModel;
+import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
+import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
+import cana.codelessautomation.api.resources.schedule.models.*;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.services.results.action.repositories.daos.ActionResultDao;
+import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
+import cana.codelessautomation.api.services.results.testplan.repositories.daos.TestPlanResultDao;
+import cana.codelessautomation.api.services.schedule.dtos.CopyTestPlanDetailDto;
 import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
+import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResultDto;
 import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
@@ -77,22 +82,115 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     public List<ScheduleIterationModel> mapScheduleIterationModels(List<ScheduleIterationDao> scheduleIterationDaos) {
         List<ScheduleIterationModel> scheduleIterationModels = new ArrayList<>();
         for (ScheduleIterationDao scheduleIterationDao : scheduleIterationDaos) {
-            ScheduleIterationModel scheduleIterationModel = new ScheduleIterationModel();
-            scheduleIterationModel.setId(scheduleIterationDao.getId());
-            scheduleIterationModel.setScheduleId(scheduleIterationDao.getScheduleId());
-            scheduleIterationModel.setComments(scheduleIterationDao.getComments());
-            scheduleIterationModel.setCreatedBy(scheduleIterationDao.getCreatedBy());
-            scheduleIterationModel.setCreatedOn(scheduleIterationDao.getCreatedOn().toString());
-            scheduleIterationModel.setModifiedBy(scheduleIterationDao.getModifiedBy());
-            scheduleIterationModel.setModifiedOn(scheduleIterationDao.getModifiedOn().toString());
-            scheduleIterationModel.setStatus(scheduleIterationDao.getStatus());
-            scheduleIterationModel.setStartedOn(Objects.toString(scheduleIterationDao.getStartedOn()));
-            scheduleIterationModel.setCompletedOn(Objects.toString(scheduleIterationDao.getCompletedOn()));
-            scheduleIterationModel.setIsDisableScreenshot(scheduleIterationDao.getIsDisableScreenshot());
-            scheduleIterationModel.setIsRecordVideoEnabled(scheduleIterationDao.getIsRecordVideoEnabled());
-            scheduleIterationModel.setIsCaptureNetworkTraffic(scheduleIterationDao.getIsCaptureNetworkTraffic());
-            scheduleIterationModels.add(scheduleIterationModel);
+            scheduleIterationModels.add(mapScheduleIterationModel(scheduleIterationDao));
         }
         return scheduleIterationModels;
+    }
+
+    @Override
+    public ScheduleIterationModel mapScheduleIterationModel(ScheduleIterationDao scheduleIterationDao) {
+        ScheduleIterationModel scheduleIterationModel = new ScheduleIterationModel();
+        scheduleIterationModel.setId(scheduleIterationDao.getId());
+        scheduleIterationModel.setScheduleId(scheduleIterationDao.getScheduleId());
+        scheduleIterationModel.setComments(scheduleIterationDao.getComments());
+        scheduleIterationModel.setCreatedBy(scheduleIterationDao.getCreatedBy());
+        scheduleIterationModel.setCreatedOn(scheduleIterationDao.getCreatedOn().toString());
+        scheduleIterationModel.setModifiedBy(scheduleIterationDao.getModifiedBy());
+        scheduleIterationModel.setModifiedOn(scheduleIterationDao.getModifiedOn().toString());
+        scheduleIterationModel.setStatus(scheduleIterationDao.getStatus());
+        scheduleIterationModel.setStartedOn(Objects.toString(scheduleIterationDao.getStartedOn()));
+        scheduleIterationModel.setCompletedOn(Objects.toString(scheduleIterationDao.getCompletedOn()));
+        scheduleIterationModel.setIsDisableScreenshot(scheduleIterationDao.getIsDisableScreenshot());
+        scheduleIterationModel.setIsRecordVideoEnabled(scheduleIterationDao.getIsRecordVideoEnabled());
+        scheduleIterationModel.setIsCaptureNetworkTraffic(scheduleIterationDao.getIsCaptureNetworkTraffic());
+        return scheduleIterationModel;
+    }
+
+    @Override
+    public CopyTestPlanDetailDto mapCopyTestPlanDetailDto(Long scheduleId) {
+        CopyTestPlanDetailDto copyTestPlanDetailDto = new CopyTestPlanDetailDto();
+        copyTestPlanDetailDto.setScheduleId(scheduleId);
+        return copyTestPlanDetailDto;
+    }
+
+    @Override
+    public ScheduleIterationResultDto mapScheduleIterationResultDto(Long scheduleId, Long scheduleIterationId) {
+        ScheduleIterationResultDto scheduleIterationResultDto = new ScheduleIterationResultDto();
+        scheduleIterationResultDto.setScheduleIterationId(scheduleIterationId);
+        scheduleIterationResultDto.setScheduleId(scheduleId);
+        return scheduleIterationResultDto;
+    }
+
+    @Override
+    public ScheduleIterationResultModel mapScheduleIterationResultModel(List<ErrorMessageDto> errors,
+                                                                        ScheduleIterationResultDto scheduleIterationResultDto) {
+        ScheduleIterationResultModel scheduleIterationResultModel = new ScheduleIterationResultModel();
+        scheduleIterationResultModel.setScheduleIteration(mapScheduleIterationModel(scheduleIterationResultDto.getScheduleIteration()));
+        scheduleIterationResultModel.setSchedule(mapScheduleModel(scheduleIterationResultDto.getSchedule()));
+        scheduleIterationResultModel.setTestPlanResultSummary(mapTestPlanResultSummaryModel(scheduleIterationResultDto.getTestPlanResultDao()));
+        return scheduleIterationResultModel;
+    }
+
+    @Override
+    public TestPlanResultSummaryModel mapTestPlanResultSummaryModel(TestPlanResultDao testPlanResultDao) {
+        TestPlanResultSummaryModel testPlanResultSummaryModel = new TestPlanResultSummaryModel();
+        testPlanResultSummaryModel.setTestPlanName(testPlanResultDao.getTestplan().getName());
+        testPlanResultSummaryModel.setStatus(testPlanResultDao.getStatus().name());
+        testPlanResultSummaryModel.setId(testPlanResultDao.getId());
+        //testPlanResultSummaryModel.setDuration();
+
+        List<TestCaseResultModel> testCaseResultModels = new ArrayList<>();
+        for (TestCaseResultDao testCaseResultDao : testPlanResultDao.getTestCaseResults()) {
+            testCaseResultModels.add(mapTestCaseResultModel(testCaseResultDao));
+        }
+
+        testPlanResultSummaryModel.setTestCaseResults(testCaseResultModels);
+        return testPlanResultSummaryModel;
+    }
+
+    @Override
+    public TestCaseResultModel mapTestCaseResultModel(TestCaseResultDao testCaseResultDao) {
+        TestCaseResultModel testCaseResultModel = new TestCaseResultModel();
+        testCaseResultModel.setTestCaseName(testCaseResultDao.getTestCase().getName());
+        testCaseResultModel.setStatus(testCaseResultDao.getStatus().name());
+        testCaseResultModel.setExecutionOrder(testCaseResultDao.getExecutionOrder());
+        testCaseResultModel.setId(testCaseResultDao.getId());
+        //testCaseResultModel.setDuration();
+        testCaseResultModel.setErrorMessage(testCaseResultDao.getErrorMessage());
+
+        List<ActionResultModel> actionResultModels = new ArrayList<>();
+        for (ActionResultDao actionResultDao : testCaseResultDao.getActionResultDaos()) {
+            actionResultModels.add(mapActionResultModel(actionResultDao));
+        }
+
+        testCaseResultModel.setActionResults(actionResultModels);
+        return testCaseResultModel;
+    }
+
+    @Override
+    public ActionResultModel mapActionResultModel(ActionResultDao actionResultDao) {
+        ActionResultModel actionResultModel = new ActionResultModel();
+        //actionResultModel.setDuration();
+        actionResultModel.setId(actionResultDao.getId());
+        actionResultModel.setStatus(actionResultDao.getStatus().name());
+        actionResultModel.setErrorMessage(actionResultDao.getErrorMessage());
+        actionResultModel.setKey(actionResultDao.getAction().getKey());
+        actionResultModel.setValue(actionResultDao.getAction().getValue());
+        actionResultModel.setExecutionOrder(actionResultDao.getExecutionOrder());
+        return actionResultModel;
+    }
+
+    @Override
+    public ScheduleModel mapScheduleModel(ScheduleDao scheduleDao) {
+        ScheduleModel scheduleModel = new ScheduleModel();
+        scheduleModel.setId(scheduleDao.getId());
+        scheduleModel.setEnvironmentId(scheduleDao.getEnvironmentId());
+        scheduleModel.setTestPlanId(scheduleDao.getTestPlanId());
+        scheduleModel.setUserId(scheduleDao.getUserId());
+        scheduleModel.setCreatedBy(scheduleDao.getCreatedBy());
+        scheduleModel.setCreatedOn(scheduleDao.getCreatedOn().toString());
+        scheduleModel.setModifiedBy(scheduleDao.getModifiedBy());
+        scheduleModel.setModifiedOn(scheduleDao.getModifiedOn().toString());
+        return scheduleModel;
     }
 }

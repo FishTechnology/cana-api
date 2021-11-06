@@ -1,7 +1,9 @@
 package cana.codelessautomation.api.services.schedule;
 
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.services.schedule.dtos.CopyTestPlanDetailDto;
 import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
+import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResultDto;
 import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
 
@@ -13,4 +15,8 @@ public interface ScheduleService {
     List<ErrorMessageDto> getScheduleSummary(ScheduleSummaryDto scheduleSummaryDto);
 
     List<ScheduleIterationDao> getScheduleIterations(Long scheduleId);
+
+    List<ErrorMessageDto> copyTestPlanDetail(CopyTestPlanDetailDto copyTestPlanDetailDto);
+
+    List<ErrorMessageDto> getScheduleIterationResult(ScheduleIterationResultDto scheduleIterationResultDto);
 }

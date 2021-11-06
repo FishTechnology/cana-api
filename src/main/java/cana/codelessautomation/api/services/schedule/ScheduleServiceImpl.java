@@ -2,7 +2,9 @@ package cana.codelessautomation.api.services.schedule;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.services.schedule.dtos.CopyTestPlanDetailDto;
 import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
+import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResultDto;
 import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
 import cana.codelessautomation.api.services.schedule.processors.ScheduleServiceProcessor;
 import cana.codelessautomation.api.services.schedule.repositories.ScheduleIterationRepository;
@@ -56,5 +58,28 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<ScheduleIterationDao> getScheduleIterations(Long scheduleId) {
         return scheduleIterationRepository.findByScheduleId(scheduleId);
+    }
+
+    @Override
+    public List<ErrorMessageDto> copyTestPlanDetail(CopyTestPlanDetailDto copyTestPlanDetailDto) {
+        copyTestPlanDetailDto.setCreatedOn(OffsetDateTime.now());
+        copyTestPlanDetailDto.setModifiedOn(OffsetDateTime.now());
+        copyTestPlanDetailDto.setCreatedBy("SCHEDULED_JOB");
+        copyTestPlanDetailDto.setModifiedBy("SCHEDULED_JOB");
+
+        var errors = scheduleServiceVerifier.verifyCopyTestPlanDetail(copyTestPlanDetailDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
+        }
+        return scheduleServiceProcessor.processCopyTestPlanDetail(copyTestPlanDetailDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> getScheduleIterationResult(ScheduleIterationResultDto scheduleIterationResultDto) {
+        var errors = scheduleServiceVerifier.verifyGetScheduleIterationResult(scheduleIterationResultDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
+        }
+        return scheduleServiceProcessor.processGetScheduleIterationResult(scheduleIterationResultDto);
     }
 }
