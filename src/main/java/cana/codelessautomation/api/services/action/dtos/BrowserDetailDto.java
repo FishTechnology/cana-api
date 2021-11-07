@@ -7,5 +7,5 @@ import lombok.Data;
 public class BrowserDetailDto {
     private BrowserActionTypeDao actionType;
     private String comments;
-    private String url;
+    private String value;
 }

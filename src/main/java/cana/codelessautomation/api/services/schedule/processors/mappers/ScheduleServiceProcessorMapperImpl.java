@@ -34,6 +34,7 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
         scheduleIterationDao.setIsDisableScreenshot(createScheduleDto.getIsDisableScreenshot());
         scheduleIterationDao.setIsRecordVideoEnabled(createScheduleDto.getIsRecordVideoEnabled());
         scheduleIterationDao.setIsCaptureNetworkTraffic(createScheduleDto.getIsCaptureNetworkTraffic());
+        scheduleIterationDao.setBrowserType(createScheduleDto.getBrowserType());
         return scheduleIterationDao;
     }
 }

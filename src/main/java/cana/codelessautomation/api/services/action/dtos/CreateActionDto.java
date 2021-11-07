@@ -27,6 +27,7 @@ public class CreateActionDto {
     private String createdBy;
     private String modifiedBy;
     private TestCaseDao testCaseDao;
+    private Boolean isAssertVerification;
     private List<CreateActionOptionDto> optionDtos;
     private BrowserDetailDto browserDetailDto;
 }

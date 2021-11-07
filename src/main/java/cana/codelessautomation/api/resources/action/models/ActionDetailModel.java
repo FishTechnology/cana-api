@@ -21,7 +21,8 @@ public class ActionDetailModel {
     private String createdBy;
     private String modifiedBy;
     private String browserActionType;
-    private String url;
+    private String browserValue;
     private Boolean isActive;
+    private Boolean isAssertVerification;
     private List<ActionOptionModel> actionOptionModels;
 }

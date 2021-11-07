@@ -1,5 +1,6 @@
 package cana.codelessautomation.api.resources.schedule.mappers;
 
+import cana.codelessautomation.api.resources.commonmodels.BrowserType;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
@@ -17,6 +18,7 @@ import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleD
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.EnumUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         createScheduleDto.setIsCaptureNetworkTraffic(createScheduleModel.getIsCaptureNetworkTraffic());
         createScheduleDto.setIsDisableScreenshot(createScheduleModel.getIsDisableScreenshot());
         createScheduleDto.setIsRecordVideoEnabled(createScheduleModel.getIsRecordVideoEnabled());
+        createScheduleDto.setBrowserType(EnumUtils.getEnumIgnoreCase(BrowserType.class, createScheduleModel.getBrowserType()));
         return createScheduleDto;
     }
 

@@ -1,5 +1,6 @@
 package cana.codelessautomation.api.services.schedule.repositories.daos;
 
+import cana.codelessautomation.api.resources.commonmodels.BrowserType;
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
 
@@ -29,6 +30,9 @@ public class ScheduleIterationDao {
     @JMap
     @Column(name = "is_capture_network_traffic")
     private Boolean isCaptureNetworkTraffic;
+    @JMap
+    @Enumerated(EnumType.STRING)
+    private BrowserType browserType;
     @JMap
     private OffsetDateTime startedOn;
     @JMap

@@ -31,7 +31,10 @@ public class ActionDao {
     @Column(name = "browser_actionType")
     private BrowserActionTypeDao browserActionType;
     @JMap
-    private String url;
+    @Column(name = "isassert_verification")
+    private Boolean isAssertVerification;
+    @JMap
+    private String browserValue;
     @JMap
     private Long userId;
     @JMap

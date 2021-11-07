@@ -30,6 +30,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
         createActionDto.setValue(createActionModel.getValue());
         createActionDto.setType(EnumUtils.getEnumIgnoreCase(ActionTypeDao.class, createActionModel.getType()));
         createActionDto.setComments(createActionModel.getComments());
+        createActionDto.setIsAssertVerification(createActionModel.getIsAssertVerification());
         createActionDto.setUiActionType(EnumUtils.getEnumIgnoreCase(UIActionTypeDao.class, createActionModel.getUiActionType()));
         List<CreateActionOptionDto> createActionOptionDtos = new ArrayList<>();
 
@@ -37,7 +38,8 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
             BrowserDetailDto browserDetailDto = new BrowserDetailDto();
             browserDetailDto.setActionType(EnumUtils.getEnumIgnoreCase(BrowserActionTypeDao.class, createActionModel.getBrowserOptions().getActionType()));
             browserDetailDto.setComments(createActionModel.getBrowserOptions().getComments());
-            browserDetailDto.setUrl(createActionModel.getBrowserOptions().getUrl());
+            browserDetailDto.setValue(createActionModel.getBrowserOptions().getValue());
+
             createActionDto.setBrowserDetailDto(browserDetailDto);
         }
 
@@ -93,6 +95,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
             actionDetailModel.setIsActive(actionDao.getIsActive());
             actionDetailModel.setUiActionType(actionDao.getUiActionType().name());
 
+
             if (CollectionUtils.isNotEmpty(actionDao.getActionOptionDaos())) {
                 List<ActionOptionModel> actionOptionModels = new ArrayList<>();
                 for (ActionOptionDao actionOptionDao : actionDao.getActionOptionDaos()) {
@@ -111,7 +114,8 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
             if (actionDao.getBrowserActionType() != null) {
                 actionDetailModel.setBrowserActionType(actionDao.getBrowserActionType().name());
             }
-            actionDetailModel.setUrl(actionDao.getUrl());
+            actionDetailModel.setBrowserValue(actionDao.getBrowserValue());
+            actionDetailModel.setIsAssertVerification(actionDao.getIsAssertVerification());
             actionDetailModels.add(actionDetailModel);
 
         }

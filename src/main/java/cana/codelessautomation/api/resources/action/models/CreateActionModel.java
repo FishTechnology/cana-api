@@ -27,6 +27,8 @@ public class CreateActionModel {
     @Valid
     private Long userId;
     @Valid
+    private Boolean isAssertVerification;
+    @Valid
     private List<CreateActionOptionModel> uiControlOptions;
     @Valid
     private BrowserDetailModel browserOptions;

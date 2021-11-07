@@ -39,7 +39,7 @@ public class TestCaseResultDao {
     @JMap
     private OffsetDateTime modifiedOn;
     @OneToMany(mappedBy = "testcaseResultId", fetch = FetchType.LAZY, orphanRemoval = true)
-    @OrderBy("executionOrder DESC")
+    @OrderBy("executionOrder ASC")
     private List<ActionResultDao> actionResultDaos;
     @OneToOne
     @JoinColumn(name = "testCaseId", referencedColumnName = "id", updatable = false, insertable = false)
