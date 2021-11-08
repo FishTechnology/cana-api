@@ -1,7 +1,8 @@
 package cana.codelessautomation.api.services.testplan.repositories.daos;
 
-public enum TestPlanStatus {
-    ACTIVE,
+public enum TestPlanStatusDao {
+    READY,
     DELETED,
     SETUP,
+    PAUSE
 }

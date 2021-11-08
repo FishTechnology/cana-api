@@ -9,7 +9,7 @@ import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanStatusDt
 import cana.codelessautomation.api.services.testplan.errorcodes.TestplanErrorCode;
 import cana.codelessautomation.api.services.testplan.processors.TestPlanProcessor;
 import cana.codelessautomation.api.services.testplan.repositories.TestPlanRepository;
-import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatus;
+import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatusDao;
 import cana.codelessautomation.api.services.testplan.repositories.daos.TestplanDao;
 import cana.codelessautomation.api.services.testplan.verifiers.TestplanVerifier;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
@@ -41,7 +41,7 @@ public class TestplanServiceImpl implements TestplanService {
         createTestplan.setModifiedOn(OffsetDateTime.now());
         createTestplan.setCreatedBy(createTestplan.getUserId().toString());
         createTestplan.setModifiedBy(createTestplan.getUserId().toString());
-        createTestplan.setStatus(TestPlanStatus.SETUP);
+        createTestplan.setStatus(TestPlanStatusDao.SETUP);
         var errors = testplanVerifier.verifyCreateTestplan(createTestplan);
         if (CollectionUtils.isNotEmpty(errors)) {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
