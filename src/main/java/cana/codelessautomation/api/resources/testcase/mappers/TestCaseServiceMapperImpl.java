@@ -1,19 +1,29 @@
 package cana.codelessautomation.api.resources.testcase.mappers;
 
+import cana.codelessautomation.api.resources.action.mappers.ActionResourceMapper;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
+import cana.codelessautomation.api.resources.schedule.models.ScheduledActionDetailModel;
+import cana.codelessautomation.api.resources.schedule.models.ScheduledTestCaseModel;
 import cana.codelessautomation.api.resources.testcase.models.*;
+import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionDaoEntity;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.testcase.dtos.*;
 import cana.codelessautomation.api.services.testcase.repositories.daos.TestCaseDao;
+import cana.codelessautomation.api.services.testcase.repositories.daos.entities.TestCaseDaoEntity;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
 public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
+
+    @Inject
+    ActionResourceMapper actionResourceMapper;
+
     @Override
     public CreateTestCaseDto mapCreateTestCaseDto(CreateTestCaseModel createTestCaseModel) {
         CreateTestCaseDto createTestCase = new CreateTestCaseDto();
@@ -147,6 +157,30 @@ public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
         updateTestCaseById.setName(updateTestCaseModel.getName());
         updateTestCaseById.setUserId(updateTestCaseModel.getUserId());
         return updateTestCaseById;
+    }
+
+    @Override
+    public ScheduledTestCaseModel mapScheduledTestCaseModel(TestCaseDaoEntity testCaseDaoEntity) {
+        ScheduledTestCaseModel scheduledTestCaseModel = new ScheduledTestCaseModel();
+        scheduledTestCaseModel.setId(testCaseDaoEntity.getId());
+        scheduledTestCaseModel.setComments(testCaseDaoEntity.getComments());
+        scheduledTestCaseModel.setName(testCaseDaoEntity.getName());
+        scheduledTestCaseModel.setIsActive(testCaseDaoEntity.getIsActive());
+        scheduledTestCaseModel.setUserId(testCaseDaoEntity.getUserId());
+        scheduledTestCaseModel.setCreatedBy(testCaseDaoEntity.getCreatedBy());
+        scheduledTestCaseModel.setCreatedOn(testCaseDaoEntity.getCreatedOn().toString());
+        scheduledTestCaseModel.setModifiedBy(testCaseDaoEntity.getModifiedBy());
+        scheduledTestCaseModel.setModifiedOn(testCaseDaoEntity.getModifiedOn().toString());
+        if (CollectionUtils.isEmpty(testCaseDaoEntity.getActionDaoEntities())) {
+            return scheduledTestCaseModel;
+        }
+        List<ScheduledActionDetailModel> scheduledActionDetails = new ArrayList<>();
+        for (ActionDaoEntity actionDaoEntity : testCaseDaoEntity.getActionDaoEntities()) {
+           var scheduledActionDetailModel = actionResourceMapper.mapScheduledActionDetailModel(actionDaoEntity);
+            scheduledActionDetails.add(scheduledActionDetailModel);
+        }
+        scheduledTestCaseModel.setScheduledActionDetails(scheduledActionDetails);
+        return scheduledTestCaseModel;
     }
 }
 

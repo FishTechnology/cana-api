@@ -9,7 +9,7 @@ import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanStatusDto;
 import cana.codelessautomation.api.services.testplan.errorcodes.TestplanErrorCode;
 import cana.codelessautomation.api.services.testplan.repositories.TestPlanRepository;
-import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatus;
+import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatusDao;
 import cana.codelessautomation.api.services.testplan.repositories.daos.TestplanDao;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
@@ -148,7 +148,7 @@ public class TestplanVerifierImpl implements TestplanVerifier {
 
     @Override
     public List<ErrorMessageDto> isTestplanStatusValid(UpdateTestplanStatusDto updateTestplanStatus) {
-        if (updateTestplanStatus.getTestplan().getStatus() == TestPlanStatus.DELETED) {
+        if (updateTestplanStatus.getTestplan().getStatus() == TestPlanStatusDao.DELETED) {
             return CanaUtility.getErrorMessages(testplanErrorCode.getTestPlanIsInActive());
         }
 

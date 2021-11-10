@@ -5,11 +5,13 @@ import cana.codelessautomation.api.resources.action.models.ActionOptionModel;
 import cana.codelessautomation.api.resources.action.models.CreateActionModel;
 import cana.codelessautomation.api.resources.action.models.CreateActionOptionModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
+import cana.codelessautomation.api.resources.schedule.models.ScheduledActionDetailModel;
 import cana.codelessautomation.api.services.action.dtos.BrowserDetailDto;
 import cana.codelessautomation.api.services.action.dtos.CreateActionDto;
 import cana.codelessautomation.api.services.action.dtos.CreateActionOptionDto;
 import cana.codelessautomation.api.services.action.dtos.GetActionsByTestCaseIdDto;
 import cana.codelessautomation.api.services.action.repositories.daos.*;
+import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionDaoEntity;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
@@ -79,46 +81,91 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
     public List<ActionDetailModel> mapActionDetailModels(GetActionsByTestCaseIdDto getActionsByTestCaseIdDto) {
         List<ActionDetailModel> actionDetailModels = new ArrayList<>();
         for (ActionDao actionDao : getActionsByTestCaseIdDto.getActionDaos()) {
-            ActionDetailModel actionDetailModel = new ActionDetailModel();
-            actionDetailModel.setId(actionDao.getId());
-            actionDetailModel.setKey(actionDao.getKey());
-            actionDetailModel.setValue(actionDao.getValue());
-            actionDetailModel.setComments(actionDao.getComments());
-            actionDetailModel.setOrder(actionDao.getOrderNumber());
-            actionDetailModel.setTestCaseId(actionDao.getTestCaseId());
-            actionDetailModel.setType(actionDao.getType());
-            actionDetailModel.setUserId(actionDao.getUserId());
-            actionDetailModel.setModifiedBy(actionDao.getModifiedBy());
-            actionDetailModel.setModifiedOn(actionDao.getModifiedOn().toString());
-            actionDetailModel.setCreatedBy(actionDao.getCreatedBy());
-            actionDetailModel.setCreatedOn(actionDao.getCreatedOn().toString());
-            actionDetailModel.setIsActive(actionDao.getIsActive());
-            actionDetailModel.setUiActionType(actionDao.getUiActionType().name());
-
-
-            if (CollectionUtils.isNotEmpty(actionDao.getActionOptionDaos())) {
-                List<ActionOptionModel> actionOptionModels = new ArrayList<>();
-                for (ActionOptionDao actionOptionDao : actionDao.getActionOptionDaos()) {
-                    if(!actionOptionDao.getIsActive()){
-                        continue;
-                    }
-                    ActionOptionModel actionOptionModel = new ActionOptionModel();
-                    actionOptionModel.setOptionType(actionOptionDao.getOptionType().name());
-                    actionOptionModel.setOrder(actionOptionDao.getOrderNumber());
-                    actionOptionModel.setWaitDuration(actionOptionDao.getWaitDuration());
-                    actionOptionModels.add(actionOptionModel);
-                }
-                actionDetailModel.setActionOptionModels(actionOptionModels);
-            }
-
-            if (actionDao.getBrowserActionType() != null) {
-                actionDetailModel.setBrowserActionType(actionDao.getBrowserActionType().name());
-            }
-            actionDetailModel.setBrowserValue(actionDao.getBrowserValue());
-            actionDetailModel.setIsAssertVerification(actionDao.getIsAssertVerification());
-            actionDetailModels.add(actionDetailModel);
-
+            actionDetailModels.add(mapActionDetailModel(actionDao));
         }
         return actionDetailModels;
+    }
+
+    @Override
+    public ActionDetailModel mapActionDetailModel(ActionDao actionDao) {
+        ActionDetailModel actionDetailModel = new ActionDetailModel();
+        actionDetailModel.setId(actionDao.getId());
+        actionDetailModel.setKey(actionDao.getKey());
+        actionDetailModel.setValue(actionDao.getValue());
+        actionDetailModel.setComments(actionDao.getComments());
+        actionDetailModel.setOrder(actionDao.getOrderNumber());
+        actionDetailModel.setTestCaseId(actionDao.getTestCaseId());
+        actionDetailModel.setType(actionDao.getType());
+        actionDetailModel.setUserId(actionDao.getUserId());
+        actionDetailModel.setModifiedBy(actionDao.getModifiedBy());
+        actionDetailModel.setModifiedOn(actionDao.getModifiedOn().toString());
+        actionDetailModel.setCreatedBy(actionDao.getCreatedBy());
+        actionDetailModel.setCreatedOn(actionDao.getCreatedOn().toString());
+        actionDetailModel.setIsActive(actionDao.getIsActive());
+        actionDetailModel.setUiActionType(actionDao.getUiActionType().name());
+
+
+        if (CollectionUtils.isNotEmpty(actionDao.getActionOptionDaos())) {
+            List<ActionOptionModel> actionOptionModels = new ArrayList<>();
+            for (ActionOptionDao actionOptionDao : actionDao.getActionOptionDaos()) {
+                if (!actionOptionDao.getIsActive()) {
+                    continue;
+                }
+                ActionOptionModel actionOptionModel = new ActionOptionModel();
+                actionOptionModel.setOptionType(actionOptionDao.getOptionType().name());
+                actionOptionModel.setOrder(actionOptionDao.getOrderNumber());
+                actionOptionModel.setWaitDuration(actionOptionDao.getWaitDuration());
+                actionOptionModels.add(actionOptionModel);
+            }
+            actionDetailModel.setActionOptionModels(actionOptionModels);
+        }
+
+        if (actionDao.getBrowserActionType() != null) {
+            actionDetailModel.setBrowserActionType(actionDao.getBrowserActionType().name());
+        }
+        actionDetailModel.setBrowserValue(actionDao.getBrowserValue());
+        actionDetailModel.setIsAssertVerification(actionDao.getIsAssertVerification());
+        return actionDetailModel;
+    }
+
+    @Override
+    public ScheduledActionDetailModel mapScheduledActionDetailModel(ActionDaoEntity actionDaoEntity) {
+        ScheduledActionDetailModel scheduledActionDetail = new ScheduledActionDetailModel();
+        scheduledActionDetail.setId(actionDaoEntity.getId());
+        scheduledActionDetail.setKey(actionDaoEntity.getKey());
+        scheduledActionDetail.setValue(actionDaoEntity.getValue());
+        scheduledActionDetail.setComments(actionDaoEntity.getComments());
+        scheduledActionDetail.setOrder(actionDaoEntity.getOrderNumber());
+        scheduledActionDetail.setTestCaseId(actionDaoEntity.getTestCaseId());
+        scheduledActionDetail.setType(actionDaoEntity.getType());
+        scheduledActionDetail.setUserId(actionDaoEntity.getUserId());
+        scheduledActionDetail.setModifiedBy(actionDaoEntity.getModifiedBy());
+        scheduledActionDetail.setModifiedOn(actionDaoEntity.getModifiedOn().toString());
+        scheduledActionDetail.setCreatedBy(actionDaoEntity.getCreatedBy());
+        scheduledActionDetail.setCreatedOn(actionDaoEntity.getCreatedOn().toString());
+        scheduledActionDetail.setIsActive(actionDaoEntity.getIsActive());
+        scheduledActionDetail.setUiActionType(actionDaoEntity.getUiActionType().name());
+
+        if (CollectionUtils.isNotEmpty(actionDaoEntity.getActionOptionDaos())) {
+            List<ActionOptionModel> actionOptionModels = new ArrayList<>();
+            for (ActionOptionDao actionOptionDao : actionDaoEntity.getActionOptionDaos()) {
+                if (!actionOptionDao.getIsActive()) {
+                    continue;
+                }
+                ActionOptionModel actionOptionModel = new ActionOptionModel();
+                actionOptionModel.setOptionType(actionOptionDao.getOptionType().name());
+                actionOptionModel.setOrder(actionOptionDao.getOrderNumber());
+                actionOptionModel.setWaitDuration(actionOptionDao.getWaitDuration());
+                actionOptionModels.add(actionOptionModel);
+            }
+            scheduledActionDetail.setActionOptionModels(actionOptionModels);
+        }
+
+        if (actionDaoEntity.getBrowserActionType() != null) {
+            scheduledActionDetail.setBrowserActionType(actionDaoEntity.getBrowserActionType().name());
+        }
+        scheduledActionDetail.setBrowserValue(actionDaoEntity.getBrowserValue());
+        scheduledActionDetail.setIsAssertVerification(actionDaoEntity.getIsAssertVerification());
+        return scheduledActionDetail;
     }
 }

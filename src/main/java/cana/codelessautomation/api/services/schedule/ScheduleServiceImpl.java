@@ -10,6 +10,7 @@ import cana.codelessautomation.api.services.schedule.processors.ScheduleServiceP
 import cana.codelessautomation.api.services.schedule.repositories.ScheduleIterationRepository;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleStatusDao;
+import cana.codelessautomation.api.services.schedule.repositories.daos.entities.ScheduleDetailEntity;
 import cana.codelessautomation.api.services.schedule.verifiers.ScheduleServiceVerifier;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
@@ -81,5 +82,10 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
         }
         return scheduleServiceProcessor.processGetScheduleIterationResult(scheduleIterationResultDto);
+    }
+
+    @Override
+    public ScheduleDetailEntity getScheduler(Long scheduleId) {
+        return scheduleServiceProcessor.processGetScheduleDetail(scheduleId);
     }
 }

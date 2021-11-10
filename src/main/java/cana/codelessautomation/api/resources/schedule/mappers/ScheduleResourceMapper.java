@@ -15,6 +15,7 @@ import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResul
 import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
+import cana.codelessautomation.api.services.schedule.repositories.daos.entities.ScheduleDetailEntity;
 
 import java.util.List;
 
@@ -44,4 +45,8 @@ public interface ScheduleResourceMapper {
     ActionResultModel mapActionResultModel(ActionResultDao actionResultDao);
 
     ScheduleModel mapScheduleModel(ScheduleDao scheduleDao);
+
+    ScheduleModel mapScheduleModel(ScheduleDetailEntity scheduleDetailEntity);
+
+    ScheduleDetailModel mapScheduleDetailModel(ScheduleDetailEntity scheduleDetailEntity);
 }

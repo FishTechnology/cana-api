@@ -16,6 +16,8 @@ public class ScheduleModel {
     @JMap
     private Long userId;
     @JMap
+    private String status;
+    @JMap
     private String createdOn;
     @JMap
     private String modifiedOn;

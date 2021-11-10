@@ -1,11 +1,8 @@
 package cana.codelessautomation.api.resources.schedule.models;
 
-import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleStatusDao;
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
 @Data
@@ -15,8 +12,7 @@ public class ScheduleIterationModel {
     @JMap
     private Long scheduleId;
     @JMap
-    @Enumerated(EnumType.STRING)
-    private ScheduleStatusDao status;
+    private String status;
     @JMap
     private String comments;
     @JMap

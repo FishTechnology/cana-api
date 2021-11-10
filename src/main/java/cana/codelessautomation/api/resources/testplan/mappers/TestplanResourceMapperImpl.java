@@ -1,27 +1,37 @@
 package cana.codelessautomation.api.resources.testplan.mappers;
 
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
+import cana.codelessautomation.api.resources.schedule.models.ScheduleTestPlanModel;
+import cana.codelessautomation.api.resources.schedule.models.ScheduledTestCaseModel;
+import cana.codelessautomation.api.resources.testcase.mappers.TestCaseServiceMapper;
 import cana.codelessautomation.api.resources.testplan.models.CreateTestplanModel;
 import cana.codelessautomation.api.resources.testplan.models.TestPlanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanStatusModel;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.services.testcase.repositories.daos.entities.TestplanTestcaseGroupingDaoEntity;
 import cana.codelessautomation.api.services.testplan.dtos.CreateTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.DeleteTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanStatusDto;
-import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatus;
+import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatusDao;
 import cana.codelessautomation.api.services.testplan.repositories.daos.TestplanDao;
+import cana.codelessautomation.api.services.testplan.repositories.daos.entities.TestPlanSummaryDaoEntity;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
 public class TestplanResourceMapperImpl implements TestplanResourceMapper {
+
+    @Inject
+    TestCaseServiceMapper testCaseServiceMapper;
+
     @Override
     public CreateTestplanDto mapCreateTestplanDto(CreateTestplanModel createTestplanModel) {
         CreateTestplanDto createTestplanDto = new CreateTestplanDto();
@@ -96,7 +106,36 @@ public class TestplanResourceMapperImpl implements TestplanResourceMapper {
         UpdateTestplanStatusDto updateTestplanStatus = new UpdateTestplanStatusDto();
         updateTestplanStatus.setUserId(updateTestplanStatus.getUserId());
         updateTestplanStatus.setTestplanId(testplanId);
-        updateTestplanStatus.setStatus(EnumUtils.getEnum(TestPlanStatus.class, updateTestplanStatusModel.getStatus()));
+        updateTestplanStatus.setStatus(EnumUtils.getEnum(TestPlanStatusDao.class, updateTestplanStatusModel.getStatus()));
         return updateTestplanStatus;
+    }
+
+    @Override
+    public ScheduleTestPlanModel mapTestPlanModel(TestPlanSummaryDaoEntity testPlanSummaryDaoEntity) {
+        ScheduleTestPlanModel scheduleTestPlanModel = new ScheduleTestPlanModel();
+        scheduleTestPlanModel.setName(testPlanSummaryDaoEntity.getName());
+        scheduleTestPlanModel.setId(testPlanSummaryDaoEntity.getId());
+        scheduleTestPlanModel.setStatus(testPlanSummaryDaoEntity.getStatus().name());
+        scheduleTestPlanModel.setComments(testPlanSummaryDaoEntity.getComments());
+        scheduleTestPlanModel.setCreatedBy(testPlanSummaryDaoEntity.getCreatedBy());
+        scheduleTestPlanModel.setCreatedOn(testPlanSummaryDaoEntity.getCreatedOn());
+        scheduleTestPlanModel.setModifiedOn(testPlanSummaryDaoEntity.getModifiedOn());
+        scheduleTestPlanModel.setModifiedBy(testPlanSummaryDaoEntity.getModifiedBy());
+
+        if (CollectionUtils.isEmpty(testPlanSummaryDaoEntity.getTestplanTestcaseGroupings())) {
+            return scheduleTestPlanModel;
+        }
+
+        List<ScheduledTestCaseModel> scheduledTestCaseModels = new ArrayList<>();
+
+        for (TestplanTestcaseGroupingDaoEntity testplanTestcaseGroupingDaoEntity : testPlanSummaryDaoEntity.getTestplanTestcaseGroupings()) {
+            var scheduledTestCaseModel = testCaseServiceMapper.mapScheduledTestCaseModel(testplanTestcaseGroupingDaoEntity.getTestCase());
+            scheduledTestCaseModel.setOrder(testplanTestcaseGroupingDaoEntity.getExecutionOrder());
+            scheduledTestCaseModels.add(scheduledTestCaseModel);
+        }
+
+        scheduleTestPlanModel.setScheduledTestCaseModel(scheduledTestCaseModels);
+
+        return scheduleTestPlanModel;
     }
 }

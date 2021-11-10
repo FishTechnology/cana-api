@@ -6,6 +6,7 @@ import cana.codelessautomation.api.resources.result.actionresult.models.ActionRe
 import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
 import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
 import cana.codelessautomation.api.resources.schedule.models.*;
+import cana.codelessautomation.api.resources.testplan.mappers.TestplanResourceMapper;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.results.action.repositories.daos.ActionResultDao;
 import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
@@ -16,17 +17,24 @@ import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResul
 import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
+import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleStatusDao;
+import cana.codelessautomation.api.services.schedule.repositories.daos.entities.ScheduleDetailEntity;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @ApplicationScoped
 public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
+
+    @Inject
+    TestplanResourceMapper testplanResourceMapper;
+
     @Override
     public ResultModel mapResultModel(CreateScheduleDto createScheduleDto, List<ErrorMessageDto> errorMessages) {
         ResultModel resultModel = new ResultModel();
@@ -100,7 +108,7 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         scheduleIterationModel.setCreatedOn(scheduleIterationDao.getCreatedOn().toString());
         scheduleIterationModel.setModifiedBy(scheduleIterationDao.getModifiedBy());
         scheduleIterationModel.setModifiedOn(scheduleIterationDao.getModifiedOn().toString());
-        scheduleIterationModel.setStatus(scheduleIterationDao.getStatus());
+        scheduleIterationModel.setStatus(scheduleIterationDao.getStatus().name());
         scheduleIterationModel.setStartedOn(Objects.toString(scheduleIterationDao.getStartedOn()));
         scheduleIterationModel.setCompletedOn(Objects.toString(scheduleIterationDao.getCompletedOn()));
         scheduleIterationModel.setIsDisableScreenshot(scheduleIterationDao.getIsDisableScreenshot());
@@ -195,5 +203,36 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         scheduleModel.setModifiedBy(scheduleDao.getModifiedBy());
         scheduleModel.setModifiedOn(scheduleDao.getModifiedOn().toString());
         return scheduleModel;
+    }
+
+    @Override
+    public ScheduleModel mapScheduleModel(ScheduleDetailEntity scheduleDetailEntity) {
+        ScheduleModel scheduleModel = new ScheduleModel();
+        scheduleModel.setId(scheduleDetailEntity.getId());
+        scheduleModel.setEnvironmentId(scheduleDetailEntity.getEnvironmentId());
+        scheduleModel.setTestPlanId(scheduleDetailEntity.getTestPlanId());
+        scheduleModel.setUserId(scheduleDetailEntity.getUserId());
+        scheduleModel.setCreatedBy(scheduleDetailEntity.getCreatedBy());
+        scheduleModel.setCreatedOn(scheduleDetailEntity.getCreatedOn().toString());
+        scheduleModel.setModifiedBy(scheduleDetailEntity.getModifiedBy());
+        scheduleModel.setModifiedOn(scheduleDetailEntity.getModifiedOn().toString());
+        scheduleModel.setStatus(scheduleDetailEntity.getStatus().name());
+        return scheduleModel;
+    }
+
+    @Override
+    public ScheduleDetailModel mapScheduleDetailModel(ScheduleDetailEntity scheduleDetailEntity) {
+        ScheduleDetailModel scheduleDetailModel = new ScheduleDetailModel();
+        scheduleDetailModel.setScheduleModel(mapScheduleModel(scheduleDetailEntity));
+        var filterScheduleIteration = scheduleDetailEntity
+                .getScheduleIterations()
+                .stream()
+                .filter(x -> x.getStatus() == ScheduleStatusDao.READY)
+                .findFirst()
+                .get();
+        scheduleDetailModel.setScheduleIterationModel(mapScheduleIterationModel(filterScheduleIteration));
+        testplanResourceMapper.mapTestPlanModel(scheduleDetailEntity.getTestplanDaos());
+        scheduleDetailModel.setScheduleTestPlanModel(testplanResourceMapper.mapTestPlanModel(scheduleDetailEntity.getTestplanDaos()));
+        return scheduleDetailModel;
     }
 }

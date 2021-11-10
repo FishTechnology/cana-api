@@ -7,6 +7,7 @@ import cana.codelessautomation.api.services.schedule.dtos.CopyTestPlanDetailDto;
 import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
 import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResultDto;
 import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
+import cana.codelessautomation.api.services.schedule.repositories.daos.entities.ScheduleDetailEntity;
 
 import java.util.List;
 
@@ -38,4 +39,6 @@ public interface ScheduleServiceProcessor {
     List<ErrorMessageDto> processCopyTestPlanDetail(CopyTestPlanDetailDto copyTestPlanDetailDto);
 
     List<ErrorMessageDto> processGetScheduleIterationResult(ScheduleIterationResultDto scheduleIterationResultDto);
+
+    ScheduleDetailEntity processGetScheduleDetail(Long scheduleId);
 }

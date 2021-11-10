@@ -29,5 +29,5 @@ public class TestplanDao {
     private String modifiedBy;
     @JMap
     @Enumerated(EnumType.STRING)
-    private TestPlanStatus status;
+    private TestPlanStatusDao status;
 }

@@ -1,6 +1,7 @@
 package cana.codelessautomation.api.resources.testplan.mappers;
 
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
+import cana.codelessautomation.api.resources.schedule.models.ScheduleTestPlanModel;
 import cana.codelessautomation.api.resources.testplan.models.CreateTestplanModel;
 import cana.codelessautomation.api.resources.testplan.models.TestPlanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanModel;
@@ -11,6 +12,7 @@ import cana.codelessautomation.api.services.testplan.dtos.DeleteTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanDto;
 import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanStatusDto;
 import cana.codelessautomation.api.services.testplan.repositories.daos.TestplanDao;
+import cana.codelessautomation.api.services.testplan.repositories.daos.entities.TestPlanSummaryDaoEntity;
 
 import java.util.List;
 
@@ -28,4 +30,6 @@ public interface TestplanResourceMapper {
     UpdateTestplanDto mapUpdateTestplanDto(UpdateTestplanModel updateTestplanModel, Long testplanId);
 
     UpdateTestplanStatusDto mapUpdateTestplanStatusDto(UpdateTestplanStatusModel updateTestplanStatusModel, Long testplanId);
+
+    ScheduleTestPlanModel mapTestPlanModel(TestPlanSummaryDaoEntity testplanDaos);
 }

@@ -15,6 +15,7 @@ import cana.codelessautomation.api.services.schedule.processors.mappers.ResultMa
 import cana.codelessautomation.api.services.schedule.processors.mappers.ScheduleServiceProcessorMapper;
 import cana.codelessautomation.api.services.schedule.repositories.ScheduleIterationRepository;
 import cana.codelessautomation.api.services.schedule.repositories.ScheduleRepository;
+import cana.codelessautomation.api.services.schedule.repositories.daos.entities.ScheduleDetailEntity;
 import cana.codelessautomation.api.services.testplan.repositories.daos.entities.TestPlanSummaryDaoEntity;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
@@ -86,6 +87,11 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
     @Override
     public List<ErrorMessageDto> processGetScheduleIterationResult(ScheduleIterationResultDto scheduleIterationResultDto) {
         return getTestPlanResultDetails(scheduleIterationResultDto);
+    }
+
+    @Override
+    public ScheduleDetailEntity processGetScheduleDetail(Long scheduleId) {
+        return ScheduleDetailEntity.findByIdAndStatus(scheduleId);
     }
 
     @Override

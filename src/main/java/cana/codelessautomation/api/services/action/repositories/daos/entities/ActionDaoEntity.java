@@ -17,6 +17,7 @@ import java.util.List;
 @Table(name = "action")
 public class ActionDaoEntity extends PanacheEntityBase {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JMap
     @Enumerated(EnumType.STRING)
@@ -35,7 +36,10 @@ public class ActionDaoEntity extends PanacheEntityBase {
     @Column(name = "browser_actionType")
     private BrowserActionTypeDao browserActionType;
     @JMap
-    private String url;
+    @Column(name = "isassert_verification")
+    private Boolean isAssertVerification;
+    @JMap
+    private String browserValue;
     @JMap
     private Long userId;
     @JMap

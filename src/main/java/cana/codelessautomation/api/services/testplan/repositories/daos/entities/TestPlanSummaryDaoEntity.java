@@ -1,7 +1,7 @@
 package cana.codelessautomation.api.services.testplan.repositories.daos.entities;
 
 import cana.codelessautomation.api.services.testcase.repositories.daos.entities.TestplanTestcaseGroupingDaoEntity;
-import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatus;
+import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatusDao;
 import com.googlecode.jmapper.annotations.JMap;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.Data;
@@ -32,7 +32,7 @@ public class TestPlanSummaryDaoEntity extends PanacheEntityBase {
     private String modifiedBy;
     @JMap
     @Enumerated(EnumType.STRING)
-    private TestPlanStatus status;
+    private TestPlanStatusDao status;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "testPlanId", orphanRemoval = true)
     private List<TestplanTestcaseGroupingDaoEntity> testplanTestcaseGroupings;
 }

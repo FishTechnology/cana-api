@@ -4,10 +4,7 @@ import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.schedule.mappers.ScheduleResourceMapper;
-import cana.codelessautomation.api.resources.schedule.models.CreateScheduleModel;
-import cana.codelessautomation.api.resources.schedule.models.ScheduleIterationModel;
-import cana.codelessautomation.api.resources.schedule.models.ScheduleIterationResultModel;
-import cana.codelessautomation.api.resources.schedule.models.SchedulePageModel;
+import cana.codelessautomation.api.resources.schedule.models.*;
 import cana.codelessautomation.api.services.schedule.ScheduleService;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
@@ -53,6 +50,15 @@ public class ScheduleResource {
         var scheduleSummaryDto = scheduleResourceMapper.mapScheduleSummaryDto(userId, pageSize, pageNumber);
         var errorMessages = scheduleService.getScheduleSummary(scheduleSummaryDto);
         return scheduleResourceMapper.mapSchedulePageModel(scheduleSummaryDto, errorMessages);
+    }
+
+    @GET
+    @Path("/schedules/{scheduleId}/recurse")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ScheduleDetailModel getScheduler(@Valid @PathParam Long scheduleId) throws ValidationException {
+        var scheduleDetailEntity = scheduleService.getScheduler(scheduleId);
+        return scheduleResourceMapper.mapScheduleDetailModel(scheduleDetailEntity);
     }
 
     @GET

@@ -1,8 +1,11 @@
-package cana.codelessautomation.api.services.schedule.repositories.daos;
+package cana.codelessautomation.api.services.schedule.repositories.daos.entities;
 
 import cana.codelessautomation.api.services.environment.repositories.daos.EnvironmentDao;
-import cana.codelessautomation.api.services.testplan.repositories.daos.TestplanDao;
+import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
+import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleStatusDao;
+import cana.codelessautomation.api.services.testplan.repositories.daos.entities.TestPlanSummaryDaoEntity;
 import com.googlecode.jmapper.annotations.JMap;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,7 +15,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "schedule")
-public class ScheduleDao {
+public class ScheduleDetailEntity extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,14 +26,14 @@ public class ScheduleDao {
     @JMap
     private Long userId;
     @JMap
+    @Enumerated(EnumType.STRING)
+    private ScheduleStatusDao status;
+    @JMap
     private OffsetDateTime createdOn;
     @JMap
     private OffsetDateTime modifiedOn;
     @JMap
     private String createdBy;
-    @JMap
-    @Enumerated(EnumType.STRING)
-    private ScheduleStatusDao status;
     @JMap
     private String modifiedBy;
 
@@ -44,5 +47,9 @@ public class ScheduleDao {
 
     @OneToOne
     @JoinColumn(name = "testPlanId", updatable = false, insertable = false, referencedColumnName = "id")
-    private TestplanDao testplanDaos;
+    private TestPlanSummaryDaoEntity testplanDaos;
+
+    public static ScheduleDetailEntity findByIdAndStatus(Long scheduleId) {
+        return find("id = ?1", scheduleId).firstResult();
+    }
 }
