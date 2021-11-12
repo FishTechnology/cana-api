@@ -33,4 +33,6 @@ public class ScheduleIterationModel {
     private String createdBy;
     @JMap
     private String modifiedBy;
+    @JMap
+    private String browserType;
 }

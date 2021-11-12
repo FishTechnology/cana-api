@@ -51,6 +51,10 @@ public class ActionDao {
     private String modifiedBy;
     @JMap
     private Boolean isActive;
+    @JMap
+    @Enumerated(EnumType.STRING)
+    @Column(name = "condition_type")
+    private ConditionType conditionType;
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "actionId")
     private List<ActionOptionDao> actionOptionDaos;

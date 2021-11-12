@@ -2,6 +2,8 @@ package cana.codelessautomation.api.services.schedule.processors;
 
 import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionDaoEntity;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.services.notification.processors.mappers.NotificationMapper;
+import cana.codelessautomation.api.services.notification.repositories.NotificationRepository;
 import cana.codelessautomation.api.services.results.action.repositories.ActionResultRepository;
 import cana.codelessautomation.api.services.results.testcase.repositories.TestCaseResultRepository;
 import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
@@ -50,7 +52,13 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
     ActionResultRepository actionResultRepository;
 
     @Inject
+    NotificationRepository notificationRepository;
+
+    @Inject
     ResultMapper resultMapper;
+
+    @Inject
+    NotificationMapper notificationMapper;
 
     @Override
     public List<ErrorMessageDto> processCreateSchedule(CreateScheduleDto createScheduleDto) {
@@ -58,7 +66,18 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
         }
-        return createScheduleIteration(createScheduleDto);
+        errors = createScheduleIteration(createScheduleDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return createNotification(createScheduleDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> createNotification(CreateScheduleDto createScheduleDto) {
+        var notificationDao = notificationMapper.mapNotificationDao(createScheduleDto);
+        notificationRepository.persist(notificationDao);
+        return Collections.emptyList();
     }
 
 
@@ -184,6 +203,7 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
     public List<ErrorMessageDto> createScheduleIteration(CreateScheduleDto createScheduleDto) {
         var scheduleIterationDao = scheduleServiceProcessorMapper.mapScheduleIterationDao(createScheduleDto);
         scheduleIterationRepository.persist(scheduleIterationDao);
+        createScheduleDto.setIterationId(scheduleIterationDao.getId());
         return Collections.emptyList();
     }
 

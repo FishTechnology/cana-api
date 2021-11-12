@@ -15,6 +15,7 @@ public class CreateScheduleDto {
     private Long testPlanId;
     private Long environmentId;
     private Long userId;
+    private Long iterationId;
     private ScheduleStatusDao status;
     private String comments;
     private BrowserType browserType;
@@ -28,4 +29,5 @@ public class CreateScheduleDto {
     private TestplanDao testplan;
     private EnvironmentDao environment;
     private CustomDetailDao customDetail;
+    private CreateNotificationDto notification;
 }

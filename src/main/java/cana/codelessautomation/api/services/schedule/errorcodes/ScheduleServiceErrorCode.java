@@ -8,6 +8,7 @@ import javax.enterprise.context.ApplicationScoped;
 public class ScheduleServiceErrorCode extends BaseErrorCode {
     public static final String getBrowserTypeInValidError = "CanaApi.Schedule.BrowserType.InValid";
     public static final String getBrowserActionTypeInValidError = "CanaApi.Schedule.Browser.ActionType.InValid";
+    public static final String getBrowserConditionTypeInValidError = "CanaApi.Schedule.Browser.ConditionType.InValid";
 
     public String getScheduleIdNotFound() {
         return "CanaApi.{0}." + getHttpMethod() + ".Schedule.Id.NotFound";

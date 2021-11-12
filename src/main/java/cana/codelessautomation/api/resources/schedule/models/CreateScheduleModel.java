@@ -14,4 +14,5 @@ public class CreateScheduleModel {
     private Boolean isCaptureNetworkTraffic;
     @ValidEnumString(enumRef = BrowserType.class, message = ScheduleServiceErrorCode.getBrowserTypeInValidError)
     private String browserType;
+    private CreateNotificationModel notification;
 }

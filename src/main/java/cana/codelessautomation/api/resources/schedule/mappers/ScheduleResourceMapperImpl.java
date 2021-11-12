@@ -11,10 +11,7 @@ import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.results.action.repositories.daos.ActionResultDao;
 import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
 import cana.codelessautomation.api.services.results.testplan.repositories.daos.TestPlanResultDao;
-import cana.codelessautomation.api.services.schedule.dtos.CopyTestPlanDetailDto;
-import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResultDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
+import cana.codelessautomation.api.services.schedule.dtos.*;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleStatusDao;
@@ -56,6 +53,10 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         createScheduleDto.setIsDisableScreenshot(createScheduleModel.getIsDisableScreenshot());
         createScheduleDto.setIsRecordVideoEnabled(createScheduleModel.getIsRecordVideoEnabled());
         createScheduleDto.setBrowserType(EnumUtils.getEnumIgnoreCase(BrowserType.class, createScheduleModel.getBrowserType()));
+        if (createScheduleModel.getNotification() != null) {
+            createScheduleDto.setNotification(new CreateNotificationDto());
+            createScheduleDto.getNotification().setEmailAddress(createScheduleModel.getNotification().getEmailAddress());
+        }
         return createScheduleDto;
     }
 
@@ -114,6 +115,7 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         scheduleIterationModel.setIsDisableScreenshot(scheduleIterationDao.getIsDisableScreenshot());
         scheduleIterationModel.setIsRecordVideoEnabled(scheduleIterationDao.getIsRecordVideoEnabled());
         scheduleIterationModel.setIsCaptureNetworkTraffic(scheduleIterationDao.getIsCaptureNetworkTraffic());
+        scheduleIterationModel.setBrowserType(scheduleIterationDao.getBrowserType().name());
         return scheduleIterationModel;
     }
 

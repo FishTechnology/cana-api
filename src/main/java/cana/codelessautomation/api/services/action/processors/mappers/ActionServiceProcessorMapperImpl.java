@@ -31,6 +31,7 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
             actionDao.setBrowserActionType(createActionDto.getBrowserDetailDto().getActionType());
             actionDao.setComments(createActionDto.getBrowserDetailDto().getComments());
             actionDao.setBrowserValue(createActionDto.getBrowserDetailDto().getValue());
+            actionDao.setConditionType(createActionDto.getBrowserDetailDto().getConditionType());
         }
         return actionDao;
     }

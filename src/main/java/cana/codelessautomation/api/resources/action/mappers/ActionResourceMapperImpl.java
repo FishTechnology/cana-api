@@ -20,6 +20,7 @@ import org.apache.commons.lang3.EnumUtils;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 public class ActionResourceMapperImpl implements ActionResourceMapper {
@@ -41,6 +42,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
             browserDetailDto.setActionType(EnumUtils.getEnumIgnoreCase(BrowserActionTypeDao.class, createActionModel.getBrowserOptions().getActionType()));
             browserDetailDto.setComments(createActionModel.getBrowserOptions().getComments());
             browserDetailDto.setValue(createActionModel.getBrowserOptions().getValue());
+            browserDetailDto.setConditionType(EnumUtils.getEnumIgnoreCase(ConditionType.class, createActionModel.getBrowserOptions().getConditionType()));
 
             createActionDto.setBrowserDetailDto(browserDetailDto);
         }
@@ -104,6 +106,9 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
         actionDetailModel.setIsActive(actionDao.getIsActive());
         actionDetailModel.setUiActionType(actionDao.getUiActionType().name());
 
+        if (!Objects.isNull(actionDao.getConditionType())) {
+            actionDetailModel.setConditionType(actionDao.getConditionType().name());
+        }
 
         if (CollectionUtils.isNotEmpty(actionDao.getActionOptionDaos())) {
             List<ActionOptionModel> actionOptionModels = new ArrayList<>();

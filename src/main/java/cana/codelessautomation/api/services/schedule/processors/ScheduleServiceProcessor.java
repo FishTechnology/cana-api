@@ -34,6 +34,8 @@ public interface ScheduleServiceProcessor {
 
     List<ErrorMessageDto> createSchedule(CreateScheduleDto createScheduleDto);
 
+    List<ErrorMessageDto> createNotification(CreateScheduleDto createScheduleDto);
+
     List<ErrorMessageDto> processGetScheduleSummary(ScheduleSummaryDto scheduleSummaryDto);
 
     List<ErrorMessageDto> processCopyTestPlanDetail(CopyTestPlanDetailDto copyTestPlanDetailDto);
