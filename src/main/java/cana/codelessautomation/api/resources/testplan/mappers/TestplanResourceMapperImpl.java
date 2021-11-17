@@ -104,7 +104,7 @@ public class TestplanResourceMapperImpl implements TestplanResourceMapper {
     @Override
     public UpdateTestplanStatusDto mapUpdateTestplanStatusDto(UpdateTestplanStatusModel updateTestplanStatusModel, Long testplanId) {
         UpdateTestplanStatusDto updateTestplanStatus = new UpdateTestplanStatusDto();
-        updateTestplanStatus.setUserId(updateTestplanStatus.getUserId());
+        updateTestplanStatus.setUserId(updateTestplanStatusModel.getUserId());
         updateTestplanStatus.setTestplanId(testplanId);
         updateTestplanStatus.setStatus(EnumUtils.getEnum(TestPlanStatusDao.class, updateTestplanStatusModel.getStatus()));
         return updateTestplanStatus;

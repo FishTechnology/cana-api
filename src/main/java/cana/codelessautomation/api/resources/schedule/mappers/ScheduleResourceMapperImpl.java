@@ -233,8 +233,17 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
                 .findFirst()
                 .get();
         scheduleDetailModel.setScheduleIterationModel(mapScheduleIterationModel(filterScheduleIteration));
-        testplanResourceMapper.mapTestPlanModel(scheduleDetailEntity.getTestplanDaos());
         scheduleDetailModel.setScheduleTestPlanModel(testplanResourceMapper.mapTestPlanModel(scheduleDetailEntity.getTestplanDaos()));
         return scheduleDetailModel;
+    }
+
+    @Override
+    public UpdateScheduleStatusReadyDto mapUpdateScheduleStatusDto(Long scheduleId, UpdateScheduleStatusModel updateScheduleStatusModel) {
+        UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto = new UpdateScheduleStatusReadyDto();
+        updateScheduleStatusReadyDto.setErrorMessage(updateScheduleStatusModel.getErrorMessage());
+        updateScheduleStatusReadyDto.setScheduleId(scheduleId);
+        updateScheduleStatusReadyDto.setTotalDuration(updateScheduleStatusModel.getTotalDuration());
+        updateScheduleStatusReadyDto.setScheduleStatus(EnumUtils.getEnumIgnoreCase(ScheduleStatusDao.class, updateScheduleStatusModel.getStatus()));
+        return updateScheduleStatusReadyDto;
     }
 }

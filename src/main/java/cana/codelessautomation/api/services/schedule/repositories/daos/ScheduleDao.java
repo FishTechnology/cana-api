@@ -33,7 +33,6 @@ public class ScheduleDao {
     private ScheduleStatusDao status;
     @JMap
     private String modifiedBy;
-
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "scheduleId")
     @OrderBy("modifiedOn DESC")
     private List<ScheduleIterationDao> scheduleIterations;

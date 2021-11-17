@@ -6,4 +6,9 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class TestCaseResultErrorCode extends BaseErrorCode {
+    public static final String getTestCaseResultStatusInValid = "";
+
+    public String getTestCaseResultIdNotFound() {
+        return "CanaApi." + getResourceName() + "." + getResourceActionName() + "." + getHttpMethod() + ".TestCaseResult.Id.NotFound";
+    }
 }

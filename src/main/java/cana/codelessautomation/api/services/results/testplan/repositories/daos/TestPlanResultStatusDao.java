@@ -1,7 +1,8 @@
 package cana.codelessautomation.api.services.results.testplan.repositories.daos;
 
 public enum TestPlanResultStatusDao {
-    ACTIVE,
-    DELETED,
+    STARTED,
+    COMPLETED,
+    ERROR,
     NOT_STARTED,
 }

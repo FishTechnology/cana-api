@@ -8,10 +8,7 @@ import cana.codelessautomation.api.services.results.action.repositories.ActionRe
 import cana.codelessautomation.api.services.results.testcase.repositories.TestCaseResultRepository;
 import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
 import cana.codelessautomation.api.services.results.testplan.repositories.TestPlanResultRepository;
-import cana.codelessautomation.api.services.schedule.dtos.CopyTestPlanDetailDto;
-import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResultDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
+import cana.codelessautomation.api.services.schedule.dtos.*;
 import cana.codelessautomation.api.services.schedule.errorcodes.ScheduleServiceErrorCode;
 import cana.codelessautomation.api.services.schedule.processors.mappers.ResultMapper;
 import cana.codelessautomation.api.services.schedule.processors.mappers.ScheduleServiceProcessorMapper;
@@ -111,6 +108,27 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
     @Override
     public ScheduleDetailEntity processGetScheduleDetail(Long scheduleId) {
         return ScheduleDetailEntity.findByIdAndStatus(scheduleId);
+    }
+
+    @Override
+    public List<ErrorMessageDto> processUpdateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
+        updateScheduleStatus(updateScheduleStatusReadyDto);
+        updateScheduleIteration(updateScheduleStatusReadyDto);
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateScheduleIteration(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
+        var scheduleIterationDao = scheduleServiceProcessorMapper.mapScheduleIterationDao(updateScheduleStatusReadyDto);
+        scheduleIterationRepository.persist(scheduleIterationDao);
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
+        var scheduleDao = scheduleServiceProcessorMapper.mapScheduleDao(updateScheduleStatusReadyDto);
+        scheduleRepository.persist(scheduleDao);
+        return Collections.emptyList();
     }
 
     @Override

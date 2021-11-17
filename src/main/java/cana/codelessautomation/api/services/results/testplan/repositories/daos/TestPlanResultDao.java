@@ -35,6 +35,9 @@ public class TestPlanResultDao {
     private OffsetDateTime createdOn;
     @JMap
     private OffsetDateTime modifiedOn;
+    @JMap
+    @Column(name = "total_duration")
+    private String totalDuration;
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "testplanResultId")
     @OrderBy("executionOrder ASC")
     private List<TestCaseResultDao> testCaseResults;

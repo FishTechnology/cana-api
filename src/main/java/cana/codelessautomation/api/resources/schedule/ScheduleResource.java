@@ -58,6 +58,9 @@ public class ScheduleResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public ScheduleDetailModel getScheduler(@Valid @PathParam Long scheduleId) throws ValidationException {
         var scheduleDetailEntity = scheduleService.getScheduler(scheduleId);
+        if (scheduleDetailEntity == null) {
+            return null;
+        }
         return scheduleResourceMapper.mapScheduleDetailModel(scheduleDetailEntity);
     }
 
@@ -67,6 +70,9 @@ public class ScheduleResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public List<ScheduleIterationModel> getScheduleIterations(@Valid @PathParam Long scheduleId) throws ValidationException {
         var scheduleIterationDtos = scheduleService.getScheduleIterations(scheduleId);
+        if (CollectionUtils.isEmpty(scheduleIterationDtos)) {
+            return Collections.emptyList();
+        }
         return scheduleResourceMapper.mapScheduleIterationModels(scheduleIterationDtos);
     }
 
@@ -89,6 +95,21 @@ public class ScheduleResource {
     public List<ErrorMessageModel> copyTestPlanDetail(@Valid @PathParam Long scheduleId) throws ValidationException {
         var copyTestPlanDetailDto = scheduleResourceMapper.mapCopyTestPlanDetailDto(scheduleId);
         var errors = scheduleService.copyTestPlanDetail(copyTestPlanDetailDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return CanaUtility.getErrorMessageModels(errors);
+        }
+        return Collections.emptyList();
+    }
+
+    @PUT
+    @Path("/schedules/{scheduleId}/status")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<ErrorMessageModel> updateScheduleStatus(@Valid @PathParam Long scheduleId,
+                                                        @Valid UpdateScheduleStatusModel updateScheduleStatusModel) throws ValidationException {
+        var updateScheduleStatusDto = scheduleResourceMapper.mapUpdateScheduleStatusDto(scheduleId, updateScheduleStatusModel);
+        var errors = scheduleService.updateScheduleStatus(updateScheduleStatusDto);
         if (CollectionUtils.isNotEmpty(errors)) {
             return CanaUtility.getErrorMessageModels(errors);
         }

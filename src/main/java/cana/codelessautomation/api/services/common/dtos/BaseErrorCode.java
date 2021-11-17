@@ -1,26 +1,34 @@
 package cana.codelessautomation.api.services.common.dtos;
 
+import io.vertx.core.http.HttpServerRequest;
+
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
-import java.net.http.HttpRequest;
 
 
 @Provider
-//@PreMatching
 @ApplicationScoped
-public class BaseErrorCode
-        //implements ContainerRequestFilter
-{
+public class BaseErrorCode {
+    @Inject
+    HttpServerRequest httpServerRequest;
+
     @Context
-    HttpRequest request;
+    ResourceContext resourceContext;
 
     public String getHttpMethod() {
-        return "GET";
+        return httpServerRequest.method().name();
     }
 
-//    @Override
-//    public void filter(ContainerRequestContext requestContext) {
-//        return;
-//    }
+    public String getResourceName() {
+        // return resourceContext.getClass().getCanonicalName();
+        return "Name";
+    }
+
+    public String getResourceActionName() {
+        // return resourceContext.getClass().getCanonicalName();
+        return "Name";
+    }
 }

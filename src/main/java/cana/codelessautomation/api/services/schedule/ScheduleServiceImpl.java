@@ -2,10 +2,7 @@ package cana.codelessautomation.api.services.schedule;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.schedule.dtos.CopyTestPlanDetailDto;
-import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResultDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
+import cana.codelessautomation.api.services.schedule.dtos.*;
 import cana.codelessautomation.api.services.schedule.processors.ScheduleServiceProcessor;
 import cana.codelessautomation.api.services.schedule.repositories.ScheduleIterationRepository;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
@@ -87,5 +84,23 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleDetailEntity getScheduler(Long scheduleId) {
         return scheduleServiceProcessor.processGetScheduleDetail(scheduleId);
+    }
+
+    @Override
+    public List<ErrorMessageDto> setAsInProgress(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
+        var errors = scheduleServiceVerifier.verifyUpdateScheduleStatus(updateScheduleStatusReadyDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
+        }
+        return scheduleServiceProcessor.processUpdateScheduleStatus(updateScheduleStatusReadyDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusDto) {
+        var errors = scheduleServiceVerifier.verifyUpdateScheduleStatus(updateScheduleStatusDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
+        }
+        return scheduleServiceProcessor.processUpdateScheduleStatus(updateScheduleStatusDto);
     }
 }

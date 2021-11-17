@@ -1,7 +1,42 @@
 package cana.codelessautomation.api.resources.result.testcaseresult.mappers;
 
+import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
+import cana.codelessautomation.api.resources.result.testcaseresult.models.UpdateTestCaseResultAsCompletedModel;
+import cana.codelessautomation.api.services.results.testcase.dtos.UpdateTestCaseResultStatusDto;
+import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
+import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultStatusDao;
+import org.apache.commons.lang3.EnumUtils;
+
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 public class TestCaseResultMapperImpl implements TestCaseResultMapper {
+    @Override
+    public UpdateTestCaseResultStatusDto mapUpdateTestCaseResultStatusDto(Long testPlanResultId,
+                                                                          Long testCaseResultId,
+                                                                          UpdateTestCaseResultAsCompletedModel updateTestCaseResultAsCompletedModel) {
+        UpdateTestCaseResultStatusDto updateTestCaseResultStatusDto = new UpdateTestCaseResultStatusDto();
+        updateTestCaseResultStatusDto.setTestCaseResultId(testCaseResultId);
+        updateTestCaseResultStatusDto.setTestPlanResultId(testPlanResultId);
+        updateTestCaseResultStatusDto.setStatus(EnumUtils.getEnumIgnoreCase(TestCaseResultStatusDao.class, updateTestCaseResultAsCompletedModel.getStatus()));
+        if (!Objects.isNull(updateTestCaseResultAsCompletedModel.getCompletedOn())) {
+            updateTestCaseResultStatusDto.setCompletedOn(OffsetDateTime.parse(updateTestCaseResultAsCompletedModel.getCompletedOn()));
+        }
+
+        if (!Objects.isNull(updateTestCaseResultAsCompletedModel.getStartedOn())) {
+            updateTestCaseResultStatusDto.setStartedOn(OffsetDateTime.parse(updateTestCaseResultAsCompletedModel.getStartedOn()));
+        }
+        
+        updateTestCaseResultStatusDto.setErrorMessage(updateTestCaseResultAsCompletedModel.getErrorMessage());
+        updateTestCaseResultStatusDto.setTotalDuration(updateTestCaseResultAsCompletedModel.getTotalDuration());
+        return updateTestCaseResultStatusDto;
+    }
+
+    @Override
+    public List<TestCaseResultModel> mapTestCaseResultModel(List<TestCaseResultDao> testPlanResultDao) {
+        return null;
+    }
 }

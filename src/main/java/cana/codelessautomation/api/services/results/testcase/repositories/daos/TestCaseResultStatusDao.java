@@ -1,7 +1,8 @@
 package cana.codelessautomation.api.services.results.testcase.repositories.daos;
 
 public enum TestCaseResultStatusDao {
-    ACTIVE,
-    DELETED,
+    STARTED,
+    COMPLETED,
+    ERROR,
     NOT_STARTED,
 }

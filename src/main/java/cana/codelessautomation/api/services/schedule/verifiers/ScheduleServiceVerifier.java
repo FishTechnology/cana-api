@@ -2,10 +2,7 @@ package cana.codelessautomation.api.services.schedule.verifiers;
 
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.common.dtos.KeyValue;
-import cana.codelessautomation.api.services.schedule.dtos.CopyTestPlanDetailDto;
-import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResultDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
+import cana.codelessautomation.api.services.schedule.dtos.*;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
 
@@ -17,6 +14,14 @@ public interface ScheduleServiceVerifier {
     List<ErrorMessageDto> isTestPlanIdValid(CreateScheduleDto createScheduleDto);
 
     List<ErrorMessageDto> isEnvironmentIdValid(CreateScheduleDto createScheduleDto);
+
+    List<ErrorMessageDto> isTestPlanStatusValid(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
+
+    List<ErrorMessageDto> isScheduleIterationStatusValid(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
+
+    List<ErrorMessageDto> isScheduleStatusValid(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
+
+    List<ErrorMessageDto> isScheduleIdValid(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
 
     List<ErrorMessageDto> isScheduleIterationIdValid(ScheduleIterationResultDto scheduleIterationResultDto);
 
@@ -37,4 +42,6 @@ public interface ScheduleServiceVerifier {
     List<ErrorMessageDto> verifyCopyTestPlanDetail(CopyTestPlanDetailDto copyTestPlanDetailDto);
 
     List<ErrorMessageDto> verifyGetScheduleIterationResult(ScheduleIterationResultDto scheduleIterationResultDto);
+
+    List<ErrorMessageDto> verifyUpdateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
 }

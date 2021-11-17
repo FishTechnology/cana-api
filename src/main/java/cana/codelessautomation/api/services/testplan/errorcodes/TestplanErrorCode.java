@@ -6,7 +6,11 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class TestplanErrorCode extends BaseErrorCode {
-    public static final String getTestPlanStatusIsInValid="CanaApi..Testplan.Status.InValid";
+    public static final String getTestPlanStatusIsInValid = "CanaApi..Testplan.Status.InValid";
+
+    public String getTestPlanIsNotInReadyStatus() {
+        return "CanaApi." + getHttpMethod() + ".Testplan.Status.Not.Ready.Status";
+    }
 
     public String getTestPlanNameIsDuplicate() {
         return "CanaApi." + getHttpMethod() + ".Testplan.Name.Duplicate";

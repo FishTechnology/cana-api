@@ -9,10 +9,7 @@ import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.results.action.repositories.daos.ActionResultDao;
 import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
 import cana.codelessautomation.api.services.results.testplan.repositories.daos.TestPlanResultDao;
-import cana.codelessautomation.api.services.schedule.dtos.CopyTestPlanDetailDto;
-import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResultDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
+import cana.codelessautomation.api.services.schedule.dtos.*;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
 import cana.codelessautomation.api.services.schedule.repositories.daos.entities.ScheduleDetailEntity;
@@ -49,4 +46,6 @@ public interface ScheduleResourceMapper {
     ScheduleModel mapScheduleModel(ScheduleDetailEntity scheduleDetailEntity);
 
     ScheduleDetailModel mapScheduleDetailModel(ScheduleDetailEntity scheduleDetailEntity);
+
+    UpdateScheduleStatusReadyDto mapUpdateScheduleStatusDto(Long scheduleId, UpdateScheduleStatusModel scheduleStatus);
 }

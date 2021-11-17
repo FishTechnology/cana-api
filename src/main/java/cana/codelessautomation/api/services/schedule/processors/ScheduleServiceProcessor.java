@@ -3,16 +3,17 @@ package cana.codelessautomation.api.services.schedule.processors;
 import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionDaoEntity;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
-import cana.codelessautomation.api.services.schedule.dtos.CopyTestPlanDetailDto;
-import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleIterationResultDto;
-import cana.codelessautomation.api.services.schedule.dtos.ScheduleSummaryDto;
+import cana.codelessautomation.api.services.schedule.dtos.*;
 import cana.codelessautomation.api.services.schedule.repositories.daos.entities.ScheduleDetailEntity;
 
 import java.util.List;
 
 public interface ScheduleServiceProcessor {
     List<ErrorMessageDto> processCreateSchedule(CreateScheduleDto createScheduleDto);
+
+    List<ErrorMessageDto> updateScheduleIteration(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
+
+    List<ErrorMessageDto> updateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
 
     List<ErrorMessageDto> getTestPlanResultDetails(ScheduleIterationResultDto scheduleIterationResultDto);
 
@@ -43,4 +44,6 @@ public interface ScheduleServiceProcessor {
     List<ErrorMessageDto> processGetScheduleIterationResult(ScheduleIterationResultDto scheduleIterationResultDto);
 
     ScheduleDetailEntity processGetScheduleDetail(Long scheduleId);
+
+    List<ErrorMessageDto> processUpdateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
 }

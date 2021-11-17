@@ -45,4 +45,10 @@ public class ScheduleIterationDao {
     private String createdBy;
     @JMap
     private String modifiedBy;
+    @JMap
+    @Column(name = "error_message")
+    private String errorMessage;
+    @JMap
+    @Column(name = "total_duration")
+    private String totalDuration;
 }

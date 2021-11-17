@@ -50,6 +50,6 @@ public class ScheduleDetailEntity extends PanacheEntityBase {
     private TestPlanSummaryDaoEntity testplanDaos;
 
     public static ScheduleDetailEntity findByIdAndStatus(Long scheduleId) {
-        return find("id = ?1", scheduleId).firstResult();
+        return find("id = ?1 and status = ?2", scheduleId, ScheduleStatusDao.READY).firstResult();
     }
 }
