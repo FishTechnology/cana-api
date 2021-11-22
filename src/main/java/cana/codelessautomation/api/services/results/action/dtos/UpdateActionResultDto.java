@@ -1,6 +1,6 @@
 package cana.codelessautomation.api.services.results.action.dtos;
 
-import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionResultStatusDao;
+import cana.codelessautomation.api.services.results.action.repositories.daos.enums.ActionResultStatusDao;
 import lombok.Data;
 
 import java.time.OffsetDateTime;

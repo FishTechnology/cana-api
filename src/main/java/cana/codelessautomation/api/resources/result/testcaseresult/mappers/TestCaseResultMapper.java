@@ -10,5 +10,7 @@ import java.util.List;
 public interface TestCaseResultMapper {
     UpdateTestCaseResultStatusDto mapUpdateTestCaseResultStatusDto(Long testPlanResultId, Long testCaseResultId, UpdateTestCaseResultAsCompletedModel updateTestCaseResultAsCompletedModel);
 
-    List<TestCaseResultModel> mapTestCaseResultModel(List<TestCaseResultDao> testPlanResultDao);
+    List<TestCaseResultModel> mapTestCaseResultModels(List<TestCaseResultDao> testPlanResultDao);
+
+    TestCaseResultModel mapTestCaseResultModel(TestCaseResultDao testPlanResultDao);
 }

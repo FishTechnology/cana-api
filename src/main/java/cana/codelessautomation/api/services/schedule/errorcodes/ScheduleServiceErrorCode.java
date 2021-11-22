@@ -24,4 +24,8 @@ public class ScheduleServiceErrorCode extends BaseErrorCode {
     public String getScheduleIterationNotFound() {
         return "CanaApi." + getResourceName() + "." + getHttpMethod() + ".ScheduleIteration.NotFound";
     }
+
+    public String getScheduleStatusIsInValid() {
+        return "CanaApi." + getResourceName() + "." + getHttpMethod() + ".Schedule.Status.InValid";
+    }
 }

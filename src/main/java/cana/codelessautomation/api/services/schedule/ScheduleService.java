@@ -23,4 +23,6 @@ public interface ScheduleService {
     List<ErrorMessageDto> setAsInProgress(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
 
     List<ErrorMessageDto> updateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusDto);
+
+    List<ErrorMessageDto> reSchedule(ReScheduleStatusDto reScheduleStatusDto);
 }

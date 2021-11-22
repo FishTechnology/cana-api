@@ -6,6 +6,7 @@ import cana.codelessautomation.api.services.testcase.repositories.daos.TestCaseD
 import cana.codelessautomation.api.services.testcase.repositories.daos.TestplanTestcaseGroupingDao;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
 
 @ApplicationScoped
 public class TestCaseProcessorMapperImpl implements TestCaseProcessorMapper {
@@ -16,8 +17,8 @@ public class TestCaseProcessorMapperImpl implements TestCaseProcessorMapper {
         testCaseDao.setUserId(createTestCase.getUserId());
         testCaseDao.setComments(createTestCase.getComments());
         testCaseDao.setIsActive(createTestCase.getIsActive());
-        testCaseDao.setCreatedOn(createTestCase.getCreatedOn());
-        testCaseDao.setModifiedOn(createTestCase.getModifiedOn());
+        testCaseDao.setCreatedOn(OffsetDateTime.now());
+        testCaseDao.setModifiedOn(OffsetDateTime.now());
         testCaseDao.setCreatedBy(createTestCase.getCreatedBy());
         testCaseDao.setModifiedBy(createTestCase.getModifiedBy());
         return testCaseDao;
@@ -30,8 +31,8 @@ public class TestCaseProcessorMapperImpl implements TestCaseProcessorMapper {
         testCaseDao.setUserId(createTestCaseByTestPlanId.getUserId());
         testCaseDao.setComments(createTestCaseByTestPlanId.getComments());
         testCaseDao.setIsActive(createTestCaseByTestPlanId.getIsActive());
-        testCaseDao.setCreatedOn(createTestCaseByTestPlanId.getCreatedOn());
-        testCaseDao.setModifiedOn(createTestCaseByTestPlanId.getModifiedOn());
+        testCaseDao.setCreatedOn(OffsetDateTime.now());
+        testCaseDao.setModifiedOn(OffsetDateTime.now());
         testCaseDao.setCreatedBy(createTestCaseByTestPlanId.getCreatedBy());
         testCaseDao.setModifiedBy(createTestCaseByTestPlanId.getModifiedBy());
         return testCaseDao;
@@ -42,8 +43,8 @@ public class TestCaseProcessorMapperImpl implements TestCaseProcessorMapper {
         TestplanTestcaseGroupingDao testplanTestcaseGroupingDao = new TestplanTestcaseGroupingDao();
         testplanTestcaseGroupingDao.setUserId(createTestCaseByTestPlanId.getUserId());
         testplanTestcaseGroupingDao.setIsActive(createTestCaseByTestPlanId.getIsActive());
-        testplanTestcaseGroupingDao.setCreatedOn(createTestCaseByTestPlanId.getCreatedOn());
-        testplanTestcaseGroupingDao.setModifiedOn(createTestCaseByTestPlanId.getModifiedOn());
+        testplanTestcaseGroupingDao.setCreatedOn(OffsetDateTime.now());
+        testplanTestcaseGroupingDao.setModifiedOn(OffsetDateTime.now());
         testplanTestcaseGroupingDao.setCreatedBy(createTestCaseByTestPlanId.getCreatedBy());
         testplanTestcaseGroupingDao.setModifiedBy(createTestCaseByTestPlanId.getModifiedBy());
         testplanTestcaseGroupingDao.setTestCaseId(createTestCaseByTestPlanId.getId());

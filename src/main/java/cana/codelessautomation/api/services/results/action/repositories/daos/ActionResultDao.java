@@ -1,7 +1,7 @@
 package cana.codelessautomation.api.services.results.action.repositories.daos;
 
 import cana.codelessautomation.api.services.action.repositories.daos.ActionDao;
-import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionResultStatusDao;
+import cana.codelessautomation.api.services.results.action.repositories.daos.enums.ActionResultStatusDao;
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
 

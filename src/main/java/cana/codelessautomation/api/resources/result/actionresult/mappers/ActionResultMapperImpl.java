@@ -1,8 +1,8 @@
 package cana.codelessautomation.api.resources.result.actionresult.mappers;
 
 import cana.codelessautomation.api.resources.result.actionresult.models.UpdateActionResultModel;
-import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionResultStatusDao;
 import cana.codelessautomation.api.services.results.action.dtos.UpdateActionResultDto;
+import cana.codelessautomation.api.services.results.action.repositories.daos.enums.ActionResultStatusDao;
 import org.apache.commons.lang3.EnumUtils;
 
 import javax.enterprise.context.ApplicationScoped;

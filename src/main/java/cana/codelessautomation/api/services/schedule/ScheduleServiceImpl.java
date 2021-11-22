@@ -103,4 +103,18 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
         return scheduleServiceProcessor.processUpdateScheduleStatus(updateScheduleStatusDto);
     }
+
+    @Override
+    public List<ErrorMessageDto> reSchedule(ReScheduleStatusDto reScheduleStatusDto) {
+        reScheduleStatusDto.setCreatedOn(OffsetDateTime.now());
+        reScheduleStatusDto.setModifiedOn(OffsetDateTime.now());
+        reScheduleStatusDto.setCreatedBy("SCHEDULED_JOB");
+        reScheduleStatusDto.setModifiedBy("SCHEDULED_JOB");
+
+        var errors = scheduleServiceVerifier.verifyReSchedule(reScheduleStatusDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
+        }
+        return scheduleServiceProcessor.processReSchedule(reScheduleStatusDto);
+    }
 }

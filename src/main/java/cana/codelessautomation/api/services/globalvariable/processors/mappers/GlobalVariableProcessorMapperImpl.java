@@ -9,6 +9,7 @@ import com.googlecode.jmapper.JMapper;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
 
 @ApplicationScoped
 public class GlobalVariableProcessorMapperImpl implements GlobalVariableProcessorMapper {
@@ -24,10 +25,10 @@ public class GlobalVariableProcessorMapperImpl implements GlobalVariableProcesso
         GlobalVariableDao globalVariableDao = new GlobalVariableDao();
         globalVariableDao.setFileId(createGlobalVariable.getFileId());
         globalVariableDao.setCreatedBy(createGlobalVariable.getCreatedBy());
-        globalVariableDao.setCreatedOn(createGlobalVariable.getCreatedOn());
+        globalVariableDao.setCreatedOn(OffsetDateTime.now());
         globalVariableDao.setIsActive(createGlobalVariable.getIsActive());
         globalVariableDao.setModifiedBy(createGlobalVariable.getModifiedBy());
-        globalVariableDao.setModifiedOn(createGlobalVariable.getModifiedOn());
+        globalVariableDao.setModifiedOn(OffsetDateTime.now());
         globalVariableDao.setKey(createGlobalVariable.getKey());
         globalVariableDao.setValue(createGlobalVariable.getValue());
         globalVariableDao.setValueType(createGlobalVariable.getValueType());
@@ -67,10 +68,10 @@ public class GlobalVariableProcessorMapperImpl implements GlobalVariableProcesso
         actionOptionDao.setOrderNumber(uiControlOptionDto.getOrder());
         actionOptionDao.setWaitDuration(uiControlOptionDto.getWaitDuration());
         actionOptionDao.setCreatedBy(createGlobalVariable.getCreatedBy());
-        actionOptionDao.setCreatedOn(createGlobalVariable.getCreatedOn());
+        actionOptionDao.setCreatedOn(OffsetDateTime.now());
         actionOptionDao.setIsActive(createGlobalVariable.getIsActive());
         actionOptionDao.setModifiedBy(createGlobalVariable.getModifiedBy());
-        actionOptionDao.setModifiedOn(createGlobalVariable.getModifiedOn());
+        actionOptionDao.setModifiedOn(OffsetDateTime.now());
         return actionOptionDao;
     }
 }

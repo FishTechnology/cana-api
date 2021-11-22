@@ -5,6 +5,7 @@ import cana.codelessautomation.api.services.environment.repositories.daos.Enviro
 import com.googlecode.jmapper.JMapper;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
 
 @ApplicationScoped
 public class EnvironmentProcessorMapperImpl implements EnvironmentProcessorMapper {
@@ -22,8 +23,8 @@ public class EnvironmentProcessorMapperImpl implements EnvironmentProcessorMappe
         environmentDao.setUserId(createEnvironment.getUserId());
         environmentDao.setComments(createEnvironment.getComments());
         environmentDao.setIsActive(createEnvironment.getIsActive());
-        environmentDao.setCreatedOn(createEnvironment.getCreatedOn());
-        environmentDao.setModifiedOn(createEnvironment.getModifiedOn());
+        environmentDao.setCreatedOn(OffsetDateTime.now());
+        environmentDao.setModifiedOn(OffsetDateTime.now());
         environmentDao.setCreatedBy(createEnvironment.getCreatedBy());
         environmentDao.setModifiedBy(createEnvironment.getModifiedBy());
         //return mapperEnvironmentDao.getDestination(createEnvironment);

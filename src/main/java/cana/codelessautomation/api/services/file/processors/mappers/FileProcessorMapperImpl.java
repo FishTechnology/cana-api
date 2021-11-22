@@ -4,6 +4,7 @@ import cana.codelessautomation.api.services.file.dtos.UpdateFileDto;
 import cana.codelessautomation.api.services.file.repositories.daos.FileDao;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
 
 @ApplicationScoped
 public class FileProcessorMapperImpl implements FileProcessorMapper {
@@ -14,10 +15,10 @@ public class FileProcessorMapperImpl implements FileProcessorMapper {
         fileDao.setFileName(updateFileDto.getFileName());
         fileDao.setContent(updateFileDto.getContent());
         fileDao.setCreatedBy(updateFileDto.getCreatedBy());
-        fileDao.setCreatedOn(updateFileDto.getCreatedOn());
+        fileDao.setCreatedOn(OffsetDateTime.now());
         fileDao.setIsActive(updateFileDto.getIsActive());
         fileDao.setModifiedBy(updateFileDto.getModifiedBy());
-        fileDao.setModifiedOn(updateFileDto.getModifiedOn());
+        fileDao.setModifiedOn(OffsetDateTime.now());
         return fileDao;
     }
 }

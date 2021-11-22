@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Path("/api")
-public class TestCaseResource {
+public class TestCaseResultResource {
 
     @Inject
     TestCaseResultService testCaseResultService;
@@ -53,6 +53,6 @@ public class TestCaseResource {
         if (Objects.isNull(testPlanResultDao)) {
             return null;
         }
-        return testCaseResultMapper.mapTestCaseResultModel(testPlanResultDao);
+        return testCaseResultMapper.mapTestCaseResultModels(testPlanResultDao);
     }
 }

@@ -23,6 +23,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
@@ -72,6 +73,9 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
 
     @Override
     public List<ErrorMessageDto> createNotification(CreateScheduleDto createScheduleDto) {
+        if (Objects.isNull(createScheduleDto.getNotification())) {
+            return Collections.emptyList();
+        }
         var notificationDao = notificationMapper.mapNotificationDao(createScheduleDto);
         notificationRepository.persist(notificationDao);
         return Collections.emptyList();
@@ -112,8 +116,46 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
 
     @Override
     public List<ErrorMessageDto> processUpdateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
-        updateScheduleStatus(updateScheduleStatusReadyDto);
-        updateScheduleIteration(updateScheduleStatusReadyDto);
+        var errors = updateScheduleStatus(updateScheduleStatusReadyDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return updateScheduleIteration(updateScheduleStatusReadyDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> processReSchedule(ReScheduleStatusDto reScheduleStatusDto) {
+        var errors = updateScheduleStatus(reScheduleStatusDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        errors = updateScheduleIteration(reScheduleStatusDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return createScheduleIteration(reScheduleStatusDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateScheduleIteration(ReScheduleStatusDto reScheduleStatusDto) {
+        var scheduleIterationDao = scheduleIterationRepository.findLatestIteration(reScheduleStatusDto.getScheduleId());
+        reScheduleStatusDto.setScheduleIteration(scheduleIterationDao);
+        scheduleIterationDao = scheduleServiceProcessorMapper.mapScheduleIterationDao(reScheduleStatusDto, scheduleIterationDao);
+        scheduleIterationRepository.persist(scheduleIterationDao);
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateScheduleStatus(ReScheduleStatusDto reScheduleStatusDto) {
+        var scheduleDao = scheduleServiceProcessorMapper.mapScheduleDao(reScheduleStatusDto);
+        scheduleRepository.persist(scheduleDao);
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> createScheduleIteration(ReScheduleStatusDto reScheduleStatusDto) {
+        var scheduleIterationDao = scheduleServiceProcessorMapper.mapScheduleIterationDao(reScheduleStatusDto);
+        scheduleIterationRepository.persist(scheduleIterationDao);
         return Collections.emptyList();
     }
 

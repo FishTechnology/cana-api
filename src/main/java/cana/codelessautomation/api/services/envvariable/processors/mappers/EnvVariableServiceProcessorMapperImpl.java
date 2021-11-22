@@ -5,6 +5,7 @@ import cana.codelessautomation.api.services.envvariable.repositories.daos.Enviro
 import com.googlecode.jmapper.JMapper;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
 
 @ApplicationScoped
 public class EnvVariableServiceProcessorMapperImpl implements EnvVariableServiceProcessorMapper {
@@ -25,9 +26,9 @@ public class EnvVariableServiceProcessorMapperImpl implements EnvVariableService
         environmentVariable.setEnvironmentId(createEnvVariableDto.getEnvironmentId());
         environmentVariable.setUserId(createEnvVariableDto.getUserId());
         environmentVariable.setCreatedBy(createEnvVariableDto.getCreatedBy());
-        environmentVariable.setCreatedOn(createEnvVariableDto.getCreatedOn());
+        environmentVariable.setCreatedOn(OffsetDateTime.now());
         environmentVariable.setModifiedBy(createEnvVariableDto.getModifiedBy());
-        environmentVariable.setModifiedOn(createEnvVariableDto.getModifiedOn());
+        environmentVariable.setModifiedOn(OffsetDateTime.now());
         environmentVariable.setIsActive(createEnvVariableDto.getIsActive());
         return environmentVariable;
     }

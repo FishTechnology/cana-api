@@ -6,5 +6,6 @@ public enum ScheduleStatusDao {
     COMPLETED,
     CANCELLED,
     INPROGRESS,
-    PAUSE
+    PAUSE,
+    RE_SCHEDULE
 }

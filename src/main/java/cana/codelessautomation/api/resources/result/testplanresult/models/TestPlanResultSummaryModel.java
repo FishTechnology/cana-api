@@ -1,6 +1,6 @@
 package cana.codelessautomation.api.resources.result.testplanresult.models;
 
-import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
+import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultSummaryModel;
 import lombok.Data;
 
 import java.util.List;
@@ -11,5 +11,5 @@ public class TestPlanResultSummaryModel {
     private String testPlanName;
     private String duration;
     private String status;
-    private List<TestCaseResultModel> testCaseResults;
+    private List<TestCaseResultSummaryModel> testCaseResults;
 }

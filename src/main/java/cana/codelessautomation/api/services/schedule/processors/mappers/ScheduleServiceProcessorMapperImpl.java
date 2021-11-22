@@ -2,6 +2,7 @@ package cana.codelessautomation.api.services.schedule.processors.mappers;
 
 import cana.codelessautomation.api.commons.CanaConstants;
 import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
+import cana.codelessautomation.api.services.schedule.dtos.ReScheduleStatusDto;
 import cana.codelessautomation.api.services.schedule.dtos.UpdateScheduleStatusReadyDto;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
@@ -19,8 +20,8 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
         scheduleDao.setUserId(createScheduleDto.getUserId());
         scheduleDao.setEnvironmentId(createScheduleDto.getEnvironmentId());
         scheduleDao.setTestPlanId(createScheduleDto.getTestPlanId());
-        scheduleDao.setCreatedOn(createScheduleDto.getCreatedOn());
-        scheduleDao.setModifiedOn(createScheduleDto.getModifiedOn());
+        scheduleDao.setCreatedOn(OffsetDateTime.now());
+        scheduleDao.setModifiedOn(OffsetDateTime.now());
         scheduleDao.setCreatedBy(createScheduleDto.getCreatedBy());
         scheduleDao.setModifiedBy(createScheduleDto.getModifiedBy());
         scheduleDao.setStatus(createScheduleDto.getStatus());
@@ -33,8 +34,8 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
         scheduleIterationDao.setStatus(createScheduleDto.getStatus());
         scheduleIterationDao.setComments(createScheduleDto.getComments());
         scheduleIterationDao.setScheduleId(createScheduleDto.getId());
-        scheduleIterationDao.setCreatedOn(createScheduleDto.getCreatedOn());
-        scheduleIterationDao.setModifiedOn(createScheduleDto.getModifiedOn());
+        scheduleIterationDao.setCreatedOn(OffsetDateTime.now());
+        scheduleIterationDao.setModifiedOn(OffsetDateTime.now());
         scheduleIterationDao.setCreatedBy(createScheduleDto.getCreatedBy());
         scheduleIterationDao.setModifiedBy(createScheduleDto.getModifiedBy());
         scheduleIterationDao.setIsDisableScreenshot(createScheduleDto.getIsDisableScreenshot());
@@ -68,6 +69,41 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
                 scheduleIterationDao.setTotalDuration(updateScheduleStatusReadyDto.getTotalDuration());
             }
         }
+        return scheduleIterationDao;
+    }
+
+    @Override
+    public ScheduleDao mapScheduleDao(ReScheduleStatusDto reScheduleStatusDto) {
+        ScheduleDao scheduleDao = reScheduleStatusDto.getScheduleDao();
+        scheduleDao.setStatus(ScheduleStatusDao.READY);
+        scheduleDao.setModifiedBy(reScheduleStatusDto.getModifiedBy());
+        scheduleDao.setModifiedOn(OffsetDateTime.now());
+        return scheduleDao;
+    }
+
+    @Override
+    public ScheduleIterationDao mapScheduleIterationDao(ReScheduleStatusDto reScheduleStatusDto) {
+        ScheduleIterationDao existingScheduleIteration = reScheduleStatusDto.getScheduleIteration();
+        ScheduleIterationDao scheduleIterationDao = new ScheduleIterationDao();
+        scheduleIterationDao.setStatus(ScheduleStatusDao.READY);
+        scheduleIterationDao.setComments(reScheduleStatusDto.getComments());
+        scheduleIterationDao.setScheduleId(reScheduleStatusDto.getScheduleId());
+        scheduleIterationDao.setCreatedOn(OffsetDateTime.now());
+        scheduleIterationDao.setModifiedOn(OffsetDateTime.now());
+        scheduleIterationDao.setCreatedBy(reScheduleStatusDto.getCreatedBy());
+        scheduleIterationDao.setModifiedBy(reScheduleStatusDto.getModifiedBy());
+        scheduleIterationDao.setIsDisableScreenshot(existingScheduleIteration.getIsDisableScreenshot());
+        scheduleIterationDao.setIsRecordVideoEnabled(existingScheduleIteration.getIsRecordVideoEnabled());
+        scheduleIterationDao.setIsCaptureNetworkTraffic(existingScheduleIteration.getIsCaptureNetworkTraffic());
+        scheduleIterationDao.setBrowserType(existingScheduleIteration.getBrowserType());
+        return scheduleIterationDao;
+    }
+
+    @Override
+    public ScheduleIterationDao mapScheduleIterationDao(ReScheduleStatusDto reScheduleStatusDto, ScheduleIterationDao scheduleIterationDao) {
+        scheduleIterationDao.setStatus(ScheduleStatusDao.RE_SCHEDULE);
+        scheduleIterationDao.setModifiedOn(reScheduleStatusDto.getModifiedOn());
+        scheduleIterationDao.setModifiedBy(reScheduleStatusDto.getModifiedBy());
         return scheduleIterationDao;
     }
 }

@@ -97,6 +97,33 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
     }
 
     @Override
+    public List<ErrorMessageDto> verifyReSchedule(ReScheduleStatusDto reScheduleStatusDto) {
+        var errors = isScheduleIdValid(reScheduleStatusDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isScheduleStatusValid(reScheduleStatusDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isScheduleStatusValid(ReScheduleStatusDto reScheduleStatusDto) {
+        if (reScheduleStatusDto.getScheduleDao().getStatus() == ScheduleStatusDao.READY) {
+            return CanaUtility.getErrorMessages(scheduleServiceErrorCode.getScheduleStatusIsInValid(), "schedule status is ready status");
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isScheduleIdValid(ReScheduleStatusDto reScheduleStatusDto) {
+        var response = isScheduleIdValid(reScheduleStatusDto.getScheduleId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        reScheduleStatusDto.setScheduleDao(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<ErrorMessageDto> isTestPlanStatusValid(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
         var testPlanDto = updateScheduleStatusReadyDto
                 .getSchedule()

@@ -4,6 +4,7 @@ import cana.codelessautomation.api.services.notification.repositories.daos.Notif
 import cana.codelessautomation.api.services.schedule.dtos.CreateScheduleDto;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
 
 @ApplicationScoped
 public class NotificationMapperImpl implements NotificationMapper {
@@ -11,8 +12,8 @@ public class NotificationMapperImpl implements NotificationMapper {
     public NotificationDao mapNotificationDao(CreateScheduleDto createScheduleDto) {
         NotificationDao notificationDao = new NotificationDao();
         notificationDao.setScheduleIterationId(createScheduleDto.getIterationId());
-        notificationDao.setCreatedOn(createScheduleDto.getCreatedOn());
-        notificationDao.setModifiedOn(createScheduleDto.getModifiedOn());
+        notificationDao.setCreatedOn(OffsetDateTime.now());
+        notificationDao.setModifiedOn(OffsetDateTime.now());
         notificationDao.setCreatedBy(createScheduleDto.getCreatedBy());
         notificationDao.setModifiedBy(createScheduleDto.getModifiedBy());
         notificationDao.setEmailAddress(createScheduleDto.getNotification().getEmailAddress());

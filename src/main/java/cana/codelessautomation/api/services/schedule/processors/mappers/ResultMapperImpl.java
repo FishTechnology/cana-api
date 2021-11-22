@@ -1,8 +1,8 @@
 package cana.codelessautomation.api.services.schedule.processors.mappers;
 
 import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionDaoEntity;
-import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionResultStatusDao;
 import cana.codelessautomation.api.services.results.action.repositories.daos.ActionResultDao;
+import cana.codelessautomation.api.services.results.action.repositories.daos.enums.ActionResultStatusDao;
 import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
 import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultStatusDao;
 import cana.codelessautomation.api.services.results.testplan.repositories.daos.TestPlanResultDao;

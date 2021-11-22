@@ -6,6 +6,7 @@ import cana.codelessautomation.api.services.action.repositories.daos.ActionDao;
 import cana.codelessautomation.api.services.action.repositories.daos.ActionOptionDao;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
 
 @ApplicationScoped
 public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorMapper {
@@ -19,8 +20,8 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionDao.setUserId(createActionDto.getUserId());
         actionDao.setComments(createActionDto.getComments());
         actionDao.setIsActive(createActionDto.getIsActive());
-        actionDao.setCreatedOn(createActionDto.getCreatedOn());
-        actionDao.setModifiedOn(createActionDto.getModifiedOn());
+        actionDao.setCreatedOn(OffsetDateTime.now());
+        actionDao.setModifiedOn(OffsetDateTime.now());
         actionDao.setCreatedBy(createActionDto.getCreatedBy());
         actionDao.setModifiedBy(createActionDto.getModifiedBy());
         actionDao.setOrderNumber(createActionDto.getOrder());
@@ -44,8 +45,8 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionOptionDao.setWaitDuration(createActionOptionDto.getWaitDuration());
         actionOptionDao.setOptionType(createActionOptionDto.getOptionType());
         actionOptionDao.setIsActive(createActionDto.getIsActive());
-        actionOptionDao.setCreatedOn(createActionDto.getCreatedOn());
-        actionOptionDao.setModifiedOn(createActionDto.getModifiedOn());
+        actionOptionDao.setCreatedOn(OffsetDateTime.now());
+        actionOptionDao.setModifiedOn(OffsetDateTime.now());
         actionOptionDao.setCreatedBy(createActionDto.getCreatedBy());
         actionOptionDao.setModifiedBy(createActionDto.getModifiedBy());
         return actionOptionDao;

@@ -2,7 +2,7 @@ package cana.codelessautomation.api.resources.schedule.mappers;
 
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultModel;
-import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
+import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultSummaryModel;
 import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
 import cana.codelessautomation.api.resources.schedule.models.*;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
@@ -37,7 +37,7 @@ public interface ScheduleResourceMapper {
 
     TestPlanResultSummaryModel mapTestPlanResultSummaryModel(TestPlanResultDao testPlanResultDao);
 
-    TestCaseResultModel mapTestCaseResultModel(TestCaseResultDao testCaseResultDao);
+    TestCaseResultSummaryModel mapTestCaseResultModel(TestCaseResultDao testCaseResultDao);
 
     ActionResultModel mapActionResultModel(ActionResultDao actionResultDao);
 
@@ -48,4 +48,6 @@ public interface ScheduleResourceMapper {
     ScheduleDetailModel mapScheduleDetailModel(ScheduleDetailEntity scheduleDetailEntity);
 
     UpdateScheduleStatusReadyDto mapUpdateScheduleStatusDto(Long scheduleId, UpdateScheduleStatusModel scheduleStatus);
+
+    ReScheduleStatusDto mapReScheduleStatusDto(Long scheduleId, ReScheduleModel reScheduleModel);
 }

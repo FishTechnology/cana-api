@@ -3,7 +3,7 @@ package cana.codelessautomation.api.resources.schedule.mappers;
 import cana.codelessautomation.api.resources.commonmodels.BrowserType;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultModel;
-import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
+import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultSummaryModel;
 import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
 import cana.codelessautomation.api.resources.schedule.models.*;
 import cana.codelessautomation.api.resources.testplan.mappers.TestplanResourceMapper;
@@ -152,32 +152,32 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         testPlanResultSummaryModel.setId(testPlanResultDao.getId());
         //testPlanResultSummaryModel.setDuration();
 
-        List<TestCaseResultModel> testCaseResultModels = new ArrayList<>();
+        List<TestCaseResultSummaryModel> testCaseResultSummaryModels = new ArrayList<>();
         for (TestCaseResultDao testCaseResultDao : testPlanResultDao.getTestCaseResults()) {
-            testCaseResultModels.add(mapTestCaseResultModel(testCaseResultDao));
+            testCaseResultSummaryModels.add(mapTestCaseResultModel(testCaseResultDao));
         }
 
-        testPlanResultSummaryModel.setTestCaseResults(testCaseResultModels);
+        testPlanResultSummaryModel.setTestCaseResults(testCaseResultSummaryModels);
         return testPlanResultSummaryModel;
     }
 
     @Override
-    public TestCaseResultModel mapTestCaseResultModel(TestCaseResultDao testCaseResultDao) {
-        TestCaseResultModel testCaseResultModel = new TestCaseResultModel();
-        testCaseResultModel.setTestCaseName(testCaseResultDao.getTestCase().getName());
-        testCaseResultModel.setStatus(testCaseResultDao.getStatus().name());
-        testCaseResultModel.setExecutionOrder(testCaseResultDao.getExecutionOrder());
-        testCaseResultModel.setId(testCaseResultDao.getId());
-        //testCaseResultModel.setDuration();
-        testCaseResultModel.setErrorMessage(testCaseResultDao.getErrorMessage());
+    public TestCaseResultSummaryModel mapTestCaseResultModel(TestCaseResultDao testCaseResultDao) {
+        TestCaseResultSummaryModel testCaseResultSummaryModel = new TestCaseResultSummaryModel();
+        testCaseResultSummaryModel.setTestCaseName(testCaseResultDao.getTestCase().getName());
+        testCaseResultSummaryModel.setStatus(testCaseResultDao.getStatus().name());
+        testCaseResultSummaryModel.setExecutionOrder(testCaseResultDao.getExecutionOrder());
+        testCaseResultSummaryModel.setId(testCaseResultDao.getId());
+        //testCaseResultSummaryModel.setDuration();
+        testCaseResultSummaryModel.setErrorMessage(testCaseResultDao.getErrorMessage());
 
         List<ActionResultModel> actionResultModels = new ArrayList<>();
         for (ActionResultDao actionResultDao : testCaseResultDao.getActionResultDaos()) {
             actionResultModels.add(mapActionResultModel(actionResultDao));
         }
 
-        testCaseResultModel.setActionResults(actionResultModels);
-        return testCaseResultModel;
+        testCaseResultSummaryModel.setActionResults(actionResultModels);
+        return testCaseResultSummaryModel;
     }
 
     @Override
@@ -245,5 +245,13 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         updateScheduleStatusReadyDto.setTotalDuration(updateScheduleStatusModel.getTotalDuration());
         updateScheduleStatusReadyDto.setScheduleStatus(EnumUtils.getEnumIgnoreCase(ScheduleStatusDao.class, updateScheduleStatusModel.getStatus()));
         return updateScheduleStatusReadyDto;
+    }
+
+    @Override
+    public ReScheduleStatusDto mapReScheduleStatusDto(Long scheduleId, ReScheduleModel reScheduleModel) {
+        ReScheduleStatusDto reScheduleStatusDto = new ReScheduleStatusDto();
+        reScheduleStatusDto.setUserId(reScheduleModel.getUserId());
+        reScheduleStatusDto.setScheduleId(scheduleId);
+        return reScheduleStatusDto;
     }
 }

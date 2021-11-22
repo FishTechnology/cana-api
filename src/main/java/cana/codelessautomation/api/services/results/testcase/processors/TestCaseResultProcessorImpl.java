@@ -34,6 +34,6 @@ public class TestCaseResultProcessorImpl implements TestCaseResultProcessor {
 
     @Override
     public List<TestCaseResultDao> processGetTestCaseResultByPlanResultId(Long testPlanResultId) {
-        return null;
+        return testCaseResultRepository.findByPlanResultId(testPlanResultId);
     }
 }

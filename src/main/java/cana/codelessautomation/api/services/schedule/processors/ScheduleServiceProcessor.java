@@ -11,6 +11,12 @@ import java.util.List;
 public interface ScheduleServiceProcessor {
     List<ErrorMessageDto> processCreateSchedule(CreateScheduleDto createScheduleDto);
 
+    List<ErrorMessageDto> updateScheduleIteration(ReScheduleStatusDto reScheduleStatusDto);
+
+    List<ErrorMessageDto> updateScheduleStatus(ReScheduleStatusDto reScheduleStatusDto);
+
+    List<ErrorMessageDto> createScheduleIteration(ReScheduleStatusDto reScheduleStatusDto);
+
     List<ErrorMessageDto> updateScheduleIteration(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
 
     List<ErrorMessageDto> updateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
@@ -46,4 +52,6 @@ public interface ScheduleServiceProcessor {
     ScheduleDetailEntity processGetScheduleDetail(Long scheduleId);
 
     List<ErrorMessageDto> processUpdateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
+
+    List<ErrorMessageDto> processReSchedule(ReScheduleStatusDto reScheduleStatusDto);
 }

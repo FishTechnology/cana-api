@@ -3,6 +3,7 @@ package cana.codelessautomation.api.resources.schedule;
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
+import cana.codelessautomation.api.resources.schedule.mappers.ReScheduleModel;
 import cana.codelessautomation.api.resources.schedule.mappers.ScheduleResourceMapper;
 import cana.codelessautomation.api.resources.schedule.models.*;
 import cana.codelessautomation.api.services.schedule.ScheduleService;
@@ -110,6 +111,21 @@ public class ScheduleResource {
                                                         @Valid UpdateScheduleStatusModel updateScheduleStatusModel) throws ValidationException {
         var updateScheduleStatusDto = scheduleResourceMapper.mapUpdateScheduleStatusDto(scheduleId, updateScheduleStatusModel);
         var errors = scheduleService.updateScheduleStatus(updateScheduleStatusDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return CanaUtility.getErrorMessageModels(errors);
+        }
+        return Collections.emptyList();
+    }
+
+    @PUT
+    @Path("/schedules/{scheduleId}/reschedule")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<ErrorMessageModel> reSchedule(@Valid @PathParam Long scheduleId,
+                                              @Valid ReScheduleModel reScheduleModel) throws ValidationException {
+        var reScheduleStatusDto = scheduleResourceMapper.mapReScheduleStatusDto(scheduleId, reScheduleModel);
+        var errors = scheduleService.reSchedule(reScheduleStatusDto);
         if (CollectionUtils.isNotEmpty(errors)) {
             return CanaUtility.getErrorMessageModels(errors);
         }
