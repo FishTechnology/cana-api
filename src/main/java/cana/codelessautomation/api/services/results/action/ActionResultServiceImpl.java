@@ -4,6 +4,7 @@ import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.services.results.action.dtos.UpdateActionResultDto;
 import cana.codelessautomation.api.services.results.action.processors.ActionResultProcessor;
+import cana.codelessautomation.api.services.results.action.repositories.daos.ActionResultDao;
 import cana.codelessautomation.api.services.results.action.verifiers.ActionResultVerifier;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
@@ -27,5 +28,14 @@ public class ActionResultServiceImpl implements ActionResultService {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }
         return actionResultProcessor.processUpdateActionResult(updateActionResultDto);
+    }
+
+    @Override
+    public List<ActionResultDao> getActionResultsByTestCaseResultId(Long testCaseResultId) {
+        var errorMessages = actionResultVerifier.verifyGetActionResultsByTestCaseResultId(testCaseResultId);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return actionResultProcessor.processGetActionResultsByTestCaseResultId(testCaseResultId);
     }
 }

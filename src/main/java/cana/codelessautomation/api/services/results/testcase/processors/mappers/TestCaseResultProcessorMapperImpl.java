@@ -5,6 +5,7 @@ import cana.codelessautomation.api.services.results.testcase.repositories.daos.T
 import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @ApplicationScoped
@@ -30,7 +31,7 @@ public class TestCaseResultProcessorMapperImpl implements TestCaseResultProcesso
             testCaseResultDao.setErrorMessage(updateTestCaseResultStatusDto.getErrorMessage());
         }
 
-        testCaseResultDao.setModifiedOn(updateTestCaseResultStatusDto.getModifiedOn());
+        testCaseResultDao.setModifiedOn(OffsetDateTime.now());
 
         return testCaseResultDao;
     }

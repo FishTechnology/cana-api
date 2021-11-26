@@ -44,7 +44,7 @@ public class ResultMapperImpl implements ResultMapper {
         ActionResultDao actionResultDao = new ActionResultDao();
         actionResultDao.setCreatedOn(copyTestPlanDetailDto.getCreatedOn());
         actionResultDao.setModifiedOn(copyTestPlanDetailDto.getModifiedOn());
-        actionResultDao.setTestcaseResultId(testCaseResultDao.getTestplanResultId());
+        actionResultDao.setTestcaseResultId(testCaseResultDao.getId());
         actionResultDao.setActionId(actionDaoEntity.getId());
         actionResultDao.setStatus(ActionResultStatusDao.NOT_STARTED);
         actionResultDao.setExecutionOrder(actionDaoEntity.getOrderNumber());

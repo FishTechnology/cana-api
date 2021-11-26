@@ -48,6 +48,7 @@ public class TestCaseResultMapperImpl implements TestCaseResultMapper {
     @Override
     public TestCaseResultModel mapTestCaseResultModel(TestCaseResultDao testPlanResultDao) {
         TestCaseResultModel testCaseResultModel = new TestCaseResultModel();
+        testCaseResultModel.setId(testPlanResultDao.getId());
         testCaseResultModel.setTestPlanResultId(testPlanResultDao.getTestplanResultId());
         testCaseResultModel.setTestCaseId(testPlanResultDao.getTestCaseId());
         if (!Objects.isNull(testPlanResultDao.getStartedOn())) {

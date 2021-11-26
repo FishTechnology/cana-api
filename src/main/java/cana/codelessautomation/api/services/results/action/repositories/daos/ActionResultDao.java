@@ -40,4 +40,6 @@ public class ActionResultDao {
     @OneToOne
     @JoinColumn(name = "actionId", referencedColumnName = "id", updatable = false, insertable = false)
     private ActionDao action;
+    @JMap
+    private String duration;
 }

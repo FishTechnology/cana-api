@@ -204,6 +204,7 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
         for (ActionDaoEntity actionDaoEntity : actionDaoEntities) {
             var actionResultDao = resultMapper.mapActionResultDao(copyTestPlanDetailDto, testCaseResultDao, actionDaoEntity);
             actionResultRepository.persist(actionResultDao);
+            var id = actionResultDao.getId();
         }
 
         return Collections.emptyList();

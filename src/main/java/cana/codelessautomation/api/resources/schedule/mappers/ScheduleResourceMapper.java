@@ -1,7 +1,7 @@
 package cana.codelessautomation.api.resources.schedule.mappers;
 
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultModel;
+import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultSummaryModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultSummaryModel;
 import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
 import cana.codelessautomation.api.resources.schedule.models.*;
@@ -39,7 +39,7 @@ public interface ScheduleResourceMapper {
 
     TestCaseResultSummaryModel mapTestCaseResultModel(TestCaseResultDao testCaseResultDao);
 
-    ActionResultModel mapActionResultModel(ActionResultDao actionResultDao);
+    ActionResultSummaryModel mapActionResultModel(ActionResultDao actionResultDao);
 
     ScheduleModel mapScheduleModel(ScheduleDao scheduleDao);
 

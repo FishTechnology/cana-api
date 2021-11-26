@@ -1,6 +1,6 @@
 package cana.codelessautomation.api.resources.result.testcaseresult.models;
 
-import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultModel;
+import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultSummaryModel;
 import lombok.Data;
 
 import java.util.List;
@@ -13,5 +13,5 @@ public class TestCaseResultSummaryModel {
     private String status;
     private String errorMessage;
     private Long executionOrder;
-    private List<ActionResultModel> actionResults;
+    private List<ActionResultSummaryModel> actionResults;
 }

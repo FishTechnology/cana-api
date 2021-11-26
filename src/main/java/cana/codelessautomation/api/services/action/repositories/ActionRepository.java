@@ -16,4 +16,8 @@ public class ActionRepository implements PanacheRepository<ActionDao> {
     public ActionDao getLatestActionByTestCaseId(Long testCaseId) {
         return find("testCaseId = ?1 and isactive=true", Sort.descending("orderNumber"), testCaseId).firstResult();
     }
+
+    public ActionDao findByIdAndIsActive(Long actionId) {
+        return find("id = ?1 and isactive=true", actionId).firstResult();
+    }
 }

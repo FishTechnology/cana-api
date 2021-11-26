@@ -5,14 +5,13 @@ import cana.codelessautomation.api.services.results.action.errorcodes.ActionResu
 import cana.codelessautomation.api.services.results.action.repositories.daos.enums.ActionResultStatusDao;
 import lombok.Data;
 
-import java.time.OffsetDateTime;
-
 @Data
 public class UpdateActionResultModel {
-    private Long actionId;
-    private OffsetDateTime startedOn;
-    private OffsetDateTime completedOn;
-    private String errorMessage;
     @ValidEnumString(enumRef = ActionResultStatusDao.class, message = ActionResultErrorCode.getActionResultStatusInValid)
     private String status;
+    private String errorMessage;
+    private String totalDuration;
+    private String modifiedBy;
+    private String startedOn;
+    private String completedOn;
 }

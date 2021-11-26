@@ -2,7 +2,10 @@ package cana.codelessautomation.api.services.action.verifiers;
 
 import cana.codelessautomation.api.services.action.dtos.CreateActionDto;
 import cana.codelessautomation.api.services.action.dtos.GetActionsByTestCaseIdDto;
+import cana.codelessautomation.api.services.action.repositories.ActionRepository;
+import cana.codelessautomation.api.services.action.repositories.daos.ActionDao;
 import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.services.common.dtos.KeyValue;
 import cana.codelessautomation.api.services.testcase.errorcodes.TestCaseErrorCode;
 import cana.codelessautomation.api.services.testcase.verifiers.TestCaseVerifier;
 import cana.codelessautomation.api.services.utilities.CanaUtility;
@@ -21,6 +24,9 @@ public class ActionServiceVerifierImpl implements ActionServiceVerifier {
     @Inject
     TestCaseErrorCode testCaseErrorCode;
 
+    @Inject
+    ActionRepository actionRepository;
+
     @Override
     public List<ErrorMessageDto> verifyCreateAction(CreateActionDto createActionDto) {
         return isTestCaseIdValid(createActionDto);
@@ -29,6 +35,18 @@ public class ActionServiceVerifierImpl implements ActionServiceVerifier {
     @Override
     public List<ErrorMessageDto> verifyGetActionsByTestCaseId(GetActionsByTestCaseIdDto getActionsByTestCaseIdDto) {
         return isTestCaseIdValid(getActionsByTestCaseIdDto);
+    }
+
+    @Override
+    public KeyValue<List<ErrorMessageDto>, ActionDao> isActionIdIsValid(Long actionId) {
+        KeyValue<List<ErrorMessageDto>, ActionDao> response = new KeyValue<>();
+        var testCaseDao = actionRepository.findByIdAndIsActive(actionId);
+        if (testCaseDao == null) {
+            response.setKey(CanaUtility.getErrorMessages(testCaseErrorCode.getTestCaseIdNotFound()));
+            return response;
+        }
+        response.setValue(testCaseDao);
+        return response;
     }
 
     @Override

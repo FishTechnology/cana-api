@@ -2,7 +2,7 @@ package cana.codelessautomation.api.resources.schedule.mappers;
 
 import cana.codelessautomation.api.resources.commonmodels.BrowserType;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultModel;
+import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultSummaryModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultSummaryModel;
 import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
 import cana.codelessautomation.api.resources.schedule.models.*;
@@ -171,7 +171,7 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         //testCaseResultSummaryModel.setDuration();
         testCaseResultSummaryModel.setErrorMessage(testCaseResultDao.getErrorMessage());
 
-        List<ActionResultModel> actionResultModels = new ArrayList<>();
+        List<ActionResultSummaryModel> actionResultModels = new ArrayList<>();
         for (ActionResultDao actionResultDao : testCaseResultDao.getActionResultDaos()) {
             actionResultModels.add(mapActionResultModel(actionResultDao));
         }
@@ -181,8 +181,8 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     }
 
     @Override
-    public ActionResultModel mapActionResultModel(ActionResultDao actionResultDao) {
-        ActionResultModel actionResultModel = new ActionResultModel();
+    public ActionResultSummaryModel mapActionResultModel(ActionResultDao actionResultDao) {
+        ActionResultSummaryModel actionResultModel = new ActionResultSummaryModel();
         //actionResultModel.setDuration();
         actionResultModel.setId(actionResultDao.getId());
         actionResultModel.setStatus(actionResultDao.getStatus().name());
