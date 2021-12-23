@@ -2,9 +2,9 @@ package cana.codelessautomation.api.resources.result.testcaseresult.mappers;
 
 import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.models.UpdateTestCaseResultAsCompletedModel;
-import cana.codelessautomation.api.services.results.testcase.dtos.UpdateTestCaseResultStatusDto;
-import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
-import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultStatusDao;
+import cana.codelessautomation.api.resources.result.testcaseresult.service.dtos.UpdateTestCaseResultStatusDto;
+import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultDao;
+import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultStatusDao;
 import org.apache.commons.lang3.EnumUtils;
 
 import javax.enterprise.context.ApplicationScoped;

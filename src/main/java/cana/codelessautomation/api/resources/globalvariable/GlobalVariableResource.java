@@ -7,8 +7,8 @@ import cana.codelessautomation.api.resources.globalvariable.mappers.GlobalVariab
 import cana.codelessautomation.api.resources.globalvariable.models.CreateGlobalVariableModel;
 import cana.codelessautomation.api.resources.globalvariable.models.GlobalVariableModel;
 import cana.codelessautomation.api.resources.globalvariable.models.UpdateGlobalVariableModel;
-import cana.codelessautomation.api.services.globalvariable.GlobalVariableService;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.globalvariable.service.GlobalVariableService;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;

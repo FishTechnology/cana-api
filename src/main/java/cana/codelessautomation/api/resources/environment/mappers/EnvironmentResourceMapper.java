@@ -5,12 +5,12 @@ import cana.codelessautomation.api.resources.environment.models.CreateEnvironmen
 import cana.codelessautomation.api.resources.environment.models.DeleteEnvironmentsModel;
 import cana.codelessautomation.api.resources.environment.models.EnvironmentModel;
 import cana.codelessautomation.api.resources.environment.models.UpdateEnvironmentModel;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.environment.dtos.CreateEnvironmentDto;
-import cana.codelessautomation.api.services.environment.dtos.DeleteEnvironmentDto;
-import cana.codelessautomation.api.services.environment.dtos.DeleteEnvironmentsDto;
-import cana.codelessautomation.api.services.environment.dtos.UpdateEnvironmentDto;
-import cana.codelessautomation.api.services.environment.repositories.daos.EnvironmentDao;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.environment.service.dtos.CreateEnvironmentDto;
+import cana.codelessautomation.api.resources.environment.service.dtos.DeleteEnvironmentDto;
+import cana.codelessautomation.api.resources.environment.service.dtos.DeleteEnvironmentsDto;
+import cana.codelessautomation.api.resources.environment.service.dtos.UpdateEnvironmentDto;
+import cana.codelessautomation.api.resources.environment.service.repositories.daos.EnvironmentDao;
 
 import java.util.List;
 

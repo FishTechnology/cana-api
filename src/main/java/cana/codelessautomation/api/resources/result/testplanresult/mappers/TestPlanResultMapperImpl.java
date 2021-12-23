@@ -2,9 +2,9 @@ package cana.codelessautomation.api.resources.result.testplanresult.mappers;
 
 import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultModel;
 import cana.codelessautomation.api.resources.result.testplanresult.models.UpdateTestPlanResultAsCompletedModel;
-import cana.codelessautomation.api.services.results.testplan.dtos.UpdateTestPlanResultStatusDto;
-import cana.codelessautomation.api.services.results.testplan.repositories.daos.TestPlanResultDao;
-import cana.codelessautomation.api.services.results.testplan.repositories.daos.TestPlanResultStatusDao;
+import cana.codelessautomation.api.resources.result.testplanresult.service.dtos.UpdateTestPlanResultStatusDto;
+import cana.codelessautomation.api.resources.result.testplanresult.service.repositories.daos.TestPlanResultDao;
+import cana.codelessautomation.api.resources.result.testplanresult.service.repositories.daos.TestPlanResultStatusDao;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,7 +1,7 @@
 package cana.codelessautomation.api.commons;
 
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.core.Response;

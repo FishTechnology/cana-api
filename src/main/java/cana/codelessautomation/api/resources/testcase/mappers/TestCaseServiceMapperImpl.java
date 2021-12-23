@@ -5,12 +5,12 @@ import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduledActionDetailModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduledTestCaseModel;
 import cana.codelessautomation.api.resources.testcase.models.*;
-import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionDaoEntity;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.testcase.dtos.*;
-import cana.codelessautomation.api.services.testcase.repositories.daos.TestCaseDao;
-import cana.codelessautomation.api.services.testcase.repositories.daos.entities.TestCaseDaoEntity;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.testcase.service.dtos.*;
+import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
+import cana.codelessautomation.api.resources.testcase.service.repositories.daos.entities.TestCaseDaoEntity;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -176,7 +176,7 @@ public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
         }
         List<ScheduledActionDetailModel> scheduledActionDetails = new ArrayList<>();
         for (ActionDaoEntity actionDaoEntity : testCaseDaoEntity.getActionDaoEntities()) {
-           var scheduledActionDetailModel = actionResourceMapper.mapScheduledActionDetailModel(actionDaoEntity);
+            var scheduledActionDetailModel = actionResourceMapper.mapScheduledActionDetailModel(actionDaoEntity);
             scheduledActionDetails.add(scheduledActionDetailModel);
         }
         scheduledTestCaseModel.setScheduledActionDetails(scheduledActionDetails);

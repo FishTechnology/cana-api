@@ -4,7 +4,7 @@ import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.file.mappers.FileResourceMapper;
 import cana.codelessautomation.api.resources.file.models.MultipartBodyModel;
-import cana.codelessautomation.api.services.file.FileService;
+import cana.codelessautomation.api.resources.file.service.FileService;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import javax.inject.Inject;

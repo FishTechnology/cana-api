@@ -7,16 +7,16 @@ import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCa
 import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
 import cana.codelessautomation.api.resources.schedule.models.*;
 import cana.codelessautomation.api.resources.testplan.mappers.TestplanResourceMapper;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.results.action.repositories.daos.ActionResultDao;
-import cana.codelessautomation.api.services.results.testcase.repositories.daos.TestCaseResultDao;
-import cana.codelessautomation.api.services.results.testplan.repositories.daos.TestPlanResultDao;
-import cana.codelessautomation.api.services.schedule.dtos.*;
-import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleDao;
-import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleIterationDao;
-import cana.codelessautomation.api.services.schedule.repositories.daos.ScheduleStatusDao;
-import cana.codelessautomation.api.services.schedule.repositories.daos.entities.ScheduleDetailEntity;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.result.actionresult.service.repositories.daos.ActionResultDao;
+import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultDao;
+import cana.codelessautomation.api.resources.result.testplanresult.service.repositories.daos.TestPlanResultDao;
+import cana.codelessautomation.api.resources.schedule.service.dtos.*;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleDao;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleIterationDao;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleStatusDao;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleDetailEntity;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
 

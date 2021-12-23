@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class ApplicationModel {
-    private Long id;
+    private String id;
     private String name;
-    private Long userId;
+    private String userId;
     private String createdOn;
     private String modifiedOn;
     private String createdBy;

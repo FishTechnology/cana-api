@@ -5,9 +5,9 @@ import cana.codelessautomation.api.resources.globalvariable.models.CreateGlobalV
 import cana.codelessautomation.api.resources.globalvariable.models.GlobalVariableModel;
 import cana.codelessautomation.api.resources.globalvariable.models.UIControlOptionModel;
 import cana.codelessautomation.api.resources.globalvariable.models.UpdateGlobalVariableModel;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.globalvariable.dtos.*;
-import cana.codelessautomation.api.services.globalvariable.repositories.daos.GlobalVariableDao;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.globalvariable.service.dtos.*;
+import cana.codelessautomation.api.resources.globalvariable.service.repositories.daos.GlobalVariableDao;
 
 import java.util.List;
 

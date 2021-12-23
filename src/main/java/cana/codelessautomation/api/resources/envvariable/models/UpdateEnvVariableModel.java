@@ -1,8 +1,8 @@
 package cana.codelessautomation.api.resources.envvariable.models;
 
 import cana.codelessautomation.api.commons.validators.ValidEnumString;
-import cana.codelessautomation.api.services.envvariable.errorcodes.EnvironmentVariableErrorCodes;
-import cana.codelessautomation.api.services.envvariable.repositories.daos.EnvironmentVariableType;
+import cana.codelessautomation.api.resources.envvariable.service.errorcodes.EnvironmentVariableErrorCodes;
+import cana.codelessautomation.api.resources.envvariable.service.repositories.daos.EnvironmentVariableType;
 import lombok.Data;
 
 import javax.validation.Valid;

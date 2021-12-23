@@ -1,9 +1,9 @@
 package cana.codelessautomation.api.resources.action.models;
 
 import cana.codelessautomation.api.commons.validators.ValidEnumString;
-import cana.codelessautomation.api.services.action.errorcodes.ActionErrorCode;
-import cana.codelessautomation.api.services.action.repositories.daos.ActionTypeDao;
-import cana.codelessautomation.api.services.action.repositories.daos.UIActionTypeDao;
+import cana.codelessautomation.api.resources.action.service.errorcodes.ActionErrorCode;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionTypeDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.UIActionTypeDao;
 import lombok.Data;
 
 import javax.validation.Valid;

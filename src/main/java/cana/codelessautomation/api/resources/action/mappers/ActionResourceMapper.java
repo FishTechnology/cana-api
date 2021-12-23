@@ -4,11 +4,11 @@ import cana.codelessautomation.api.resources.action.models.ActionDetailModel;
 import cana.codelessautomation.api.resources.action.models.CreateActionModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduledActionDetailModel;
-import cana.codelessautomation.api.services.action.dtos.CreateActionDto;
-import cana.codelessautomation.api.services.action.dtos.GetActionsByTestCaseIdDto;
-import cana.codelessautomation.api.services.action.repositories.daos.ActionDao;
-import cana.codelessautomation.api.services.action.repositories.daos.entities.ActionDaoEntity;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.action.service.dtos.CreateActionDto;
+import cana.codelessautomation.api.resources.action.service.dtos.GetActionsByTestCaseIdDto;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 
 import java.util.List;
 

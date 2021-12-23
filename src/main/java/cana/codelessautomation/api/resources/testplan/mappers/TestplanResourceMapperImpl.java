@@ -8,16 +8,16 @@ import cana.codelessautomation.api.resources.testplan.models.CreateTestplanModel
 import cana.codelessautomation.api.resources.testplan.models.TestPlanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanStatusModel;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.testcase.repositories.daos.entities.TestplanTestcaseGroupingDaoEntity;
-import cana.codelessautomation.api.services.testplan.dtos.CreateTestplanDto;
-import cana.codelessautomation.api.services.testplan.dtos.DeleteTestplanDto;
-import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanDto;
-import cana.codelessautomation.api.services.testplan.dtos.UpdateTestplanStatusDto;
-import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatusDao;
-import cana.codelessautomation.api.services.testplan.repositories.daos.TestplanDao;
-import cana.codelessautomation.api.services.testplan.repositories.daos.entities.TestPlanSummaryDaoEntity;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.testcase.service.repositories.daos.entities.TestplanTestcaseGroupingDaoEntity;
+import cana.codelessautomation.api.resources.testplan.service.dtos.CreateTestplanDto;
+import cana.codelessautomation.api.resources.testplan.service.dtos.DeleteTestplanDto;
+import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestplanDto;
+import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestplanStatusDto;
+import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestPlanStatusDao;
+import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestplanDao;
+import cana.codelessautomation.api.resources.testplan.service.repositories.daos.entities.TestPlanSummaryDaoEntity;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
 

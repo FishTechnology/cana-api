@@ -1,9 +1,9 @@
 package cana.codelessautomation.api.resources.action.models;
 
 import cana.codelessautomation.api.commons.validators.ValidEnumString;
-import cana.codelessautomation.api.services.action.repositories.daos.BrowserActionTypeDao;
-import cana.codelessautomation.api.services.action.repositories.daos.ConditionType;
-import cana.codelessautomation.api.services.schedule.errorcodes.ScheduleServiceErrorCode;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.BrowserActionTypeDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ConditionType;
+import cana.codelessautomation.api.resources.schedule.service.errorcodes.ScheduleServiceErrorCode;
 import lombok.Data;
 
 @Data

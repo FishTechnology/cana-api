@@ -5,8 +5,8 @@ import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.mappers.TestCaseResultMapper;
 import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.models.UpdateTestCaseResultAsCompletedModel;
-import cana.codelessautomation.api.services.results.testcase.TestCaseResultService;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.result.testcaseresult.service.TestCaseResultService;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 

@@ -5,8 +5,8 @@ import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.result.actionresult.mappers.ActionResultResourceMapper;
 import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultModel;
 import cana.codelessautomation.api.resources.result.actionresult.models.UpdateActionResultModel;
-import cana.codelessautomation.api.services.results.action.ActionResultService;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.result.actionresult.service.ActionResultService;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 

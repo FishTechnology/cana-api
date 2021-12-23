@@ -5,15 +5,15 @@ import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.envvariable.models.CreateEnvVariableModel;
 import cana.codelessautomation.api.resources.envvariable.models.EnvVariableModel;
 import cana.codelessautomation.api.resources.envvariable.models.UpdateEnvVariableModel;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.customer.dtos.EnvPageSetDetailDto;
-import cana.codelessautomation.api.services.envvariable.dtos.CreateEnvVariableDto;
-import cana.codelessautomation.api.services.envvariable.dtos.DeleteEnvVariableDto;
-import cana.codelessautomation.api.services.envvariable.dtos.GetEnvVariableByIdDto;
-import cana.codelessautomation.api.services.envvariable.dtos.UpdateEnvVariableDto;
-import cana.codelessautomation.api.services.envvariable.repositories.daos.EnvironmentVariableDao;
-import cana.codelessautomation.api.services.envvariable.repositories.daos.EnvironmentVariableType;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.customer.service.dtos.EnvPageSetDetailDto;
+import cana.codelessautomation.api.resources.envvariable.service.dtos.CreateEnvVariableDto;
+import cana.codelessautomation.api.resources.envvariable.service.dtos.DeleteEnvVariableDto;
+import cana.codelessautomation.api.resources.envvariable.service.dtos.GetEnvVariableByIdDto;
+import cana.codelessautomation.api.resources.envvariable.service.dtos.UpdateEnvVariableDto;
+import cana.codelessautomation.api.resources.envvariable.service.repositories.daos.EnvironmentVariableDao;
+import cana.codelessautomation.api.resources.envvariable.service.repositories.daos.EnvironmentVariableType;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import com.googlecode.jmapper.JMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
@@ -105,7 +105,7 @@ public class EnvVariableResourceMapperImpl implements EnvVariableResourceMapper 
 
     @Override
     public UpdateEnvVariableDto mapUpdateEnvVariableDto(UpdateEnvVariableModel updateEnvVariableModel, Long environmentId, Long envVariableId) {
-        UpdateEnvVariableDto updateEnvVariable= new UpdateEnvVariableDto();
+        UpdateEnvVariableDto updateEnvVariable = new UpdateEnvVariableDto();
         return updateEnvVariable;
     }
 

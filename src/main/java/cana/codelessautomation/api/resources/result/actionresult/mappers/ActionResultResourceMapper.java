@@ -2,8 +2,8 @@ package cana.codelessautomation.api.resources.result.actionresult.mappers;
 
 import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultModel;
 import cana.codelessautomation.api.resources.result.actionresult.models.UpdateActionResultModel;
-import cana.codelessautomation.api.services.results.action.dtos.UpdateActionResultDto;
-import cana.codelessautomation.api.services.results.action.repositories.daos.ActionResultDao;
+import cana.codelessautomation.api.resources.result.actionresult.service.dtos.UpdateActionResultDto;
+import cana.codelessautomation.api.resources.result.actionresult.service.repositories.daos.ActionResultDao;
 
 import java.util.List;
 

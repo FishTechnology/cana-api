@@ -3,10 +3,10 @@ package cana.codelessautomation.api.resources.testcase.mappers;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduledTestCaseModel;
 import cana.codelessautomation.api.resources.testcase.models.*;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.testcase.dtos.*;
-import cana.codelessautomation.api.services.testcase.repositories.daos.TestCaseDao;
-import cana.codelessautomation.api.services.testcase.repositories.daos.entities.TestCaseDaoEntity;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.testcase.service.dtos.*;
+import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
+import cana.codelessautomation.api.resources.testcase.service.repositories.daos.entities.TestCaseDaoEntity;
 
 import java.util.List;
 

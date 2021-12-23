@@ -4,11 +4,11 @@ import cana.codelessautomation.api.resources.application.models.ApplicationModel
 import cana.codelessautomation.api.resources.application.models.CreateAppModel;
 import cana.codelessautomation.api.resources.application.models.UpdateApplicationModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.services.application.dtos.CreateApplicationDto;
-import cana.codelessautomation.api.services.application.dtos.DeleteApplicationDto;
-import cana.codelessautomation.api.services.application.dtos.UpdateApplicationDto;
-import cana.codelessautomation.api.services.application.repositories.daos.ApplicationDao;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.application.service.dtos.CreateApplicationDto;
+import cana.codelessautomation.api.resources.application.service.dtos.DeleteApplicationDto;
+import cana.codelessautomation.api.resources.application.service.dtos.UpdateApplicationDto;
+import cana.codelessautomation.api.resources.application.service.repositories.daos.ApplicationDao;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 
 import java.util.List;
 

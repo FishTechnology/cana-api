@@ -3,12 +3,10 @@ package cana.codelessautomation.api.resources.applicationconfig.models;
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 public class ApplicationConfigModel {
     @JMap
-    private UUID id;
+    private Long id;
     @JMap
     private String key;
     @JMap

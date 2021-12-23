@@ -5,8 +5,8 @@ import cana.codelessautomation.api.resources.action.mappers.ActionResourceMapper
 import cana.codelessautomation.api.resources.action.models.ActionDetailModel;
 import cana.codelessautomation.api.resources.action.models.CreateActionModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.services.action.ActionService;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.action.service.ActionService;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 

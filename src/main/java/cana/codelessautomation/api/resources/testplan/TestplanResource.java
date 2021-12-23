@@ -8,8 +8,8 @@ import cana.codelessautomation.api.resources.testplan.models.CreateTestplanModel
 import cana.codelessautomation.api.resources.testplan.models.TestPlanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanStatusModel;
-import cana.codelessautomation.api.services.testplan.TestplanService;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.testplan.service.TestplanService;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;

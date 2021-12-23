@@ -1,8 +1,8 @@
 package cana.codelessautomation.api.resources.testplan.models;
 
 import cana.codelessautomation.api.commons.validators.ValidEnumString;
-import cana.codelessautomation.api.services.testplan.errorcodes.TestplanErrorCode;
-import cana.codelessautomation.api.services.testplan.repositories.daos.TestPlanStatusDao;
+import cana.codelessautomation.api.resources.testplan.service.errorcodes.TestplanErrorCode;
+import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestPlanStatusDao;
 import lombok.Data;
 
 @Data

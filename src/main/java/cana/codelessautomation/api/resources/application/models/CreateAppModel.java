@@ -1,6 +1,6 @@
 package cana.codelessautomation.api.resources.application.models;
 
-import cana.codelessautomation.api.services.application.errorcodes.ApplicationErrorCode;
+import cana.codelessautomation.api.resources.application.service.errorcodes.ApplicationErrorCode;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 

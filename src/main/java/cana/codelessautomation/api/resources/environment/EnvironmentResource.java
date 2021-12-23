@@ -7,8 +7,8 @@ import cana.codelessautomation.api.resources.environment.mappers.EnvironmentReso
 import cana.codelessautomation.api.resources.environment.models.CreateEnvironmentModel;
 import cana.codelessautomation.api.resources.environment.models.EnvironmentModel;
 import cana.codelessautomation.api.resources.environment.models.UpdateEnvironmentModel;
-import cana.codelessautomation.api.services.environment.EnvironmentService;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.environment.service.EnvironmentService;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;

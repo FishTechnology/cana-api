@@ -1,7 +1,7 @@
 package cana.codelessautomation.api.resources.environment.models;
 
-import cana.codelessautomation.api.services.customer.errorcodes.CustomerErrorCode;
-import cana.codelessautomation.api.services.environment.errorcodes.EnvironmentErrorCode;
+import cana.codelessautomation.api.resources.customer.service.errorcodes.CustomerErrorCode;
+import cana.codelessautomation.api.resources.environment.service.errorcodes.EnvironmentErrorCode;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -17,7 +17,7 @@ public class CreateEnvironmentModel {
     @NotEmpty(message = EnvironmentErrorCode.getEnvironmentNameIsEmpty)
     @Size(message = EnvironmentErrorCode.getEnvironmentNameIsNotMin, min = 3)
     private String name;
-    @Min(message = CustomerErrorCode.getUserIdIsZero,value = 1)
+    @Min(message = CustomerErrorCode.getUserIdIsZero, value = 1)
     private Long userId;
     private String comments;
 }

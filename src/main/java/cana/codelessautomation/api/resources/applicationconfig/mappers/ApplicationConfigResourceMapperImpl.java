@@ -4,23 +4,25 @@ import cana.codelessautomation.api.resources.applicationconfig.models.Applicatio
 import cana.codelessautomation.api.resources.applicationconfig.models.CreateAppConfigModel;
 import cana.codelessautomation.api.resources.applicationconfig.models.UpdateApplicationConfigModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.services.applicationconfig.dto.CreateAppConfigDto;
-import cana.codelessautomation.api.services.applicationconfig.dto.UpdateApplicationConfigDto;
-import cana.codelessautomation.api.services.applicationconfig.repositories.daos.ApplicationConfigDao;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.services.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.applicationconfig.service.dto.CreateAppConfigDto;
+import cana.codelessautomation.api.resources.applicationconfig.service.dto.DeleteApplicationConfigDto;
+import cana.codelessautomation.api.resources.applicationconfig.service.dto.GetApplicationConfigsDto;
+import cana.codelessautomation.api.resources.applicationconfig.service.dto.UpdateApplicationConfigDto;
+import cana.codelessautomation.api.resources.applicationconfig.service.repositories.daos.ApplicationConfigDao;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @ApplicationScoped
 public class ApplicationConfigResourceMapperImpl implements ApplicationConfigResourceMapper {
     @Override
-    public CreateAppConfigDto mapCreateAppConfigDto(CreateAppConfigModel createAppConfigModel) {
+    public CreateAppConfigDto mapCreateAppConfigDto(Long applicationId, CreateAppConfigModel createAppConfigModel) {
         CreateAppConfigDto createAppConfigDto = new CreateAppConfigDto();
+        createAppConfigDto.setApplicationId(applicationId);
         createAppConfigDto.setKey(createAppConfigModel.getKey());
         createAppConfigDto.setValue(createAppConfigModel.getValue());
         createAppConfigDto.setUserId(createAppConfigModel.getUserId());
@@ -34,7 +36,7 @@ public class ApplicationConfigResourceMapperImpl implements ApplicationConfigRes
             resultModel.setErrorMessages(CanaUtility.getErrorMessageModels(errorMessages));
             return resultModel;
         }
-        resultModel.setUuId(createAppConfigDto.getId());
+        resultModel.setId(createAppConfigDto.getId());
         return resultModel;
     }
 
@@ -59,8 +61,25 @@ public class ApplicationConfigResourceMapperImpl implements ApplicationConfigRes
     }
 
     @Override
-    public UpdateApplicationConfigDto mapCreateAppConfigDto(UUID applicationConfigId, UpdateApplicationConfigModel updateApplicationConfigmodel) {
+    public GetApplicationConfigsDto mapGetApplicationConfigsDto(Long applicationId, Long userId) {
+        GetApplicationConfigsDto getApplicationConfigsDto = new GetApplicationConfigsDto();
+        getApplicationConfigsDto.setApplicationId(applicationId);
+        getApplicationConfigsDto.setUserId(userId);
+        return getApplicationConfigsDto;
+    }
+
+    @Override
+    public DeleteApplicationConfigDto mapDeleteApplicationConfigDto(Long applicationId, Long applicationConfigId) {
+        DeleteApplicationConfigDto deleteApplicationConfigDto = new DeleteApplicationConfigDto();
+        deleteApplicationConfigDto.setApplicationConfigId(applicationConfigId);
+        deleteApplicationConfigDto.setApplicationId(applicationId);
+        return deleteApplicationConfigDto;
+    }
+
+    @Override
+    public UpdateApplicationConfigDto mapUpdateApplicationConfigDto(Long applicationId, Long applicationConfigId, UpdateApplicationConfigModel updateApplicationConfigmodel) {
         UpdateApplicationConfigDto updateApplicationConfigDto = new UpdateApplicationConfigDto();
+        updateApplicationConfigDto.setApplicationId(applicationId);
         updateApplicationConfigDto.setId(applicationConfigId);
         updateApplicationConfigDto.setKey(updateApplicationConfigmodel.getKey());
         updateApplicationConfigDto.setValue(updateApplicationConfigmodel.getValue());

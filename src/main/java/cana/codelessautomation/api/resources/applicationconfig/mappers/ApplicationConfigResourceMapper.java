@@ -4,20 +4,25 @@ import cana.codelessautomation.api.resources.applicationconfig.models.Applicatio
 import cana.codelessautomation.api.resources.applicationconfig.models.CreateAppConfigModel;
 import cana.codelessautomation.api.resources.applicationconfig.models.UpdateApplicationConfigModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.services.applicationconfig.dto.CreateAppConfigDto;
-import cana.codelessautomation.api.services.applicationconfig.dto.UpdateApplicationConfigDto;
-import cana.codelessautomation.api.services.applicationconfig.repositories.daos.ApplicationConfigDao;
-import cana.codelessautomation.api.services.common.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.applicationconfig.service.dto.CreateAppConfigDto;
+import cana.codelessautomation.api.resources.applicationconfig.service.dto.DeleteApplicationConfigDto;
+import cana.codelessautomation.api.resources.applicationconfig.service.dto.GetApplicationConfigsDto;
+import cana.codelessautomation.api.resources.applicationconfig.service.dto.UpdateApplicationConfigDto;
+import cana.codelessautomation.api.resources.applicationconfig.service.repositories.daos.ApplicationConfigDao;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface ApplicationConfigResourceMapper {
-    CreateAppConfigDto mapCreateAppConfigDto(CreateAppConfigModel createAppConfigModel);
+    CreateAppConfigDto mapCreateAppConfigDto(Long applicationId, CreateAppConfigModel createAppConfigModel);
 
     ResultModel mapResultModel(CreateAppConfigDto createAppConfigDto, List<ErrorMessageDto> errorMessages);
 
     List<ApplicationConfigModel> mapApplicationConfigModels(List<ApplicationConfigDao> applicationConfigDaos);
 
-    UpdateApplicationConfigDto mapCreateAppConfigDto(UUID applicationConfigId, UpdateApplicationConfigModel updateApplicationConfigmodel);
+    GetApplicationConfigsDto mapGetApplicationConfigsDto(Long applicationId, Long userId);
+
+    DeleteApplicationConfigDto mapDeleteApplicationConfigDto(Long applicationId, Long applicationConfigId);
+
+    UpdateApplicationConfigDto mapUpdateApplicationConfigDto(Long applicationId, Long applicationConfigId, UpdateApplicationConfigModel updateApplicationConfigmodel);
 }

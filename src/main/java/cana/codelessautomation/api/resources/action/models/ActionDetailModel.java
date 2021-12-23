@@ -1,6 +1,6 @@
 package cana.codelessautomation.api.resources.action.models;
 
-import cana.codelessautomation.api.services.action.repositories.daos.ActionTypeDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionTypeDao;
 import lombok.Data;
 
 import java.util.List;
