@@ -1,19 +1,19 @@
 package cana.codelessautomation.api.resources.action.mappers;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.action.models.ActionDetailModel;
 import cana.codelessautomation.api.resources.action.models.ActionOptionModel;
 import cana.codelessautomation.api.resources.action.models.CreateActionModel;
 import cana.codelessautomation.api.resources.action.models.CreateActionOptionModel;
-import cana.codelessautomation.api.resources.action.service.repositories.daos.*;
-import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.resources.schedule.models.ScheduledActionDetailModel;
 import cana.codelessautomation.api.resources.action.service.dtos.BrowserDetailDto;
 import cana.codelessautomation.api.resources.action.service.dtos.CreateActionDto;
 import cana.codelessautomation.api.resources.action.service.dtos.CreateActionOptionDto;
 import cana.codelessautomation.api.resources.action.service.dtos.GetActionsByTestCaseIdDto;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.*;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.commonmodels.ResultModel;
+import cana.codelessautomation.api.resources.schedule.models.ScheduledActionDetailModel;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
 
@@ -68,7 +68,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
             resultModel.setErrorMessages(CanaUtility.getErrorMessageModels(errorMessages));
             return resultModel;
         }
-        resultModel.setId(createActionDto.getId());
+        resultModel.setId(createActionDto.getId().toString());
         return resultModel;
     }
 

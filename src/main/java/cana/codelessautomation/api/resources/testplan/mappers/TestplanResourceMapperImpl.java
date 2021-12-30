@@ -1,15 +1,16 @@
 package cana.codelessautomation.api.resources.testplan.mappers;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduleTestPlanModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduledTestCaseModel;
 import cana.codelessautomation.api.resources.testcase.mappers.TestCaseServiceMapper;
+import cana.codelessautomation.api.resources.testcase.service.repositories.daos.entities.TestplanTestcaseGroupingDaoEntity;
 import cana.codelessautomation.api.resources.testplan.models.CreateTestplanModel;
 import cana.codelessautomation.api.resources.testplan.models.TestPlanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanModel;
 import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanStatusModel;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.resources.testcase.service.repositories.daos.entities.TestplanTestcaseGroupingDaoEntity;
 import cana.codelessautomation.api.resources.testplan.service.dtos.CreateTestplanDto;
 import cana.codelessautomation.api.resources.testplan.service.dtos.DeleteTestplanDto;
 import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestplanDto;
@@ -17,7 +18,6 @@ import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestpla
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestPlanStatusDao;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestplanDao;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.entities.TestPlanSummaryDaoEntity;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
 
@@ -48,7 +48,7 @@ public class TestplanResourceMapperImpl implements TestplanResourceMapper {
             resultModel.setErrorMessages(CanaUtility.getErrorMessageModels(errorMessages));
             return resultModel;
         }
-        resultModel.setId(createTestplan.getId());
+        resultModel.setId(createTestplan.getId().toString());
         return resultModel;
     }
 

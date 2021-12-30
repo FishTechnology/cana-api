@@ -1,16 +1,16 @@
 package cana.codelessautomation.api.resources.applicationconfig.mappers;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.applicationconfig.models.ApplicationConfigModel;
 import cana.codelessautomation.api.resources.applicationconfig.models.CreateAppConfigModel;
 import cana.codelessautomation.api.resources.applicationconfig.models.UpdateApplicationConfigModel;
-import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.applicationconfig.service.dto.CreateAppConfigDto;
 import cana.codelessautomation.api.resources.applicationconfig.service.dto.DeleteApplicationConfigDto;
 import cana.codelessautomation.api.resources.applicationconfig.service.dto.GetApplicationConfigsDto;
 import cana.codelessautomation.api.resources.applicationconfig.service.dto.UpdateApplicationConfigDto;
 import cana.codelessautomation.api.resources.applicationconfig.service.repositories.daos.ApplicationConfigDao;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -36,7 +36,7 @@ public class ApplicationConfigResourceMapperImpl implements ApplicationConfigRes
             resultModel.setErrorMessages(CanaUtility.getErrorMessageModels(errorMessages));
             return resultModel;
         }
-        resultModel.setId(createAppConfigDto.getId());
+        resultModel.setId(createAppConfigDto.getId().toString());
         return resultModel;
     }
 

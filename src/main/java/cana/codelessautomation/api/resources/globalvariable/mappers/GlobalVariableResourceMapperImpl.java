@@ -1,16 +1,16 @@
 package cana.codelessautomation.api.resources.globalvariable.mappers;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionOptionTypeDao;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.globalvariable.models.CreateGlobalVariableModel;
 import cana.codelessautomation.api.resources.globalvariable.models.GlobalVariableModel;
 import cana.codelessautomation.api.resources.globalvariable.models.UIControlOptionModel;
 import cana.codelessautomation.api.resources.globalvariable.models.UpdateGlobalVariableModel;
-import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionOptionTypeDao;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.globalvariable.service.dtos.*;
 import cana.codelessautomation.api.resources.globalvariable.service.repositories.daos.GlobalVariableDao;
 import cana.codelessautomation.api.resources.globalvariable.service.repositories.daos.GlobalVariableType;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import com.googlecode.jmapper.JMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
@@ -97,7 +97,7 @@ public class GlobalVariableResourceMapperImpl implements GlobalVariableResourceM
             resultModel.setErrorMessages(CanaUtility.getErrorMessageModels(errorMessages));
             return resultModel;
         }
-        resultModel.setId(createGlobalVariable.getId());
+        resultModel.setId(createGlobalVariable.getId().toString());
         return resultModel;
     }
 

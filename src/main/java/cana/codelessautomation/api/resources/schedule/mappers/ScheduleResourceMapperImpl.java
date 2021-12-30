@@ -1,22 +1,22 @@
 package cana.codelessautomation.api.resources.schedule.mappers;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.commonmodels.BrowserType;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultSummaryModel;
-import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultSummaryModel;
-import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
-import cana.codelessautomation.api.resources.schedule.models.*;
-import cana.codelessautomation.api.resources.testplan.mappers.TestplanResourceMapper;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.result.actionresult.service.repositories.daos.ActionResultDao;
+import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultSummaryModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultDao;
+import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
 import cana.codelessautomation.api.resources.result.testplanresult.service.repositories.daos.TestPlanResultDao;
+import cana.codelessautomation.api.resources.schedule.models.*;
 import cana.codelessautomation.api.resources.schedule.service.dtos.*;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleIterationDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleStatusDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleDetailEntity;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.testplan.mappers.TestplanResourceMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
 
@@ -39,7 +39,7 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
             resultModel.setErrorMessages(CanaUtility.getErrorMessageModels(errorMessages));
             return resultModel;
         }
-        resultModel.setId(createScheduleDto.getId());
+        resultModel.setId(createScheduleDto.getId().toString());
         return resultModel;
     }
 

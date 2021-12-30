@@ -1,16 +1,16 @@
 package cana.codelessautomation.api.resources.testcase.mappers;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.action.mappers.ActionResourceMapper;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduledActionDetailModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduledTestCaseModel;
 import cana.codelessautomation.api.resources.testcase.models.*;
-import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.testcase.service.dtos.*;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.entities.TestCaseDaoEntity;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -40,7 +40,7 @@ public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
             resultModel.setErrorMessages(CanaUtility.getErrorMessageModels(errorMessages));
             return resultModel;
         }
-        resultModel.setId(createTestCase.getId());
+        resultModel.setId(createTestCase.getId().toString());
         return resultModel;
     }
 
@@ -51,7 +51,7 @@ public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
             resultModel.setErrorMessages(CanaUtility.getErrorMessageModels(errorMessages));
             return resultModel;
         }
-        resultModel.setId(createTestCaseByTestPlanId.getId());
+        resultModel.setId(createTestCaseByTestPlanId.getId().toString());
         return resultModel;
     }
 
