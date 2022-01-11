@@ -15,11 +15,13 @@ import cana.codelessautomation.api.resources.config.services.configservice.repos
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.daos.ConfigTypeDao;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 public class ConfigResourceMapperImpl implements ConfigResourceMapper {
@@ -57,6 +59,10 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
         configModel.setComments(configDao.getComments());
         configModel.setUserId(configDao.getUserId().toString());
         configModel.setIsActive(configDao.getIsActive());
+        if (!Objects.isNull(configDao.getIdentifier())) {
+            configModel.setIdentifier(configDao.getIdentifier().toString());
+        }
+
         if (CollectionUtils.isEmpty(configDao.getConfigKeyValues())) {
             return configModel;
         }
@@ -72,12 +78,15 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
     }
 
     @Override
-    public CreateConfigDto mapCreateConfigDto(CreateConfigModel createConfigModel) {
+    public CreateConfigDto mapCreateConfigDto(CreateConfigModel createConfigModel, String configType) {
         CreateConfigDto createConfigDto = new CreateConfigDto();
         createConfigDto.setUserId(createConfigModel.getUserId());
         createConfigDto.setName(createConfigModel.getName());
         createConfigDto.setComments(createConfigModel.getComments());
-        createConfigDto.setType(EnumUtils.getEnum(ConfigTypeDao.class, createConfigModel.getType()));
+        if (StringUtils.isNotEmpty(createConfigModel.getIdentifier())) {
+            createConfigDto.setIdentifier(Long.valueOf(createConfigModel.getIdentifier()));
+        }
+        createConfigDto.setType(EnumUtils.getEnum(ConfigTypeDao.class, configType));
         return createConfigDto;
     }
 

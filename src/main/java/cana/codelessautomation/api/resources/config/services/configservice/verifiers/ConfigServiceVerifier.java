@@ -14,6 +14,8 @@ public interface ConfigServiceVerifier {
 
     List<ErrorMessageDto> checkConfigTypeDuplicate(CreateConfigDto createConfigDto);
 
+    List<ErrorMessageDto> checkConfigTypeWithIdentifierDuplicate(CreateConfigDto createConfigDto);
+
     List<ErrorMessageDto> isUserIdValid(CreateConfigDto createConfigDto);
 
     List<ErrorMessageDto> isUserIdValid(GetConfigsByUserIdDto getConfigsByUserIdDto);

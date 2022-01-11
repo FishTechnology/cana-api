@@ -6,6 +6,7 @@ import cana.codelessautomation.api.resources.config.services.configservice.repos
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 @ApplicationScoped
 public class ConfigServiceProcessorMapperImpl implements ConfigServiceProcessorMapper {
@@ -19,6 +20,9 @@ public class ConfigServiceProcessorMapperImpl implements ConfigServiceProcessorM
         configDao.setType(createConfigDto.getType());
         configDao.setName(createConfigDto.getName());
         configDao.setComments(createConfigDto.getComments());
+        if (!Objects.isNull(createConfigDto.getIdentifier()) && createConfigDto.getIdentifier() > 0) {
+            configDao.setIdentifier(createConfigDto.getIdentifier());
+        }
         configDao.setUserId(Long.valueOf(createConfigDto.getUserId()));
         configDao.setIsActive(true);
         return configDao;

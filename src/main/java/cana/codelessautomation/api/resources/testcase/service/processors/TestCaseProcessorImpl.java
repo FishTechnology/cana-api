@@ -1,15 +1,14 @@
 package cana.codelessautomation.api.resources.testcase.service.processors;
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.resources.testcase.service.dtos.CreateTestCaseByTestPlanIdDto;
-import cana.codelessautomation.api.resources.testcase.service.dtos.CreateTestCaseDto;
-import cana.codelessautomation.api.resources.testcase.service.dtos.GetTestCaseByTestPlanIdDto;
-import cana.codelessautomation.api.resources.testcase.service.dtos.UpdateTestCaseByIdDto;
+import cana.codelessautomation.api.resources.testcase.service.dtos.*;
 import cana.codelessautomation.api.resources.testcase.service.processors.mappers.TestCaseProcessorMapper;
+import cana.codelessautomation.api.resources.testcase.service.processors.mappers.TestPlanTestcaseGroupingProcessorMapper;
 import cana.codelessautomation.api.resources.testcase.service.repositories.TestCaseRepository;
 import cana.codelessautomation.api.resources.testcase.service.repositories.TestplanTestcaseGroupingRepository;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestplanTestcaseGroupingDao;
+import cana.codelessautomation.api.resources.testplan.service.dtos.CopyTestPlanDto;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -28,6 +27,22 @@ public class TestCaseProcessorImpl implements TestCaseProcessor {
 
     @Inject
     TestplanTestcaseGroupingRepository testplanTestcaseGroupingRepository;
+
+    @Inject
+    TestPlanTestcaseGroupingProcessorMapper testPlanTestcaseGroupingProcessorMapper;
+
+    @Override
+    public List<ErrorMessageDto> copyTestCase(CopyTestPlanDto copyTestPlanDto) {
+        List<TestplanTestcaseGroupingDao> testplanTestcaseGroupingDaos = testplanTestcaseGroupingRepository.findByTestPlanId(copyTestPlanDto.getTestPlanId());
+        if (CollectionUtils.isEmpty(testplanTestcaseGroupingDaos)) {
+            return Collections.emptyList();
+        }
+        for (TestplanTestcaseGroupingDao testplanTestcaseGroupingDao : testplanTestcaseGroupingDaos) {
+            var curTestplanTestcaseGroupingDao = testCaseProcessorMapper.mapTestplanTestcaseGroupingDao(copyTestPlanDto, testplanTestcaseGroupingDao);
+            testplanTestcaseGroupingRepository.persist(curTestplanTestcaseGroupingDao);
+        }
+        return Collections.emptyList();
+    }
 
     @Override
     public List<ErrorMessageDto> processCreateTestCase(CreateTestCaseDto createTestCase) {
@@ -120,6 +135,24 @@ public class TestCaseProcessorImpl implements TestCaseProcessor {
         return Collections.emptyList();
     }
 
+    @Override
+    public List<ErrorMessageDto> processUpdateTestCaseOrder(UpdateTestCaseOrderDto updateTestCaseOrderDto) {
+        return updateTestCaseOrder(updateTestCaseOrderDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateTestCaseOrder(UpdateTestCaseOrderDto updateTestCaseOrderDto) {
+        for (TestCaseOrderDto testCaseOrderDto : updateTestCaseOrderDto.getTestCaseOrderDtos()) {
+            if (testCaseOrderDto.getCurrentExecutionOrder().equals(testCaseOrderDto.getOldExecutionOrder())) {
+                continue;
+            }
+            var testPlanTestcaseGroupingDao = testPlanTestcaseGroupingProcessorMapper.mapTestplanTestcaseGroupingDao(updateTestCaseOrderDto, testCaseOrderDto);
+            testplanTestcaseGroupingRepository.persist(testPlanTestcaseGroupingDao);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<ErrorMessageDto> getTestCaseByTestCaseIds(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto) {
         if (CollectionUtils.isEmpty(getTestCaseByTestPlanIdDto.getTestplanTestcaseGroupingDaos())) {
             return Collections.emptyList();

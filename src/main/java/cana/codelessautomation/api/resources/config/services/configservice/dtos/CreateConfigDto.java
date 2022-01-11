@@ -14,6 +14,7 @@ public class CreateConfigDto {
     private ConfigTypeDao type;
     private Long userId;
     private String comments;
+    private Long identifier;
     private CustomDetailDao customDetailDao;
     private List<ConfigDao> configDaos;
 }

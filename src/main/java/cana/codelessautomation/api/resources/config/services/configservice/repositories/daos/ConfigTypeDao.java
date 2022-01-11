@@ -2,5 +2,6 @@ package cana.codelessautomation.api.resources.config.services.configservice.repo
 
 public enum ConfigTypeDao {
     GLOBAL_VARIABLE,
-    ENVIRONMENT_VARIABLE
+    ENVIRONMENT_VARIABLE,
+    TEST_PLAN
 }

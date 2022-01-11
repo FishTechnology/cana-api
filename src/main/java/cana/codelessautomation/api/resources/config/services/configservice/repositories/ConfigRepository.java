@@ -17,6 +17,10 @@ public class ConfigRepository implements PanacheRepository<ConfigDao> {
         return list("userId = ?1 and type = ?2 and lower(name) = lower(?3) and isActive=true", userId, configType, name);
     }
 
+    public List<ConfigDao> findByUserIdAndTypeAndNameAndIdentifier(Long userId, ConfigTypeDao configType, String name, Long identifier) {
+        return list("userId = ?1 and type = ?2 and lower(name) = lower(?3) and isActive=true and identifier = ?4", userId, configType, name, identifier);
+    }
+
     public ConfigDao findByIdAndActive(Long configId) {
         return find("id = ?1 and isActive=true", configId).firstResult();
     }

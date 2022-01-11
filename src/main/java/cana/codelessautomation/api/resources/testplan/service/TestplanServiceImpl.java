@@ -1,18 +1,15 @@
 package cana.codelessautomation.api.resources.testplan.service;
 
-import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.resources.testplan.service.dtos.CreateTestplanDto;
-import cana.codelessautomation.api.resources.testplan.service.dtos.DeleteTestplanDto;
-import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestplanDto;
-import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestplanStatusDto;
+import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.testplan.service.dtos.*;
 import cana.codelessautomation.api.resources.testplan.service.errorcodes.TestplanErrorCode;
 import cana.codelessautomation.api.resources.testplan.service.processors.TestPlanProcessor;
 import cana.codelessautomation.api.resources.testplan.service.repositories.TestPlanRepository;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestPlanStatusDao;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestplanDao;
 import cana.codelessautomation.api.resources.testplan.service.verifiers.TestplanVerifier;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -108,5 +105,16 @@ public class TestplanServiceImpl implements TestplanService {
         }
 
         return testPlanProcessor.processorUpdateTestplanStatus(updateTestplanStatus);
+    }
+
+    @Override
+    public List<ErrorMessageDto> copyTestplan(CopyTestPlanDto copyTestPlanDto) {
+        copyTestPlanDto.setStatus(TestPlanStatusDao.SETUP);
+        var errors = testplanVerifier.verifyCopyTestplan(copyTestPlanDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
+        }
+
+        return testPlanProcessor.processorCopyTestplan(copyTestPlanDto);
     }
 }

@@ -5,16 +5,10 @@ import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduleTestPlanModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduledTestCaseModel;
-import cana.codelessautomation.api.resources.testcase.mappers.TestCaseServiceMapper;
+import cana.codelessautomation.api.resources.testcase.mappers.TestCaseResourceMapper;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.entities.TestplanTestcaseGroupingDaoEntity;
-import cana.codelessautomation.api.resources.testplan.models.CreateTestplanModel;
-import cana.codelessautomation.api.resources.testplan.models.TestPlanModel;
-import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanModel;
-import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanStatusModel;
-import cana.codelessautomation.api.resources.testplan.service.dtos.CreateTestplanDto;
-import cana.codelessautomation.api.resources.testplan.service.dtos.DeleteTestplanDto;
-import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestplanDto;
-import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestplanStatusDto;
+import cana.codelessautomation.api.resources.testplan.models.*;
+import cana.codelessautomation.api.resources.testplan.service.dtos.*;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestPlanStatusDao;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestplanDao;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.entities.TestPlanSummaryDaoEntity;
@@ -30,7 +24,7 @@ import java.util.List;
 public class TestplanResourceMapperImpl implements TestplanResourceMapper {
 
     @Inject
-    TestCaseServiceMapper testCaseServiceMapper;
+    TestCaseResourceMapper testCaseServiceMapper;
 
     @Override
     public CreateTestplanDto mapCreateTestplanDto(CreateTestplanModel createTestplanModel) {
@@ -58,7 +52,7 @@ public class TestplanResourceMapperImpl implements TestplanResourceMapper {
         for (TestplanDao testplan : testPlanDaos) {
             TestPlanModel testPlanModel = new TestPlanModel();
             testPlanModel.setName(testplan.getName());
-            testPlanModel.setId(testplan.getId());
+            testPlanModel.setId(testplan.getId().toString());
             testPlanModel.setStatus(testplan.getStatus().name());
             testPlanModel.setComments(testplan.getComments());
             testPlanModel.setCreatedBy(testplan.getCreatedBy());
@@ -74,7 +68,7 @@ public class TestplanResourceMapperImpl implements TestplanResourceMapper {
     public TestPlanModel mapTestPlanModel(TestplanDao testplan) {
         TestPlanModel testPlanModel = new TestPlanModel();
         testPlanModel.setName(testplan.getName());
-        testPlanModel.setId(testplan.getId());
+        testPlanModel.setId(testplan.getId().toString());
         testPlanModel.setStatus(testplan.getStatus().name());
         testPlanModel.setComments(testplan.getComments());
         testPlanModel.setCreatedBy(testplan.getCreatedBy());
@@ -114,7 +108,7 @@ public class TestplanResourceMapperImpl implements TestplanResourceMapper {
     public ScheduleTestPlanModel mapTestPlanModel(TestPlanSummaryDaoEntity testPlanSummaryDaoEntity) {
         ScheduleTestPlanModel scheduleTestPlanModel = new ScheduleTestPlanModel();
         scheduleTestPlanModel.setName(testPlanSummaryDaoEntity.getName());
-        scheduleTestPlanModel.setId(testPlanSummaryDaoEntity.getId());
+        scheduleTestPlanModel.setId(testPlanSummaryDaoEntity.getId().toString());
         scheduleTestPlanModel.setStatus(testPlanSummaryDaoEntity.getStatus().name());
         scheduleTestPlanModel.setComments(testPlanSummaryDaoEntity.getComments());
         scheduleTestPlanModel.setCreatedBy(testPlanSummaryDaoEntity.getCreatedBy());
@@ -137,5 +131,26 @@ public class TestplanResourceMapperImpl implements TestplanResourceMapper {
         scheduleTestPlanModel.setScheduledTestCaseModel(scheduledTestCaseModels);
 
         return scheduleTestPlanModel;
+    }
+
+    @Override
+    public CopyTestPlanDto mapCopyTestPlanDto(CopyTestPlanModel copyTestPlanModel, Long testplanId) {
+        CopyTestPlanDto copyTestPlanDto = new CopyTestPlanDto();
+        copyTestPlanDto.setTestPlanId(testplanId);
+        copyTestPlanDto.setComments(copyTestPlanModel.getComments());
+        copyTestPlanDto.setTestPlanName(copyTestPlanModel.getName());
+        copyTestPlanDto.setUserId(copyTestPlanModel.getUserId());
+        return copyTestPlanDto;
+    }
+
+    @Override
+    public ResultModel mapResultModel(List<ErrorMessageDto> errorMessages, CopyTestPlanDto copyTestPlanDto) {
+        ResultModel resultModel = new ResultModel();
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            resultModel.setErrorMessages(CanaUtility.getErrorMessageModels(errorMessages));
+            return resultModel;
+        }
+        resultModel.setId(copyTestPlanDto.getId().toString());
+        return resultModel;
     }
 }

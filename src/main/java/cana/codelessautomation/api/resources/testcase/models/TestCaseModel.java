@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class TestCaseModel {
     @JMap
-    private Long id;
+    private String id;
     @JMap
-    private Long userId;
+    private String userId;
     @JMap
     private String name;
     @JMap
@@ -23,4 +23,6 @@ public class TestCaseModel {
     private String modifiedBy;
     @JMap
     private Boolean isActive;
+    @JMap
+    private Long executionOrder;
 }

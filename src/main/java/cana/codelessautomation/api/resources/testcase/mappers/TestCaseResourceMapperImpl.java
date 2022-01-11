@@ -10,6 +10,7 @@ import cana.codelessautomation.api.resources.schedule.models.ScheduledTestCaseMo
 import cana.codelessautomation.api.resources.testcase.models.*;
 import cana.codelessautomation.api.resources.testcase.service.dtos.*;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
+import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestplanTestcaseGroupingDao;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.entities.TestCaseDaoEntity;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
+public class TestCaseResourceMapperImpl implements TestCaseResourceMapper {
 
     @Inject
     ActionResourceMapper actionResourceMapper;
@@ -69,17 +70,7 @@ public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
     public List<TestCaseModel> mapTestCaseModels(List<TestCaseDao> testCaseDaos) {
         List<TestCaseModel> testCaseModels = new ArrayList<>();
         for (TestCaseDao testCaseDao : testCaseDaos) {
-            TestCaseModel testCaseModel = new TestCaseModel();
-            testCaseModel.setId(testCaseDao.getId());
-            testCaseModel.setComments(testCaseDao.getComments());
-            testCaseModel.setName(testCaseDao.getName());
-            testCaseModel.setIsActive(testCaseDao.getIsActive());
-            testCaseModel.setUserId(testCaseDao.getUserId());
-            testCaseModel.setCreatedBy(testCaseDao.getCreatedBy());
-            testCaseModel.setCreatedOn(testCaseDao.getCreatedOn().toString());
-            testCaseModel.setModifiedBy(testCaseDao.getModifiedBy());
-            testCaseModel.setModifiedOn(testCaseDao.getModifiedOn().toString());
-            testCaseModels.add(testCaseModel);
+            testCaseModels.add(mapTestCaseModel(testCaseDao));
         }
         return testCaseModels;
     }
@@ -93,7 +84,21 @@ public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
 
     @Override
     public List<TestCaseModel> mapTestCaseModels(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto) {
-        return mapTestCaseModels(getTestCaseByTestPlanIdDto.getTestCaseDaos());
+        List<TestCaseModel> testCaseModels = new ArrayList<>();
+        for (TestplanTestcaseGroupingDao testplanTestcaseGroupingDao : getTestCaseByTestPlanIdDto.getTestplanTestcaseGroupingDaos()) {
+            var testCaseDao = getTestCaseByTestPlanIdDto
+                    .getTestCaseDaos()
+                    .stream()
+                    .filter(p -> p.getId().equals(testplanTestcaseGroupingDao.getTestCaseId()))
+                    .findFirst();
+            if (!testCaseDao.isPresent()) {
+                continue;
+            }
+            var testCaseModel = mapTestCaseModel(testCaseDao.get());
+            testCaseModel.setExecutionOrder(testplanTestcaseGroupingDao.getExecutionOrder());
+            testCaseModels.add(testCaseModel);
+        }
+        return testCaseModels;
     }
 
     @Override
@@ -123,19 +128,23 @@ public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
     }
 
     @Override
-    public TestCaseModel mapTestCaseModel(GetTestCaseByIdDto getTestCaseByIdDto) {
-        var testCaseDao = getTestCaseByIdDto.getTestCase();
+    public TestCaseModel mapTestCaseModel(TestCaseDao testCaseDao) {
         TestCaseModel testCaseModel = new TestCaseModel();
-        testCaseModel.setId(testCaseDao.getId());
+        testCaseModel.setId(testCaseDao.getId().toString());
         testCaseModel.setComments(testCaseDao.getComments());
         testCaseModel.setName(testCaseDao.getName());
         testCaseModel.setIsActive(testCaseDao.getIsActive());
-        testCaseModel.setUserId(testCaseDao.getUserId());
+        testCaseModel.setUserId(testCaseDao.getUserId().toString());
         testCaseModel.setCreatedBy(testCaseDao.getCreatedBy());
         testCaseModel.setCreatedOn(testCaseDao.getCreatedOn().toString());
         testCaseModel.setModifiedBy(testCaseDao.getModifiedBy());
         testCaseModel.setModifiedOn(testCaseDao.getModifiedOn().toString());
         return testCaseModel;
+    }
+
+    @Override
+    public TestCaseModel mapTestCaseModel(GetTestCaseByIdDto getTestCaseByIdDto) {
+        return mapTestCaseModel(getTestCaseByIdDto.getTestCase());
     }
 
     @Override
@@ -162,11 +171,11 @@ public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
     @Override
     public ScheduledTestCaseModel mapScheduledTestCaseModel(TestCaseDaoEntity testCaseDaoEntity) {
         ScheduledTestCaseModel scheduledTestCaseModel = new ScheduledTestCaseModel();
-        scheduledTestCaseModel.setId(testCaseDaoEntity.getId());
+        scheduledTestCaseModel.setId(testCaseDaoEntity.getId().toString());
         scheduledTestCaseModel.setComments(testCaseDaoEntity.getComments());
         scheduledTestCaseModel.setName(testCaseDaoEntity.getName());
         scheduledTestCaseModel.setIsActive(testCaseDaoEntity.getIsActive());
-        scheduledTestCaseModel.setUserId(testCaseDaoEntity.getUserId());
+        scheduledTestCaseModel.setUserId(testCaseDaoEntity.getUserId().toString());
         scheduledTestCaseModel.setCreatedBy(testCaseDaoEntity.getCreatedBy());
         scheduledTestCaseModel.setCreatedOn(testCaseDaoEntity.getCreatedOn().toString());
         scheduledTestCaseModel.setModifiedBy(testCaseDaoEntity.getModifiedBy());
@@ -181,6 +190,24 @@ public class TestCaseServiceMapperImpl implements TestCaseServiceMapper {
         }
         scheduledTestCaseModel.setScheduledActionDetails(scheduledActionDetails);
         return scheduledTestCaseModel;
+    }
+
+    @Override
+    public UpdateTestCaseOrderDto mapUpdateTestCaseOrderDto(Long testPlanId, UpdateTestCaseOrderModel updateTestCaseOrderModel) {
+        UpdateTestCaseOrderDto updateTestCaseOrderDto = new UpdateTestCaseOrderDto();
+        updateTestCaseOrderDto.setTestPlanId(testPlanId);
+        updateTestCaseOrderDto.setUserId(updateTestCaseOrderModel.getUserId());
+        List<TestCaseOrderDto> testCaseOrderDtos = new ArrayList<>();
+        for (TestCaseOrderModel testCaseOrderModel : updateTestCaseOrderModel.getTestcaseOrderModels()) {
+            TestCaseOrderDto testCaseOrderDto = new TestCaseOrderDto();
+            testCaseOrderDto.setTestCaseId(testCaseOrderModel.getTestCaseId());
+            testCaseOrderDto.setOldExecutionOrder(testCaseOrderModel.getOldExecutionOrder());
+            testCaseOrderDto.setCurrentExecutionOrder(testCaseOrderModel.getCurrentExecutionOrder());
+            testCaseOrderDtos.add(testCaseOrderDto);
+        }
+
+        updateTestCaseOrderDto.setTestCaseOrderDtos(testCaseOrderDtos);
+        return updateTestCaseOrderDto;
     }
 }
 

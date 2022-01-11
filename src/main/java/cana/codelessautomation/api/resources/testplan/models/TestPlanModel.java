@@ -8,9 +8,9 @@ import java.time.OffsetDateTime;
 @Data
 public class TestPlanModel {
     @JMap
-    private Long id;
+    private String id;
     @JMap
-    private Long userId;
+    private String userId;
     @JMap
     private String name;
     @JMap

@@ -1,15 +1,12 @@
 package cana.codelessautomation.api.resources.testplan;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.testplan.mappers.TestplanResourceMapper;
-import cana.codelessautomation.api.resources.testplan.models.CreateTestplanModel;
-import cana.codelessautomation.api.resources.testplan.models.TestPlanModel;
-import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanModel;
-import cana.codelessautomation.api.resources.testplan.models.UpdateTestplanStatusModel;
+import cana.codelessautomation.api.resources.testplan.models.*;
 import cana.codelessautomation.api.resources.testplan.service.TestplanService;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
@@ -100,5 +97,16 @@ public class TestplanResource {
             return CanaUtility.getErrorMessageModels(errorMessages);
         }
         return Collections.emptyList();
+    }
+
+    @POST
+    @Path("/testPlans/{testplanId}/copy")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public ResultModel copyTestplan(@Valid @PathParam Long testplanId, @Valid CopyTestPlanModel copyTestPlanModel) throws ValidationException {
+        var copyTestPlanDto = testplanResourceMapper.mapCopyTestPlanDto(copyTestPlanModel, testplanId);
+        var errorMessages = testplanService.copyTestplan(copyTestPlanDto);
+        return testplanResourceMapper.mapResultModel(errorMessages, copyTestPlanDto);
     }
 }

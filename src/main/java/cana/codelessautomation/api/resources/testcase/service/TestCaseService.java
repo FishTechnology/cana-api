@@ -1,7 +1,7 @@
 package cana.codelessautomation.api.resources.testcase.service;
 
-import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.resources.testcase.service.dtos.*;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
 
@@ -23,4 +23,6 @@ public interface TestCaseService {
     List<ErrorMessageDto> updateTestCaseById(UpdateTestCaseByIdDto updateTestCaseByIdDto) throws ValidationException;
 
     List<ErrorMessageDto> updateTestCaseByTestPlanId(UpdateTestCaseByTestPlanIdDto updateTestCaseByTestPlanIdDto);
+
+    List<ErrorMessageDto> updateTestCaseOrder(UpdateTestCaseOrderDto updateTestCaseOrderDto);
 }

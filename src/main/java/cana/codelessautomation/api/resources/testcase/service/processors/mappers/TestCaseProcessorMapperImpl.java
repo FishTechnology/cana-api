@@ -4,6 +4,7 @@ import cana.codelessautomation.api.resources.testcase.service.dtos.CreateTestCas
 import cana.codelessautomation.api.resources.testcase.service.dtos.CreateTestCaseDto;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestplanTestcaseGroupingDao;
+import cana.codelessautomation.api.resources.testplan.service.dtos.CopyTestPlanDto;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.OffsetDateTime;
@@ -50,5 +51,20 @@ public class TestCaseProcessorMapperImpl implements TestCaseProcessorMapper {
         testplanTestcaseGroupingDao.setTestCaseId(createTestCaseByTestPlanId.getId());
         testplanTestcaseGroupingDao.setTestPlanId(createTestCaseByTestPlanId.getTestPlanId());
         return testplanTestcaseGroupingDao;
+    }
+
+    @Override
+    public TestplanTestcaseGroupingDao mapTestplanTestcaseGroupingDao(CopyTestPlanDto copyTestPlanDto, TestplanTestcaseGroupingDao testplanTestcaseGroupingDao) {
+        TestplanTestcaseGroupingDao curTestplanTestcaseGroupingDao = new TestplanTestcaseGroupingDao();
+        curTestplanTestcaseGroupingDao.setUserId(copyTestPlanDto.getUserId());
+        curTestplanTestcaseGroupingDao.setIsActive(testplanTestcaseGroupingDao.getIsActive());
+        curTestplanTestcaseGroupingDao.setCreatedOn(OffsetDateTime.now());
+        curTestplanTestcaseGroupingDao.setModifiedOn(OffsetDateTime.now());
+        curTestplanTestcaseGroupingDao.setCreatedBy(copyTestPlanDto.getUserId().toString());
+        curTestplanTestcaseGroupingDao.setModifiedBy(copyTestPlanDto.getUserId().toString());
+        curTestplanTestcaseGroupingDao.setTestCaseId(testplanTestcaseGroupingDao.getTestCaseId());
+        curTestplanTestcaseGroupingDao.setTestPlanId(copyTestPlanDto.getId());
+        curTestplanTestcaseGroupingDao.setExecutionOrder(testplanTestcaseGroupingDao.getExecutionOrder());
+        return curTestplanTestcaseGroupingDao;
     }
 }

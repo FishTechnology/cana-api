@@ -16,6 +16,7 @@ public class ConfigModel extends BaseModel {
     private String createdBy;
     private String modifiedBy;
     private String comments;
+    private String identifier;
     private Boolean isActive = false;
     private List<ConfigKeyValueModel> configKeyValues;
 }

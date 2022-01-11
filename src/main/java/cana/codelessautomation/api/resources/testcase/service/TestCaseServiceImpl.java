@@ -1,12 +1,12 @@
 package cana.codelessautomation.api.resources.testcase.service;
 
-import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.testcase.service.dtos.*;
 import cana.codelessautomation.api.resources.testcase.service.processors.TestCaseProcessor;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
 import cana.codelessautomation.api.resources.testcase.service.verifiers.TestCaseVerifier;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -106,5 +106,14 @@ public class TestCaseServiceImpl implements TestCaseService {
     @Override
     public List<ErrorMessageDto> updateTestCaseByTestPlanId(UpdateTestCaseByTestPlanIdDto updateTestCaseByTestPlanIdDto) {
         return null;
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateTestCaseOrder(UpdateTestCaseOrderDto updateTestCaseOrderDto) {
+        var errorMessages = testCaseVerifier.verifyUpdateTestCaseOrder(updateTestCaseOrderDto);
+        if (!errorMessages.isEmpty()) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return testCaseProcessor.processUpdateTestCaseOrder(updateTestCaseOrderDto);
     }
 }

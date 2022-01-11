@@ -20,13 +20,21 @@ public interface TestCaseVerifier {
 
     List<ErrorMessageDto> isTestCaseNameValid(CreateTestCaseDto createTestCase);
 
-    List<ErrorMessageDto> isTestCaseNameValid(Long userId,String testCaseName);
+    List<ErrorMessageDto> isTestCaseNameValid(Long userId, String testCaseName);
 
     List<ErrorMessageDto> isUserIdValid(CreateTestCaseDto createTestCase);
 
     List<ErrorMessageDto> verifyCreateTestCaseByPlanId(CreateTestCaseByTestPlanIdDto createTestCaseByTestPlanId);
 
     List<ErrorMessageDto> verifyGetTestCaseByUserId(Long userId);
+
+    List<ErrorMessageDto> isTestPlanAndTestCaseGroupValid(UpdateTestCaseOrderDto updateTestCaseOrderDto);
+
+    List<ErrorMessageDto> isTestCaseIdValid(UpdateTestCaseOrderDto updateTestCaseOrderDto);
+
+    List<ErrorMessageDto> isTestPlanIdValid(UpdateTestCaseOrderDto updateTestCaseOrderDto);
+
+    List<ErrorMessageDto> isUserIdValid(UpdateTestCaseOrderDto updateTestCaseOrderDto);
 
     List<ErrorMessageDto> isTestCaseNameValid(UpdateTestCaseByIdDto updateTestCaseByIdDto);
 
@@ -55,4 +63,6 @@ public interface TestCaseVerifier {
     List<ErrorMessageDto> verifyGetTestCaseById(GetTestCaseByIdDto getTestCaseByIdDto);
 
     List<ErrorMessageDto> verifyUpdateTestCaseById(UpdateTestCaseByIdDto updateTestCaseByIdDto);
+
+    List<ErrorMessageDto> verifyUpdateTestCaseOrder(UpdateTestCaseOrderDto updateTestCaseOrderDto);
 }

@@ -44,7 +44,22 @@ public class ConfigServiceVerifierImpl implements ConfigServiceVerifier {
 
     @Override
     public List<ErrorMessageDto> checkConfigTypeDuplicate(CreateConfigDto createConfigDto) {
+        if (!Objects.isNull(createConfigDto.getIdentifier()) || createConfigDto.getIdentifier() > 0) {
+            return Collections.emptyList();
+        }
         var configDaos = configRepository.findByUserIdAndTypeAndName(createConfigDto.getUserId(), createConfigDto.getType(), createConfigDto.getName());
+        if (CollectionUtils.isNotEmpty(configDaos)) {
+            return CanaUtility.getErrorMessages(configServiceErrorCode.getConfigTypeDuplicateErrorCode());
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> checkConfigTypeWithIdentifierDuplicate(CreateConfigDto createConfigDto) {
+        if (Objects.isNull(createConfigDto.getIdentifier()) || createConfigDto.getIdentifier() == 0) {
+            return Collections.emptyList();
+        }
+        var configDaos = configRepository.findByUserIdAndTypeAndNameAndIdentifier(createConfigDto.getUserId(), createConfigDto.getType(), createConfigDto.getName(), createConfigDto.getIdentifier());
         if (CollectionUtils.isNotEmpty(configDaos)) {
             return CanaUtility.getErrorMessages(configServiceErrorCode.getConfigTypeDuplicateErrorCode());
         }

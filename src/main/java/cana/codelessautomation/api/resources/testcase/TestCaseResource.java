@@ -1,12 +1,12 @@
 package cana.codelessautomation.api.resources.testcase;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
-import cana.codelessautomation.api.resources.testcase.mappers.TestCaseServiceMapper;
+import cana.codelessautomation.api.resources.testcase.mappers.TestCaseResourceMapper;
 import cana.codelessautomation.api.resources.testcase.models.*;
 import cana.codelessautomation.api.resources.testcase.service.TestCaseService;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
@@ -22,7 +22,7 @@ import java.util.List;
 @Path("/api")
 public class TestCaseResource {
     @Inject
-    TestCaseServiceMapper testCaseResourceMapper;
+    TestCaseResourceMapper testCaseResourceMapper;
 
     @Inject
     TestCaseService testCaseService;
@@ -55,6 +55,9 @@ public class TestCaseResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public List<TestCaseModel> getTestCaseByUserId(@Valid @QueryParam Long userId) throws ValidationException {
         var testCaseDaos = testCaseService.getTestCaseByUserId(userId);
+        if (CollectionUtils.isEmpty(testCaseDaos)) {
+            return Collections.emptyList();
+        }
         return testCaseResourceMapper.mapTestCaseModels(testCaseDaos);
     }
 
@@ -65,6 +68,9 @@ public class TestCaseResource {
     public List<TestCaseModel> getTestCaseByTestPlanId(@Valid @PathParam Long testPlanId) throws ValidationException {
         var getTestCaseByTestPlanIdDto = testCaseResourceMapper.mapGetTestCaseByTestPlanIdDto(testPlanId);
         var errors = testCaseService.getTestCaseByTestPlanId(getTestCaseByTestPlanIdDto);
+        if (CollectionUtils.isEmpty(getTestCaseByTestPlanIdDto.getTestCaseDaos())) {
+            return Collections.emptyList();
+        }
         return testCaseResourceMapper.mapTestCaseModels(getTestCaseByTestPlanIdDto);
     }
 
@@ -92,6 +98,7 @@ public class TestCaseResource {
     @Path("/testCases/{testCaseId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
     public List<ErrorMessageModel> updateTestCaseById(@Valid @PathParam Long testCaseId,
                                                       @Valid UpdateTestCaseModel updateTestCaseModel) throws ValidationException {
         var updateTestCaseByIdDto = testCaseResourceMapper.mapUpdateTestCaseByIdDto(testCaseId, updateTestCaseModel);
@@ -106,10 +113,26 @@ public class TestCaseResource {
     @Path("/testPlans/{testPlanId}/testCases/{testCaseId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
     public List<ErrorMessageModel> updateTestCaseByTestPlanId(@Valid @PathParam Long testPlanId, @Valid @PathParam Long testCaseId,
                                                               @Valid UpdateTestCaseModel updateTestCaseModel) throws ValidationException {
         var updateTestCaseByTestPlanIdDto = testCaseResourceMapper.mapUpdateTestCaseByTestPlanIdDto(testPlanId, testCaseId, updateTestCaseModel);
         var errors = testCaseService.updateTestCaseByTestPlanId(updateTestCaseByTestPlanIdDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return CanaUtility.getErrorMessageModels(errors);
+        }
+        return Collections.emptyList();
+    }
+
+    @PUT
+    @Path("/testPlans/{testPlanId}/testCases/order")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<ErrorMessageModel> updateTestCaseOrder(@Valid @PathParam Long testPlanId,
+                                                       @Valid UpdateTestCaseOrderModel updateTestCaseOrderModel) throws ValidationException {
+        var updateTestCaseOrderDto = testCaseResourceMapper.mapUpdateTestCaseOrderDto(testPlanId, updateTestCaseOrderModel);
+        var errors = testCaseService.updateTestCaseOrder(updateTestCaseOrderDto);
         if (CollectionUtils.isNotEmpty(errors)) {
             return CanaUtility.getErrorMessageModels(errors);
         }

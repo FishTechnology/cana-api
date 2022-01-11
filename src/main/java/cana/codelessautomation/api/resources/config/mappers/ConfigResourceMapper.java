@@ -20,7 +20,7 @@ public interface ConfigResourceMapper {
 
     ConfigModel mapConfigModel(ConfigDao configDao);
 
-    CreateConfigDto mapCreateConfigDto(CreateConfigModel createConfigModel);
+    CreateConfigDto mapCreateConfigDto(CreateConfigModel createConfigModel, String configType);
 
     ResultModel mapResultModel(List<ErrorMessageDto> errorMessages, CreateConfigDto createConfigDto);
 

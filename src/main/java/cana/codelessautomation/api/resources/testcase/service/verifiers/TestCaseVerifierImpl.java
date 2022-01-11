@@ -2,15 +2,16 @@ package cana.codelessautomation.api.resources.testcase.service.verifiers;
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.dtos.KeyValue;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.customer.service.verifiers.CustomerServiceVerifier;
 import cana.codelessautomation.api.resources.testcase.service.dtos.*;
 import cana.codelessautomation.api.resources.testcase.service.errorcodes.TestCaseErrorCode;
+import cana.codelessautomation.api.resources.testcase.service.errorcodes.TestPlanAndTestCaseGroupErrorCode;
 import cana.codelessautomation.api.resources.testcase.service.repositories.TestCaseRepository;
 import cana.codelessautomation.api.resources.testcase.service.repositories.TestplanTestcaseGroupingRepository;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestplanTestcaseGroupingDao;
 import cana.codelessautomation.api.resources.testplan.service.verifiers.TestplanVerifier;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -19,6 +20,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 public class TestCaseVerifierImpl implements TestCaseVerifier {
@@ -36,6 +38,9 @@ public class TestCaseVerifierImpl implements TestCaseVerifier {
 
     @Inject
     TestplanTestcaseGroupingRepository testplanTestcaseGroupingRepository;
+
+    @Inject
+    TestPlanAndTestCaseGroupErrorCode testPlanAndTestCaseGroupErrorCode;
 
     @Override
     public List<ErrorMessageDto> verifyCreateTestCase(CreateTestCaseDto createTestCase) {
@@ -90,6 +95,69 @@ public class TestCaseVerifierImpl implements TestCaseVerifier {
             return errors;
         }
         return isTestCaseNameValid(updateTestCaseByIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyUpdateTestCaseOrder(UpdateTestCaseOrderDto updateTestCaseOrderDto) {
+        var errors = isUserIdValid(updateTestCaseOrderDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        errors = isTestPlanIdValid(updateTestCaseOrderDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        errors = isTestPlanAndTestCaseGroupValid(updateTestCaseOrderDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isTestCaseIdValid(updateTestCaseOrderDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestPlanAndTestCaseGroupValid(UpdateTestCaseOrderDto updateTestCaseOrderDto) {
+        for (TestCaseOrderDto testCaseOrderDto : updateTestCaseOrderDto.getTestCaseOrderDtos()) {
+            var testplanTestcaseGroupingDao = testplanTestcaseGroupingRepository.findByTestPlanIdAndTestCaseId(updateTestCaseOrderDto.getTestPlanId(), testCaseOrderDto.getTestCaseId());
+            if (Objects.isNull(testplanTestcaseGroupingDao)) {
+                return CanaUtility.getErrorMessages(testPlanAndTestCaseGroupErrorCode.getGroupingNotFoundErrorCode());
+            }
+            testCaseOrderDto.setTestplanTestcaseGrouping(testplanTestcaseGroupingDao);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestCaseIdValid(UpdateTestCaseOrderDto updateTestCaseOrderDto) {
+        for (TestCaseOrderDto testCaseOrderDto : updateTestCaseOrderDto.getTestCaseOrderDtos()) {
+            var response = isTestCaseIdValid(testCaseOrderDto.getTestCaseId());
+            if (CollectionUtils.isNotEmpty(response.getKey())) {
+                return response.getKey();
+            }
+            testCaseOrderDto.setTestCase(response.getValue());
+        }
+
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestPlanIdValid(UpdateTestCaseOrderDto updateTestCaseOrderDto) {
+        var response = testplanVerifier.isTestplanIdValid(updateTestCaseOrderDto.getTestPlanId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        updateTestCaseOrderDto.setTestplan(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isUserIdValid(UpdateTestCaseOrderDto updateTestCaseOrderDto) {
+        var response = customerServiceVerifier.isUserIdValid(updateTestCaseOrderDto.getUserId());
+        if (!CollectionUtils.isEmpty(response.getKey())) {
+            return response.getKey();
+        }
+
+        updateTestCaseOrderDto.setCustomDetail(response.getValue());
+        return Collections.emptyList();
     }
 
     @Override

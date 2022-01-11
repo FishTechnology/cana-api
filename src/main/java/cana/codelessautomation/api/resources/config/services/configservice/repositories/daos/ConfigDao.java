@@ -24,6 +24,8 @@ public class ConfigDao {
     @Column(nullable = false)
     private Long userId;
 
+    private Long identifier;
+
     private OffsetDateTime createdOn;
     private OffsetDateTime modifiedOn;
     private String createdBy;

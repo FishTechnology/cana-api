@@ -1,16 +1,16 @@
 package cana.codelessautomation.api.resources.testcase.mappers;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduledTestCaseModel;
 import cana.codelessautomation.api.resources.testcase.models.*;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.testcase.service.dtos.*;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.entities.TestCaseDaoEntity;
 
 import java.util.List;
 
-public interface TestCaseServiceMapper {
+public interface TestCaseResourceMapper {
     CreateTestCaseDto mapCreateTestCaseDto(CreateTestCaseModel createTestCaseModel);
 
     ResultModel mapResultModel(CreateTestCaseDto createTestCaseDto, List<ErrorMessageDto> errorMessages);
@@ -31,6 +31,8 @@ public interface TestCaseServiceMapper {
 
     GetTestCaseByIdDto mapGetTestCaseByIdDto(Long testCaseId);
 
+    TestCaseModel mapTestCaseModel(TestCaseDao testCaseDao);
+
     TestCaseModel mapTestCaseModel(GetTestCaseByIdDto getTestCaseByIdDto);
 
     UpdateTestCaseByTestPlanIdDto mapUpdateTestCaseByTestPlanIdDto(Long testPlanId, Long testCaseId, UpdateTestCaseModel updateTestCaseModel);
@@ -38,4 +40,6 @@ public interface TestCaseServiceMapper {
     UpdateTestCaseByIdDto mapUpdateTestCaseByIdDto(Long testCaseId, UpdateTestCaseModel updateTestCaseModel);
 
     ScheduledTestCaseModel mapScheduledTestCaseModel(TestCaseDaoEntity testCase);
+
+    UpdateTestCaseOrderDto mapUpdateTestCaseOrderDto(Long testPlanId, UpdateTestCaseOrderModel updateTestCaseOrderModel);
 }

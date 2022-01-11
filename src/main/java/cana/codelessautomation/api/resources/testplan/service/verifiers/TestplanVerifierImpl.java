@@ -2,16 +2,13 @@ package cana.codelessautomation.api.resources.testplan.service.verifiers;
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.dtos.KeyValue;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.customer.service.verifiers.CustomerServiceVerifier;
-import cana.codelessautomation.api.resources.testplan.service.dtos.CreateTestplanDto;
-import cana.codelessautomation.api.resources.testplan.service.dtos.DeleteTestplanDto;
-import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestplanDto;
-import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestplanStatusDto;
+import cana.codelessautomation.api.resources.testplan.service.dtos.*;
 import cana.codelessautomation.api.resources.testplan.service.errorcodes.TestplanErrorCode;
 import cana.codelessautomation.api.resources.testplan.service.repositories.TestPlanRepository;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestPlanStatusDao;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestplanDao;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,6 +39,82 @@ public class TestplanVerifierImpl implements TestplanVerifier {
     }
 
     @Override
+    public List<ErrorMessageDto> verifyCopyTestplan(CopyTestPlanDto copyTestPlanDto) {
+        var errors = isUserIdValid(copyTestPlanDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+
+        errors = isTestplanIdValid(copyTestPlanDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+
+        return isTestplanNameValid(copyTestPlanDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyGetTestplans(Long userId) {
+        return isUserIdValid(userId);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyDeleteTestplan(DeleteTestplanDto deleteTestplan) {
+        return isTestplanIdValid(deleteTestplan);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyUpdateTestplan(UpdateTestplanDto updateTestplan) {
+        var errors = isTestplanIdValid(updateTestplan);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isTestplanNameValid(updateTestplan);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyUpdateTestplanStatus(UpdateTestplanStatusDto updateTestplanStatus) {
+        var errors = isTestplanIdValid(updateTestplanStatus);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        errors = isUserIdValid(updateTestplanStatus);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isTestplanStatusValid(updateTestplanStatus);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestplanNameValid(CopyTestPlanDto copyTestPlanDto) {
+        var testplanDao = testPlanRepository.findByNameAndUserId(copyTestPlanDto.getUserId(), copyTestPlanDto.getTestPlanName());
+        if (testplanDao != null) {
+            return CanaUtility.getErrorMessages(testplanErrorCode.getTestPlanNameIsDuplicate());
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestplanIdValid(CopyTestPlanDto copyTestPlanDto) {
+        var response = isTestplanIdValid(copyTestPlanDto.getTestPlanId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        copyTestPlanDto.setTestplan(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isUserIdValid(CopyTestPlanDto copyTestPlanDto) {
+        var response = customerServiceVerifier.isUserIdValid(copyTestPlanDto.getUserId());
+        if (!CollectionUtils.isEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        copyTestPlanDto.setCustomDetail(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<ErrorMessageDto> isTestplanNameValid(CreateTestplanDto createTestplan) {
         var testplanDao = testPlanRepository.findByNameAndUserId(createTestplan.getUserId(), createTestplan.getName());
         if (testplanDao != null) {
@@ -61,22 +134,12 @@ public class TestplanVerifierImpl implements TestplanVerifier {
     }
 
     @Override
-    public List<ErrorMessageDto> verifyGetTestplans(Long userId) {
-        return isUserIdValid(userId);
-    }
-
-    @Override
     public List<ErrorMessageDto> isUserIdValid(Long userId) {
         var response = customerServiceVerifier.isUserIdValid(userId);
         if (!CollectionUtils.isEmpty(response.getKey())) {
             return response.getKey();
         }
         return Collections.emptyList();
-    }
-
-    @Override
-    public List<ErrorMessageDto> verifyDeleteTestplan(DeleteTestplanDto deleteTestplan) {
-        return isTestplanIdValid(deleteTestplan);
     }
 
     @Override
@@ -102,15 +165,6 @@ public class TestplanVerifierImpl implements TestplanVerifier {
     }
 
     @Override
-    public List<ErrorMessageDto> verifyUpdateTestplan(UpdateTestplanDto updateTestplan) {
-        var errors = isTestplanIdValid(updateTestplan);
-        if (CollectionUtils.isNotEmpty(errors)) {
-            return errors;
-        }
-        return isTestplanNameValid(updateTestplan);
-    }
-
-    @Override
     public List<ErrorMessageDto> isTestplanNameValid(UpdateTestplanDto updateTestplan) {
         if (StringUtils.equalsAnyIgnoreCase(updateTestplan.getName(), updateTestplan.getName())) {
             return Collections.emptyList();
@@ -131,19 +185,6 @@ public class TestplanVerifierImpl implements TestplanVerifier {
         }
         updateTestplan.setTestplan(response.getValue());
         return Collections.emptyList();
-    }
-
-    @Override
-    public List<ErrorMessageDto> verifyUpdateTestplanStatus(UpdateTestplanStatusDto updateTestplanStatus) {
-        var errors = isTestplanIdValid(updateTestplanStatus);
-        if (CollectionUtils.isNotEmpty(errors)) {
-            return errors;
-        }
-        errors = isUserIdValid(updateTestplanStatus);
-        if (CollectionUtils.isNotEmpty(errors)) {
-            return errors;
-        }
-        return isTestplanStatusValid(updateTestplanStatus);
     }
 
     @Override
