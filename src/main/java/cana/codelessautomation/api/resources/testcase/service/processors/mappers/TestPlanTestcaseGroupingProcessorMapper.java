@@ -5,5 +5,8 @@ import cana.codelessautomation.api.resources.testcase.service.dtos.UpdateTestCas
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestplanTestcaseGroupingDao;
 
 public interface TestPlanTestcaseGroupingProcessorMapper {
+
     TestplanTestcaseGroupingDao mapTestplanTestcaseGroupingDao(UpdateTestCaseOrderDto updateTestCaseOrderDto, TestCaseOrderDto testCaseOrderDto);
+
+    TestplanTestcaseGroupingDao mapNewTestplanTestcaseGroupingDao(UpdateTestCaseOrderDto updateTestCaseOrderDto, TestCaseOrderDto testCaseOrderDto);
 }

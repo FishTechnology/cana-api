@@ -117,6 +117,9 @@ public class TestCaseVerifierImpl implements TestCaseVerifier {
     @Override
     public List<ErrorMessageDto> isTestPlanAndTestCaseGroupValid(UpdateTestCaseOrderDto updateTestCaseOrderDto) {
         for (TestCaseOrderDto testCaseOrderDto : updateTestCaseOrderDto.getTestCaseOrderDtos()) {
+            if (Objects.isNull(testCaseOrderDto.getOldExecutionOrder())) {
+                continue;
+            }
             var testplanTestcaseGroupingDao = testplanTestcaseGroupingRepository.findByTestPlanIdAndTestCaseId(updateTestCaseOrderDto.getTestPlanId(), testCaseOrderDto.getTestCaseId());
             if (Objects.isNull(testplanTestcaseGroupingDao)) {
                 return CanaUtility.getErrorMessages(testPlanAndTestCaseGroupErrorCode.getGroupingNotFoundErrorCode());
