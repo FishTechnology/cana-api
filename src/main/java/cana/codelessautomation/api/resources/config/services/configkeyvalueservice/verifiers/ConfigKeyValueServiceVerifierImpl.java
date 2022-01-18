@@ -2,6 +2,7 @@ package cana.codelessautomation.api.resources.config.services.configkeyvalueserv
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.application.service.verifiers.ApplicationVerifier;
 import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.dtos.CreateConfigKeyValueDto;
 import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.dtos.GetConfigKeyValueDto;
 import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.errorcodes.ConfigKeyValueServiceErrorCode;
@@ -31,6 +32,9 @@ public class ConfigKeyValueServiceVerifierImpl implements ConfigKeyValueServiceV
     @Inject
     ConfigKeyValueServiceErrorCode configKeyValueServiceErrorCode;
 
+    @Inject
+    ApplicationVerifier applicationVerifier;
+
     @Override
     public List<ErrorMessageDto> verifyCreateConfigKeyValue(CreateConfigKeyValueDto createConfigKeyValueDto) {
         var errors = isUserIdValid(createConfigKeyValueDto);
@@ -42,7 +46,21 @@ public class ConfigKeyValueServiceVerifierImpl implements ConfigKeyValueServiceV
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
         }
+        errors = isApplicationIdValid(createConfigKeyValueDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
         return isConfigKeyValid(createConfigKeyValueDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isApplicationIdValid(CreateConfigKeyValueDto createConfigKeyValueDto) {
+        var response = applicationVerifier.isApplicationIdValid(createConfigKeyValueDto.getApplicationId());
+        if (!CollectionUtils.isEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        createConfigKeyValueDto.setApplication(response.getValue());
+        return Collections.emptyList();
     }
 
     @Override

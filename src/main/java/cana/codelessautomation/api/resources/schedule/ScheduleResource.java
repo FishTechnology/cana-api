@@ -1,13 +1,13 @@
 package cana.codelessautomation.api.resources.schedule;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.schedule.mappers.ReScheduleModel;
 import cana.codelessautomation.api.resources.schedule.mappers.ScheduleResourceMapper;
 import cana.codelessautomation.api.resources.schedule.models.*;
 import cana.codelessautomation.api.resources.schedule.service.ScheduleService;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
@@ -86,6 +86,15 @@ public class ScheduleResource {
         var scheduleIterationResultDto = scheduleResourceMapper.mapScheduleIterationResultDto(scheduleId, scheduleIterationId);
         var errors = scheduleService.getScheduleIterationResult(scheduleIterationResultDto);
         return scheduleResourceMapper.mapScheduleIterationResultModel(errors, scheduleIterationResultDto);
+    }
+
+    @GET
+    @Path("/schedules/runningSchedule")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ScheduleModel getRunningSchedule() throws ValidationException {
+        var scheduleEntities = scheduleService.getRunningSchedule();
+        return scheduleResourceMapper.mapScheduleIterationResultModel(scheduleEntities);
     }
 
     @POST

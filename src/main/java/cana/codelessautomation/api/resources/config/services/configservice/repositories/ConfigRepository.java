@@ -9,8 +9,8 @@ import java.util.List;
 
 @ApplicationScoped
 public class ConfigRepository implements PanacheRepository<ConfigDao> {
-    public List<ConfigDao> findByUserId(Long userId, ConfigTypeDao configType) {
-        return list("userId = ?1 and type = ?2  and isActive=true", userId, configType);
+    public List<ConfigDao> findByUserId(Long applicationId, ConfigTypeDao configType) {
+        return list("applicationId = ?1 and type = ?2  and isActive=true", applicationId, configType);
     }
 
     public List<ConfigDao> findByUserIdAndTypeAndName(Long userId, ConfigTypeDao configType, String name) {

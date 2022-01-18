@@ -1,12 +1,14 @@
 package cana.codelessautomation.api.resources.application.service.processors;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.application.service.dtos.CreateApplicationDto;
 import cana.codelessautomation.api.resources.application.service.dtos.DeleteApplicationDto;
 import cana.codelessautomation.api.resources.application.service.dtos.UpdateApplicationDto;
 import cana.codelessautomation.api.resources.application.service.processors.mappers.ApplicationProcessorMapper;
 import cana.codelessautomation.api.resources.application.service.repositories.ApplicationRepository;
 import cana.codelessautomation.api.resources.application.service.repositories.daos.ApplicationDao;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.system.service.processors.SystemConfigProcessor;
+import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,9 +24,22 @@ public class ApplicationProcessorImpl implements ApplicationProcessor {
     @Inject
     ApplicationRepository applicationRepository;
 
+    @Inject
+    SystemConfigProcessor systemConfigProcessor;
+
     @Override
     public List<ErrorMessageDto> processCreateApplication(CreateApplicationDto createApplicationDto) {
-        return createApplication(createApplicationDto);
+        var errors = createApplication(createApplicationDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return createSystemConfig(createApplicationDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> createSystemConfig(CreateApplicationDto createApplicationDto) {
+        systemConfigProcessor.createInitialConfig(createApplicationDto.getId(), createApplicationDto.getUserId());
+        return Collections.emptyList();
     }
 
     @Override

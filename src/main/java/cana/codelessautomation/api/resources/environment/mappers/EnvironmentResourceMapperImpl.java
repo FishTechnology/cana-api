@@ -30,11 +30,12 @@ public class EnvironmentResourceMapperImpl implements EnvironmentResourceMapper 
     }
 
     @Override
-    public CreateEnvironmentDto mapCreateEnvVariableDto(CreateEnvironmentModel createEnvVariableModel) {
+    public CreateEnvironmentDto mapCreateEnvVariableDto(Long applicationId, CreateEnvironmentModel createEnvVariableModel) {
         CreateEnvironmentDto createEnvironment = new CreateEnvironmentDto();
         createEnvironment.setName(createEnvVariableModel.getName());
         createEnvironment.setComments(createEnvVariableModel.getComments());
         createEnvironment.setUserId(createEnvVariableModel.getUserId());
+        createEnvironment.setApplicationId(applicationId);
         return createEnvironment;
         // return mapperCreateEnvironment.getDestination(createEnvVariableModel);
     }

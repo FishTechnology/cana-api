@@ -8,8 +8,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class GetConfigsByUserIdDto {
+public class GetConfigsByAppIdDto {
     private Long userId;
+    private Long applicationId;
     private ConfigTypeDao configType;
     private CustomDetailDao customDetailDao;
     private List<ConfigDao> configDaos;

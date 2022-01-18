@@ -10,6 +10,8 @@ public interface ConfigKeyValueServiceVerifier {
 
     List<ErrorMessageDto> verifyCreateConfigKeyValue(CreateConfigKeyValueDto createConfigKeyValueDto);
 
+    List<ErrorMessageDto> isApplicationIdValid(CreateConfigKeyValueDto createConfigKeyValueDto);
+
     List<ErrorMessageDto> isConfigKeyValid(CreateConfigKeyValueDto createConfigKeyValueDto);
 
     List<ErrorMessageDto> isUserIdValid(CreateConfigKeyValueDto createConfigKeyValueDto);

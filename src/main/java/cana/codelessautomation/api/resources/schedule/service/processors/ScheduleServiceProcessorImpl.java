@@ -1,7 +1,8 @@
 package cana.codelessautomation.api.resources.schedule.service.processors;
 
-import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
 import cana.codelessautomation.api.resources.notification.service.mappers.NotificationMapper;
 import cana.codelessautomation.api.resources.notification.service.repositories.NotificationRepository;
 import cana.codelessautomation.api.resources.result.actionresult.service.repositories.ActionResultRepository;
@@ -14,9 +15,8 @@ import cana.codelessautomation.api.resources.schedule.service.processors.mappers
 import cana.codelessautomation.api.resources.schedule.service.processors.mappers.ScheduleServiceProcessorMapper;
 import cana.codelessautomation.api.resources.schedule.service.repositories.ScheduleIterationRepository;
 import cana.codelessautomation.api.resources.schedule.service.repositories.ScheduleRepository;
-import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleDetailEntity;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleSummaryEntity;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.entities.TestPlanSummaryDaoEntity;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -110,8 +110,8 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
     }
 
     @Override
-    public ScheduleDetailEntity processGetScheduleDetail(Long scheduleId) {
-        return ScheduleDetailEntity.findByIdAndStatus(scheduleId);
+    public ScheduleSummaryEntity processGetScheduleDetail(Long scheduleId) {
+        return ScheduleSummaryEntity.findByIdAndStatus(scheduleId);
     }
 
     @Override

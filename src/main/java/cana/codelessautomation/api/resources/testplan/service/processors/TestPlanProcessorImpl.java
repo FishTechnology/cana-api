@@ -39,13 +39,13 @@ public class TestPlanProcessorImpl implements TestPlanProcessor {
     }
 
     @Override
-    public List<TestplanDao> processorGetTestplans(Long userId) {
-        return getTestplans(userId);
+    public List<TestplanDao> processorGetTestplans(Long applicationId, Long userId) {
+        return getTestplans(applicationId);
     }
 
     @Override
-    public List<TestplanDao> getTestplans(Long userId) {
-        return testPlanRepository.findByUserId(userId);
+    public List<TestplanDao> getTestplans(Long applicationId) {
+        return testPlanRepository.findByUserId(applicationId);
     }
 
     @Override

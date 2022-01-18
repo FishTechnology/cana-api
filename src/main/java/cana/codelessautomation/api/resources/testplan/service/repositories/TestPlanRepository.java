@@ -16,8 +16,8 @@ public class TestPlanRepository implements PanacheRepository<TestplanDao> {
         return find("name = ?1 and userid = ?2", name, userId).firstResult();
     }
 
-    public List<TestplanDao> findByUserId(Long userId) {
-        return list("userid = ?1 and status NOT IN ( ?2 )", userId, TestPlanStatusDao.DELETED);
+    public List<TestplanDao> findByUserId(Long applicationId) {
+        return list("applicationId = ?1 and status NOT IN ( ?2 )", applicationId, TestPlanStatusDao.DELETED);
     }
 
     public TestplanDao findByIdAndStatus(Long testplanId) {

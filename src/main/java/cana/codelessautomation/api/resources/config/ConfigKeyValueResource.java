@@ -19,7 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/api")
+@Path("/api/applications/{applicationId}")
 @ApplicationScoped
 public class ConfigKeyValueResource {
 
@@ -34,8 +34,8 @@ public class ConfigKeyValueResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public ResultModel createConfigKeyValue(@Valid @PathParam String configType, @Valid @PathParam String configId, @Valid CreateConfigKeyValueModel createConfigKeyValue) {
-        var createConfigKeyValueDto = configKeyValueResourceMapper.mapCreateConfigKeyValueDto(configType, configId, createConfigKeyValue);
+    public ResultModel createConfigKeyValue(@Valid @PathParam Long applicationId, @Valid @PathParam String configType, @Valid @PathParam String configId, @Valid CreateConfigKeyValueModel createConfigKeyValue) {
+        var createConfigKeyValueDto = configKeyValueResourceMapper.mapCreateConfigKeyValueDto(applicationId, configType, configId, createConfigKeyValue);
         var errorMessages = configKeyValueService.createConfigKeyValue(createConfigKeyValueDto);
         return configKeyValueResourceMapper.mapResultModel(errorMessages, createConfigKeyValueDto);
     }

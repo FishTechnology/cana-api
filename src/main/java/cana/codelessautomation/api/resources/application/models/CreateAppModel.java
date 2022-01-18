@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public class CreateAppModel {
     @NotNull(message = ApplicationErrorCode.getAppNameIsNullErrorCode)
     @NotEmpty(message = ApplicationErrorCode.getAppNameIsEmptyErrorCode)
-    @Length(min = 5, message = ApplicationErrorCode.getAppNameIsMinErrorCode)
+    @Length(min = 2, message = ApplicationErrorCode.getAppNameIsMinErrorCode)
     private String name;
     //    @NotNull(message = CustomerErrorCode.getUserIdIsNullErrorCode)
 //    @NotEmpty(message = CustomerErrorCode.getUserIdIsEmptyErrorCode)

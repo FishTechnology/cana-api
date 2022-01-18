@@ -9,7 +9,6 @@ import cana.codelessautomation.api.resources.config.models.CreateConfigModel;
 import cana.codelessautomation.api.resources.config.services.configservice.ConfigService;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
-import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -21,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@Path("/api")
+@Path("/api/applications/{applicationId}")
 @ApplicationScoped
 public class ConfigResource {
     @Inject
@@ -34,9 +33,9 @@ public class ConfigResource {
     @Path("/configs/{configType}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<ConfigModel> getConfigsByUserId(@Valid @PathParam String configType, @QueryParam String userId) {
-        var getConfigsByUserIdDto = configResourceMapper.mapGetConfigsByUserIdDto(userId, configType);
-        var errorMessages = configService.getConfigsByUserId(getConfigsByUserIdDto);
+    public List<ConfigModel> getConfigsByAppId(@Valid @PathParam Long applicationId, @Valid @PathParam String configType) {
+        var getConfigsByUserIdDto = configResourceMapper.mapGetConfigsByUserIdDto(applicationId, configType);
+        var errorMessages = configService.getConfigsByAppId(getConfigsByUserIdDto);
         if (CollectionUtils.isNotEmpty(errorMessages)) {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }
@@ -51,8 +50,8 @@ public class ConfigResource {
     @Path("/configs/{configType}/{configId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ConfigModel getConfigById(@Valid @PathParam String configType, @Valid @PathParam String configId) {
-        var getConfigByIdDto = configResourceMapper.mapGetConfigByIdDto(configId, configType);
+    public ConfigModel getConfigById(@Valid @PathParam Long applicationId, @Valid @PathParam String configType, @Valid @PathParam String configId) {
+        var getConfigByIdDto = configResourceMapper.mapGetConfigByIdDto(applicationId, configId, configType);
         var errorMessages = configService.getConfigById(getConfigByIdDto);
         if (CollectionUtils.isNotEmpty(errorMessages)) {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
@@ -70,8 +69,8 @@ public class ConfigResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public ResultModel createConfig(@Valid CreateConfigModel createConfigModel, @Valid @PathParam String configType) {
-        var createConfigDto = configResourceMapper.mapCreateConfigDto(createConfigModel, configType);
+    public ResultModel createConfig(@Valid @PathParam Long applicationId, @Valid CreateConfigModel createConfigModel, @Valid @PathParam String configType) {
+        var createConfigDto = configResourceMapper.mapCreateConfigDto(applicationId, createConfigModel, configType);
         var errorMessages = configService.createConfig(createConfigDto);
         return configResourceMapper.mapResultModel(errorMessages, createConfigDto);
     }

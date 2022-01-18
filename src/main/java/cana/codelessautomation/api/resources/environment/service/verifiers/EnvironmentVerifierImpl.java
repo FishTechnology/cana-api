@@ -2,6 +2,8 @@ package cana.codelessautomation.api.resources.environment.service.verifiers;
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.dtos.KeyValue;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.application.service.verifiers.ApplicationVerifier;
 import cana.codelessautomation.api.resources.customer.service.verifiers.CustomerServiceVerifier;
 import cana.codelessautomation.api.resources.environment.service.dtos.CreateEnvironmentDto;
 import cana.codelessautomation.api.resources.environment.service.dtos.DeleteEnvironmentDto;
@@ -9,7 +11,6 @@ import cana.codelessautomation.api.resources.environment.service.dtos.UpdateEnvi
 import cana.codelessautomation.api.resources.environment.service.errorcodes.EnvironmentErrorCode;
 import cana.codelessautomation.api.resources.environment.service.repositories.EnvironmentRepository;
 import cana.codelessautomation.api.resources.environment.service.repositories.daos.EnvironmentDao;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,13 +30,31 @@ public class EnvironmentVerifierImpl implements EnvironmentVerifier {
     @Inject
     EnvironmentErrorCode environmentErrorCode;
 
+    @Inject
+    ApplicationVerifier applicationVerifier;
+
     @Override
     public List<ErrorMessageDto> verifyCreateEnvironment(CreateEnvironmentDto createEnvironmentDto) {
         var errorMessage = isUserIdValid(createEnvironmentDto);
         if (CollectionUtils.isNotEmpty(errorMessage)) {
             return errorMessage;
         }
+
+        errorMessage = isApplicationIdValid(createEnvironmentDto);
+        if (CollectionUtils.isNotEmpty(errorMessage)) {
+            return errorMessage;
+        }
         return isNameValid(createEnvironmentDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isApplicationIdValid(CreateEnvironmentDto createEnvironmentDto) {
+        var response = this.applicationVerifier.isApplicationIdValid(createEnvironmentDto.getApplicationId());
+        if (!CollectionUtils.isEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        createEnvironmentDto.setApplication(createEnvironmentDto.getApplication());
+        return Collections.emptyList();
     }
 
     @Override

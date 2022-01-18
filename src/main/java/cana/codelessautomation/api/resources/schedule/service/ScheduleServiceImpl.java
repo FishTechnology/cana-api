@@ -1,15 +1,16 @@
 package cana.codelessautomation.api.resources.schedule.service;
 
-import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.schedule.service.dtos.*;
 import cana.codelessautomation.api.resources.schedule.service.processors.ScheduleServiceProcessor;
 import cana.codelessautomation.api.resources.schedule.service.repositories.ScheduleIterationRepository;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleIterationDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleStatusDao;
-import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleDetailEntity;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleEntity;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleSummaryEntity;
 import cana.codelessautomation.api.resources.schedule.service.verifiers.ScheduleServiceVerifier;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -82,7 +83,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ScheduleDetailEntity getScheduler(Long scheduleId) {
+    public ScheduleSummaryEntity getScheduler(Long scheduleId) {
         return scheduleServiceProcessor.processGetScheduleDetail(scheduleId);
     }
 
@@ -116,5 +117,10 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
         }
         return scheduleServiceProcessor.processReSchedule(reScheduleStatusDto);
+    }
+
+    @Override
+    public List<ScheduleEntity> getRunningSchedule() {
+        return ScheduleEntity.findFirstByStatus(ScheduleStatusDao.INPROGRESS);
     }
 }

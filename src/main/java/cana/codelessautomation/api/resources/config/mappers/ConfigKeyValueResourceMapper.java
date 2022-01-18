@@ -11,7 +11,7 @@ import cana.codelessautomation.api.resources.config.services.configkeyvalueservi
 import java.util.List;
 
 public interface ConfigKeyValueResourceMapper {
-    CreateConfigKeyValueDto mapCreateConfigKeyValueDto(String configType, String configId, CreateConfigKeyValueModel createConfigKeyValue);
+    CreateConfigKeyValueDto mapCreateConfigKeyValueDto(Long applicationId, String configType, String configId, CreateConfigKeyValueModel createConfigKeyValue);
 
     ResultModel mapResultModel(List<ErrorMessageDto> errorMessages, CreateConfigKeyValueDto createConfigKeyValueDto);
 

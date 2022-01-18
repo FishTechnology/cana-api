@@ -3,7 +3,7 @@ package cana.codelessautomation.api.resources.config.services.configservice.proc
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.CreateConfigDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigByIdDto;
-import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByUserIdDto;
+import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByAppIdDto;
 import cana.codelessautomation.api.resources.config.services.configservice.processors.mappers.ConfigServiceProcessorMapper;
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.ConfigRepository;
 
@@ -22,8 +22,8 @@ public class ConfigServiceProcessorImpl implements ConfigServiceProcessor {
     ConfigServiceProcessorMapper configServiceProcessorMapper;
 
     @Override
-    public List<ErrorMessageDto> processorGetConfigsByUserId(GetConfigsByUserIdDto getConfigsByUserIdDto) {
-        return getConfigsByUserId(getConfigsByUserIdDto);
+    public List<ErrorMessageDto> processorGetConfigsByAppId(GetConfigsByAppIdDto getConfigsByAppIdDto) {
+        return getConfigsByUserId(getConfigsByAppIdDto);
     }
 
     @Override
@@ -32,14 +32,14 @@ public class ConfigServiceProcessorImpl implements ConfigServiceProcessor {
     }
 
     @Override
-    public List<ErrorMessageDto> getConfigsByUserId(GetConfigsByUserIdDto getConfigsByUserIdDto) {
+    public List<ErrorMessageDto> getConfigsByUserId(GetConfigsByAppIdDto getConfigsByAppIdDto) {
         var configDaos =
-                configRepository.findByUserId(getConfigsByUserIdDto.getUserId(), getConfigsByUserIdDto.getConfigType());
+                configRepository.findByUserId(getConfigsByAppIdDto.getApplicationId(), getConfigsByAppIdDto.getConfigType());
 
         if (Objects.isNull(configDaos)) {
             return Collections.emptyList();
         }
-        getConfigsByUserIdDto.setConfigDaos(configDaos);
+        getConfigsByAppIdDto.setConfigDaos(configDaos);
         return Collections.emptyList();
     }
 

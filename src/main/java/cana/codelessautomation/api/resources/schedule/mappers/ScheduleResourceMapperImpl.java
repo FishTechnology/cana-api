@@ -15,7 +15,8 @@ import cana.codelessautomation.api.resources.schedule.service.dtos.*;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleIterationDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleStatusDao;
-import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleDetailEntity;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleEntity;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleSummaryEntity;
 import cana.codelessautomation.api.resources.testplan.mappers.TestplanResourceMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.EnumUtils;
@@ -208,7 +209,7 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     }
 
     @Override
-    public ScheduleModel mapScheduleModel(ScheduleDetailEntity scheduleDetailEntity) {
+    public ScheduleModel mapScheduleModel(ScheduleSummaryEntity scheduleDetailEntity) {
         ScheduleModel scheduleModel = new ScheduleModel();
         scheduleModel.setId(scheduleDetailEntity.getId());
         scheduleModel.setEnvironmentId(scheduleDetailEntity.getEnvironmentId());
@@ -223,7 +224,7 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     }
 
     @Override
-    public ScheduleDetailModel mapScheduleDetailModel(ScheduleDetailEntity scheduleDetailEntity) {
+    public ScheduleDetailModel mapScheduleDetailModel(ScheduleSummaryEntity scheduleDetailEntity) {
         ScheduleDetailModel scheduleDetailModel = new ScheduleDetailModel();
         scheduleDetailModel.setScheduleModel(mapScheduleModel(scheduleDetailEntity));
         var filterScheduleIteration = scheduleDetailEntity
@@ -253,5 +254,10 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         reScheduleStatusDto.setUserId(reScheduleModel.getUserId());
         reScheduleStatusDto.setScheduleId(scheduleId);
         return reScheduleStatusDto;
+    }
+
+    @Override
+    public ScheduleModel mapScheduleIterationResultModel(List<ScheduleEntity> scheduleEntities) {
+        return null;
     }
 }

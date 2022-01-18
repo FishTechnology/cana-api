@@ -20,6 +20,8 @@ public interface EnvironmentVerifier {
 
     List<ErrorMessageDto> verifyCreateEnvironment(CreateEnvironmentDto createEnvironmentDto);
 
+    List<ErrorMessageDto> isApplicationIdValid(CreateEnvironmentDto createEnvironmentDto);
+
     List<ErrorMessageDto> verifyGetEnvironments(Long userId);
 
     List<ErrorMessageDto> verifyDeleteEnvironment(DeleteEnvironmentDto deleteEnvironment);

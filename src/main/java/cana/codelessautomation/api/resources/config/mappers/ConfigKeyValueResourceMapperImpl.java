@@ -19,13 +19,14 @@ import java.util.List;
 @ApplicationScoped
 public class ConfigKeyValueResourceMapperImpl implements ConfigKeyValueResourceMapper {
     @Override
-    public CreateConfigKeyValueDto mapCreateConfigKeyValueDto(String configType, String configId, CreateConfigKeyValueModel createConfigKeyValue) {
+    public CreateConfigKeyValueDto mapCreateConfigKeyValueDto(Long applicationId, String configType, String configId, CreateConfigKeyValueModel createConfigKeyValue) {
         CreateConfigKeyValueDto createConfigKeyValueDto = new CreateConfigKeyValueDto();
         createConfigKeyValueDto.setKey(createConfigKeyValue.getKey());
         createConfigKeyValueDto.setValue(createConfigKeyValue.getValue());
         createConfigKeyValueDto.setFileId(createConfigKeyValue.getFileId());
         createConfigKeyValueDto.setComments(createConfigKeyValue.getComments());
         createConfigKeyValueDto.setUserId(createConfigKeyValue.getUserId());
+        createConfigKeyValueDto.setApplicationId(applicationId);
         createConfigKeyValueDto.setType(EnumUtils.getEnumIgnoreCase(ConfigKeyValueType.class, createConfigKeyValue.getType()));
         createConfigKeyValueDto.setConfigId(Long.valueOf(configId));
         return createConfigKeyValueDto;

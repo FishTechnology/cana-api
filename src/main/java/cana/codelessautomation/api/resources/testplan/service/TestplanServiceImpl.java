@@ -48,13 +48,13 @@ public class TestplanServiceImpl implements TestplanService {
     }
 
     @Override
-    public List<TestplanDao> getTestplans(Long userId) throws ValidationException {
-        var errors = testplanVerifier.verifyGetTestplans(userId);
+    public List<TestplanDao> getTestplans(Long applicationId, Long userId) throws ValidationException {
+        var errors = testplanVerifier.verifyGetTestplans(applicationId, userId);
         if (CollectionUtils.isNotEmpty(errors)) {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
         }
 
-        return testPlanProcessor.processorGetTestplans(userId);
+        return testPlanProcessor.processorGetTestplans(applicationId, userId);
     }
 
     @Override

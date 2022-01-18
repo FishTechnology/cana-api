@@ -8,4 +8,5 @@ public class CreateConfigModel {
     private Long userId;
     private String comments;
     private String identifier;
+    private Long applicationId;
 }

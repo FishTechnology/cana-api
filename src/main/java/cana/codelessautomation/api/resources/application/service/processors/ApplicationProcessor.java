@@ -1,15 +1,17 @@
 package cana.codelessautomation.api.resources.application.service.processors;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.application.service.dtos.CreateApplicationDto;
 import cana.codelessautomation.api.resources.application.service.dtos.DeleteApplicationDto;
 import cana.codelessautomation.api.resources.application.service.dtos.UpdateApplicationDto;
 import cana.codelessautomation.api.resources.application.service.repositories.daos.ApplicationDao;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 
 import java.util.List;
 
 public interface ApplicationProcessor {
     List<ErrorMessageDto> processCreateApplication(CreateApplicationDto createApplicationDto);
+
+    List<ErrorMessageDto> createSystemConfig(CreateApplicationDto createApplicationDto);
 
     List<ErrorMessageDto> createApplication(CreateApplicationDto createApplicationDto);
 

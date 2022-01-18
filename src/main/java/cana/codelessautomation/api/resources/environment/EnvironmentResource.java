@@ -1,6 +1,7 @@
 package cana.codelessautomation.api.resources.environment;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.environment.mappers.EnvironmentResourceMapper;
@@ -8,7 +9,6 @@ import cana.codelessautomation.api.resources.environment.models.CreateEnvironmen
 import cana.codelessautomation.api.resources.environment.models.EnvironmentModel;
 import cana.codelessautomation.api.resources.environment.models.UpdateEnvironmentModel;
 import cana.codelessautomation.api.resources.environment.service.EnvironmentService;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
@@ -21,7 +21,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
 
-@Path("/api")
+@Path("/api/applications/{applicationId}")
 public class EnvironmentResource {
 
     @Inject
@@ -35,8 +35,8 @@ public class EnvironmentResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public ResultModel createEnvironment(@Valid CreateEnvironmentModel createEnvVariableModel) throws ValidationException {
-        var createEnvironmentDto = environmentResourceMapper.mapCreateEnvVariableDto(createEnvVariableModel);
+    public ResultModel createEnvironment(@Valid Long applicationId, @Valid CreateEnvironmentModel createEnvVariableModel) throws ValidationException {
+        var createEnvironmentDto = environmentResourceMapper.mapCreateEnvVariableDto(applicationId, createEnvVariableModel);
         var errorMessages = environmentService.createEnvironment(createEnvironmentDto);
         return environmentResourceMapper.mapResultModel(createEnvironmentDto, errorMessages);
     }

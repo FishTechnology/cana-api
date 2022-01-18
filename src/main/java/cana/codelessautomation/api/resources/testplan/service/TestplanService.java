@@ -10,7 +10,7 @@ import java.util.List;
 public interface TestplanService {
     List<ErrorMessageDto> createTestplan(CreateTestplanDto createTestplanDto) throws ValidationException;
 
-    List<TestplanDao> getTestplans(Long userId) throws ValidationException;
+    List<TestplanDao> getTestplans(Long applicationId, Long userId) throws ValidationException;
 
     TestplanDao getTestplanById(Long testplanId) throws ValidationException;
 

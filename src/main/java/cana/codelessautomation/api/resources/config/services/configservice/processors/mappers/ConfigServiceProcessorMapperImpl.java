@@ -20,6 +20,7 @@ public class ConfigServiceProcessorMapperImpl implements ConfigServiceProcessorM
         configDao.setType(createConfigDto.getType());
         configDao.setName(createConfigDto.getName());
         configDao.setComments(createConfigDto.getComments());
+        configDao.setApplicationId(createConfigDto.getApplicationId());
         if (!Objects.isNull(createConfigDto.getIdentifier()) && createConfigDto.getIdentifier() > 0) {
             configDao.setIdentifier(createConfigDto.getIdentifier());
         }

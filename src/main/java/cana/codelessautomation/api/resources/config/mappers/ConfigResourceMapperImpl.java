@@ -10,7 +10,7 @@ import cana.codelessautomation.api.resources.config.models.CreateConfigModel;
 import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.repositories.daos.ConfigKeyValueDao;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.CreateConfigDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigByIdDto;
-import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByUserIdDto;
+import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByAppIdDto;
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.daos.ConfigDao;
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.daos.ConfigTypeDao;
 import org.apache.commons.collections.CollectionUtils;
@@ -30,17 +30,17 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
     ConfigKeyValueResourceMapper configKeyValueResourceMapper;
 
     @Override
-    public GetConfigsByUserIdDto mapGetConfigsByUserIdDto(String userId, String configType) {
-        GetConfigsByUserIdDto getTestCaseByTestPlanId = new GetConfigsByUserIdDto();
-        getTestCaseByTestPlanId.setUserId(Long.valueOf(userId));
+    public GetConfigsByAppIdDto mapGetConfigsByUserIdDto(Long applicationId, String configType) {
+        GetConfigsByAppIdDto getTestCaseByTestPlanId = new GetConfigsByAppIdDto();
+        getTestCaseByTestPlanId.setApplicationId(applicationId);
         getTestCaseByTestPlanId.setConfigType(EnumUtils.getEnum(ConfigTypeDao.class, configType));
         return getTestCaseByTestPlanId;
     }
 
     @Override
-    public List<ConfigModel> mapConfigModels(GetConfigsByUserIdDto getConfigsByUserIdDto) {
+    public List<ConfigModel> mapConfigModels(GetConfigsByAppIdDto getConfigsByAppIdDto) {
         List<ConfigModel> configModels = new ArrayList<>();
-        for (ConfigDao configDao : getConfigsByUserIdDto.getConfigDaos()) {
+        for (ConfigDao configDao : getConfigsByAppIdDto.getConfigDaos()) {
             configModels.add(mapConfigModel(configDao));
         }
         return configModels;
@@ -59,6 +59,7 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
         configModel.setComments(configDao.getComments());
         configModel.setUserId(configDao.getUserId().toString());
         configModel.setIsActive(configDao.getIsActive());
+        configModel.setApplicationId(configDao.getApplicationId().toString());
         if (!Objects.isNull(configDao.getIdentifier())) {
             configModel.setIdentifier(configDao.getIdentifier().toString());
         }
@@ -78,11 +79,13 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
     }
 
     @Override
-    public CreateConfigDto mapCreateConfigDto(CreateConfigModel createConfigModel, String configType) {
+    public CreateConfigDto mapCreateConfigDto(Long applicationId, CreateConfigModel createConfigModel, String configType) {
         CreateConfigDto createConfigDto = new CreateConfigDto();
+        createConfigDto.setApplicationId(applicationId);
         createConfigDto.setUserId(createConfigModel.getUserId());
         createConfigDto.setName(createConfigModel.getName());
         createConfigDto.setComments(createConfigModel.getComments());
+        createConfigDto.setApplicationId(createConfigModel.getApplicationId());
         if (StringUtils.isNotEmpty(createConfigModel.getIdentifier())) {
             createConfigDto.setIdentifier(Long.valueOf(createConfigModel.getIdentifier()));
         }
@@ -102,8 +105,9 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
     }
 
     @Override
-    public GetConfigByIdDto mapGetConfigByIdDto(String configId, String configType) {
+    public GetConfigByIdDto mapGetConfigByIdDto(Long applicationId, String configId, String configType) {
         GetConfigByIdDto getConfigByIdDto = new GetConfigByIdDto();
+        getConfigByIdDto.setApplicationId(applicationId);
         getConfigByIdDto.setConfigId(Long.valueOf(configId));
         getConfigByIdDto.setConfigType(EnumUtils.getEnumIgnoreCase(ConfigTypeDao.class, configType));
         return getConfigByIdDto;

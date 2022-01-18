@@ -3,6 +3,7 @@ package cana.codelessautomation.api.resources.testplan.service.verifiers;
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.dtos.KeyValue;
 import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.application.service.verifiers.ApplicationVerifier;
 import cana.codelessautomation.api.resources.customer.service.verifiers.CustomerServiceVerifier;
 import cana.codelessautomation.api.resources.testplan.service.dtos.*;
 import cana.codelessautomation.api.resources.testplan.service.errorcodes.TestplanErrorCode;
@@ -29,6 +30,9 @@ public class TestplanVerifierImpl implements TestplanVerifier {
     @Inject
     CustomerServiceVerifier customerServiceVerifier;
 
+    @Inject
+    ApplicationVerifier applicationVerifier;
+
     @Override
     public List<ErrorMessageDto> verifyCreateTestplan(CreateTestplanDto createTestplan) {
         var errors = isUserIdValid(createTestplan);
@@ -54,8 +58,21 @@ public class TestplanVerifierImpl implements TestplanVerifier {
     }
 
     @Override
-    public List<ErrorMessageDto> verifyGetTestplans(Long userId) {
+    public List<ErrorMessageDto> verifyGetTestplans(Long applicationId, Long userId) {
+        var errors = isApplicationIdValid(applicationId);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
         return isUserIdValid(userId);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isApplicationIdValid(Long applicationId) {
+        var response = applicationVerifier.isApplicationIdValid(applicationId);
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        return Collections.emptyList();
     }
 
     @Override

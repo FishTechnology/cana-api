@@ -20,9 +20,11 @@ public interface TestplanVerifier {
 
     List<ErrorMessageDto> isUserIdValid(CopyTestPlanDto copyTestPlanDto);
 
-    List<ErrorMessageDto> verifyGetTestplans(Long userId);
+    List<ErrorMessageDto> verifyGetTestplans(Long applicationId, Long userId);
 
     List<ErrorMessageDto> isUserIdValid(Long userId);
+
+    List<ErrorMessageDto> isApplicationIdValid(Long applicationId);
 
     List<ErrorMessageDto> verifyDeleteTestplan(DeleteTestplanDto testplanId);
 

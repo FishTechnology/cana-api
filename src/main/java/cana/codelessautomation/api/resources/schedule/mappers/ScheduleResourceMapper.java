@@ -1,18 +1,19 @@
 package cana.codelessautomation.api.resources.schedule.mappers;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultSummaryModel;
-import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultSummaryModel;
-import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
-import cana.codelessautomation.api.resources.schedule.models.*;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.result.actionresult.service.repositories.daos.ActionResultDao;
+import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultSummaryModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultDao;
+import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultSummaryModel;
 import cana.codelessautomation.api.resources.result.testplanresult.service.repositories.daos.TestPlanResultDao;
+import cana.codelessautomation.api.resources.schedule.models.*;
 import cana.codelessautomation.api.resources.schedule.service.dtos.*;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleIterationDao;
-import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleDetailEntity;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleEntity;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleSummaryEntity;
 
 import java.util.List;
 
@@ -43,11 +44,13 @@ public interface ScheduleResourceMapper {
 
     ScheduleModel mapScheduleModel(ScheduleDao scheduleDao);
 
-    ScheduleModel mapScheduleModel(ScheduleDetailEntity scheduleDetailEntity);
+    ScheduleModel mapScheduleModel(ScheduleSummaryEntity scheduleDetailEntity);
 
-    ScheduleDetailModel mapScheduleDetailModel(ScheduleDetailEntity scheduleDetailEntity);
+    ScheduleDetailModel mapScheduleDetailModel(ScheduleSummaryEntity scheduleDetailEntity);
 
     UpdateScheduleStatusReadyDto mapUpdateScheduleStatusDto(Long scheduleId, UpdateScheduleStatusModel scheduleStatus);
 
     ReScheduleStatusDto mapReScheduleStatusDto(Long scheduleId, ReScheduleModel reScheduleModel);
+
+    ScheduleModel mapScheduleIterationResultModel(List<ScheduleEntity> scheduleEntities);
 }

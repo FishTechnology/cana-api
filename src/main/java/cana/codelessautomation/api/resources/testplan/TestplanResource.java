@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
 
-@Path("/api")
+@Path("/api/applications/{applicationId}")
 public class TestplanResource {
 
     @Inject
@@ -43,8 +43,8 @@ public class TestplanResource {
     @Path("/testplans")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<TestPlanModel> getTestplans(@Valid @QueryParam Long userId) throws ValidationException {
-        var testPlanDaos = testplanService.getTestplans(userId);
+    public List<TestPlanModel> getTestplans(@Valid @PathParam Long applicationId, @Valid @QueryParam Long userId) throws ValidationException {
+        var testPlanDaos = testplanService.getTestplans(applicationId, userId);
         return testplanResourceMapper.mapTestPlanModels(testPlanDaos);
     }
 
