@@ -27,5 +27,9 @@ public interface ScheduleService {
 
     List<ErrorMessageDto> reSchedule(ReScheduleStatusDto reScheduleStatusDto);
 
-    List<ScheduleEntity> getRunningSchedule();
+    ScheduleEntity getRunningScheduleByAppId(Long applicationId);
+
+    ScheduleEntity getRunningSchedule();
+
+    ScheduleEntity getScheduleToExecute();
 }

@@ -17,5 +17,6 @@ public class UpdateTestplanStatusDto {
     private String createdBy;
     private String modifiedBy;
     private TestplanDao testplan;
+    private Long applicationId;
     private CustomDetailDao customDetail;
 }

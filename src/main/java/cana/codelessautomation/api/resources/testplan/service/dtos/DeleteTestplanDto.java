@@ -6,5 +6,6 @@ import lombok.Data;
 @Data
 public class DeleteTestplanDto {
     private Long testplanId;
+    private Long applicationId;
     private TestplanDao testplan;
 }

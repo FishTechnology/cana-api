@@ -39,7 +39,21 @@ public class TestplanVerifierImpl implements TestplanVerifier {
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
         }
+        errors = isApplicationIdValid(createTestplan);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
         return isTestplanNameValid(createTestplan);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isApplicationIdValid(CreateTestplanDto createTestplan) {
+        var response = applicationVerifier.isApplicationIdValid(createTestplan.getApplicationId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        createTestplan.setApplication(response.getValue());
+        return Collections.emptyList();
     }
 
     @Override
@@ -113,7 +127,7 @@ public class TestplanVerifierImpl implements TestplanVerifier {
 
     @Override
     public List<ErrorMessageDto> isTestplanIdValid(CopyTestPlanDto copyTestPlanDto) {
-        var response = isTestplanIdValid(copyTestPlanDto.getTestPlanId());
+        var response = isTestplanIdValid(copyTestPlanDto.getApplicationId(), copyTestPlanDto.getTestPlanId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }
@@ -161,7 +175,7 @@ public class TestplanVerifierImpl implements TestplanVerifier {
 
     @Override
     public List<ErrorMessageDto> isTestplanIdValid(DeleteTestplanDto deleteTestplan) {
-        var response = isTestplanIdValid(deleteTestplan.getTestplanId());
+        var response = isTestplanIdValid(deleteTestplan.getApplicationId(), deleteTestplan.getTestplanId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }
@@ -170,9 +184,9 @@ public class TestplanVerifierImpl implements TestplanVerifier {
     }
 
     @Override
-    public KeyValue<List<ErrorMessageDto>, TestplanDao> isTestplanIdValid(Long testplanId) {
+    public KeyValue<List<ErrorMessageDto>, TestplanDao> isTestplanIdValid(Long applicationId, Long testplanId) {
         KeyValue<List<ErrorMessageDto>, TestplanDao> response = new KeyValue<>();
-        var testplanDao = testPlanRepository.findByIdAndStatus(testplanId);
+        var testplanDao = testPlanRepository.findByIdAndStatus(applicationId, testplanId);
         if (testplanDao == null) {
             response.setKey(CanaUtility.getErrorMessages(testplanErrorCode.getTestPlanIdNotFound()));
             return response;
@@ -196,7 +210,7 @@ public class TestplanVerifierImpl implements TestplanVerifier {
 
     @Override
     public List<ErrorMessageDto> isTestplanIdValid(UpdateTestplanDto updateTestplan) {
-        var response = isTestplanIdValid(updateTestplan.getTestplanId());
+        var response = isTestplanIdValid(updateTestplan.getApplicationId(), updateTestplan.getTestplanId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }
@@ -230,7 +244,7 @@ public class TestplanVerifierImpl implements TestplanVerifier {
 
     @Override
     public List<ErrorMessageDto> isTestplanIdValid(UpdateTestplanStatusDto updateTestplanStatus) {
-        var response = isTestplanIdValid(updateTestplanStatus.getTestplanId());
+        var response = isTestplanIdValid(updateTestplanStatus.getApplicationId(), updateTestplanStatus.getTestplanId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }

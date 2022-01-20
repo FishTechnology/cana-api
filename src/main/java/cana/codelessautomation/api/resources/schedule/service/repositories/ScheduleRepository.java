@@ -13,4 +13,8 @@ public class ScheduleRepository implements PanacheRepository<ScheduleDao> {
     public PanacheQuery<ScheduleDao> findByUserIdPage(Long userId) {
         return find("userid = ?1", Sort.descending("modifiedOn"), userId);
     }
+
+    public PanacheQuery<ScheduleDao> findByAppId(Long applicationId) {
+        return find("applicationId = ?1", Sort.descending("modifiedOn"), applicationId);
+    }
 }

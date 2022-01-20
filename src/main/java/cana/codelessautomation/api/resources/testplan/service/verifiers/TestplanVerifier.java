@@ -30,7 +30,7 @@ public interface TestplanVerifier {
 
     List<ErrorMessageDto> isTestplanIdValid(DeleteTestplanDto deleteTestplan);
 
-    KeyValue<List<ErrorMessageDto>, TestplanDao> isTestplanIdValid(Long testplanId);
+    KeyValue<List<ErrorMessageDto>, TestplanDao> isTestplanIdValid(Long applicationId, Long testplanId);
 
     List<ErrorMessageDto> verifyUpdateTestplan(UpdateTestplanDto updateTestplanModel);
 
@@ -45,6 +45,8 @@ public interface TestplanVerifier {
     List<ErrorMessageDto> isUserIdValid(UpdateTestplanStatusDto updateTestplanStatus);
 
     List<ErrorMessageDto> isTestplanIdValid(UpdateTestplanStatusDto updateTestplanStatus);
+
+    List<ErrorMessageDto> isApplicationIdValid(CreateTestplanDto createTestplan);
 
     List<ErrorMessageDto> verifyCopyTestplan(CopyTestPlanDto copyTestPlanDto);
 }

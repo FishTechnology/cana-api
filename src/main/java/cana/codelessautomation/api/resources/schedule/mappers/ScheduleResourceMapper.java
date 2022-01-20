@@ -20,9 +20,9 @@ import java.util.List;
 public interface ScheduleResourceMapper {
     ResultModel mapResultModel(CreateScheduleDto createScheduleDto, List<ErrorMessageDto> errorMessages);
 
-    CreateScheduleDto mapCreateScheduleDto(CreateScheduleModel createScheduleModel, Long testPlanId);
+    CreateScheduleDto mapCreateScheduleDto(Long applicationId, CreateScheduleModel createScheduleModel, Long testPlanId);
 
-    ScheduleSummaryDto mapScheduleSummaryDto(Long userId, int pageSize, int pageNumber);
+    ScheduleSummaryDto mapScheduleSummaryDto(Long applicationId, Long userId, int pageSize, int pageNumber);
 
     SchedulePageModel mapSchedulePageModel(ScheduleSummaryDto scheduleSummaryDto, List<ErrorMessageDto> errorMessages);
 
@@ -53,4 +53,6 @@ public interface ScheduleResourceMapper {
     ReScheduleStatusDto mapReScheduleStatusDto(Long scheduleId, ReScheduleModel reScheduleModel);
 
     ScheduleModel mapScheduleIterationResultModel(List<ScheduleEntity> scheduleEntities);
+
+    ScheduleModel mapScheduleIterationResultModel(ScheduleEntity scheduleEntity);
 }

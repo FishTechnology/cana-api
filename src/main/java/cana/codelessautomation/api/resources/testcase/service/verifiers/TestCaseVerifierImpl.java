@@ -144,7 +144,7 @@ public class TestCaseVerifierImpl implements TestCaseVerifier {
 
     @Override
     public List<ErrorMessageDto> isTestPlanIdValid(UpdateTestCaseOrderDto updateTestCaseOrderDto) {
-        var response = testplanVerifier.isTestplanIdValid(updateTestCaseOrderDto.getTestPlanId());
+        var response = testplanVerifier.isTestplanIdValid(updateTestCaseOrderDto.getApplicationId(), updateTestCaseOrderDto.getTestPlanId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }
@@ -248,7 +248,7 @@ public class TestCaseVerifierImpl implements TestCaseVerifier {
 
     @Override
     public List<ErrorMessageDto> isTestPlanIdValid(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto) {
-        var response = testplanVerifier.isTestplanIdValid(getTestCaseByTestPlanIdDto.getTestPlanId());
+        var response = testplanVerifier.isTestplanIdValid(getTestCaseByTestPlanIdDto.getApplicationId(), getTestCaseByTestPlanIdDto.getTestPlanId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }
@@ -267,7 +267,7 @@ public class TestCaseVerifierImpl implements TestCaseVerifier {
 
     @Override
     public List<ErrorMessageDto> isTestPlanIdValidId(CreateTestCaseByTestPlanIdDto createTestCaseByTestPlanId) {
-        var response = testplanVerifier.isTestplanIdValid(createTestCaseByTestPlanId.getTestPlanId());
+        var response = testplanVerifier.isTestplanIdValid(createTestCaseByTestPlanId.getApplicationId(), createTestCaseByTestPlanId.getTestPlanId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }

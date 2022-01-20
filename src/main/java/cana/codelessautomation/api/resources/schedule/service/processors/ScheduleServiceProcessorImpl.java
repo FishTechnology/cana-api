@@ -253,7 +253,7 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
 
     @Override
     public List<ErrorMessageDto> getScheduleSummary(ScheduleSummaryDto scheduleSummaryDto) {
-        var panacheQuery = scheduleRepository.findByUserIdPage(scheduleSummaryDto.getUserId());
+        var panacheQuery = scheduleRepository.findByAppId(scheduleSummaryDto.getApplicationId());
         var scheduleDaos = panacheQuery.page(scheduleSummaryDto.getPageNumber(), scheduleSummaryDto.getPageSize()).list();
         scheduleSummaryDto.setTotalPageCount(panacheQuery.pageCount());
         scheduleSummaryDto.setScheduleDaos(scheduleDaos);

@@ -19,6 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Path("/api")
 public class ScheduleResource {
@@ -29,26 +30,22 @@ public class ScheduleResource {
     ScheduleService scheduleService;
 
     @POST
-    @Path("/testPlans/{testPlanId}/schedules")
+    @Path("/applications/{applicationId}/testPlans/{testPlanId}/schedules")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public ResultModel createSchedule(
-            @Valid @PathParam Long testPlanId,
-            @Valid CreateScheduleModel createScheduleModel) throws ValidationException {
-        var createScheduleDto = scheduleResourceMapper.mapCreateScheduleDto(createScheduleModel, testPlanId);
+    public ResultModel createSchedule(@Valid @PathParam Long applicationId, @Valid @PathParam Long testPlanId, @Valid CreateScheduleModel createScheduleModel) throws ValidationException {
+        var createScheduleDto = scheduleResourceMapper.mapCreateScheduleDto(applicationId, createScheduleModel, testPlanId);
         var errorMessages = scheduleService.createSchedule(createScheduleDto);
         return scheduleResourceMapper.mapResultModel(createScheduleDto, errorMessages);
     }
 
     @GET
-    @Path("/schedules")
+    @Path("/applications/{applicationId}/schedules")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public SchedulePageModel getScheduleSummary(@Valid @QueryParam Long userId,
-                                                @Valid @DefaultValue("10") @QueryParam int pageSize,
-                                                @Valid @DefaultValue("0") @QueryParam int pageNumber) throws ValidationException {
-        var scheduleSummaryDto = scheduleResourceMapper.mapScheduleSummaryDto(userId, pageSize, pageNumber);
+    public SchedulePageModel getScheduleSummary(@Valid @PathParam Long applicationId, @Valid @QueryParam Long userId, @Valid @DefaultValue("10") @QueryParam int pageSize, @Valid @DefaultValue("0") @QueryParam int pageNumber) throws ValidationException {
+        var scheduleSummaryDto = scheduleResourceMapper.mapScheduleSummaryDto(applicationId, userId, pageSize, pageNumber);
         var errorMessages = scheduleService.getScheduleSummary(scheduleSummaryDto);
         return scheduleResourceMapper.mapSchedulePageModel(scheduleSummaryDto, errorMessages);
     }
@@ -81,11 +78,19 @@ public class ScheduleResource {
     @Path("/schedules/{scheduleId}/scheduleIterations/{scheduleIterationId}/result")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ScheduleIterationResultModel getScheduleIterationResult(@Valid @PathParam Long scheduleId,
-                                                                   @Valid @PathParam Long scheduleIterationId) throws ValidationException {
+    public ScheduleIterationResultModel getScheduleIterationResult(@Valid @PathParam Long scheduleId, @Valid @PathParam Long scheduleIterationId) throws ValidationException {
         var scheduleIterationResultDto = scheduleResourceMapper.mapScheduleIterationResultDto(scheduleId, scheduleIterationId);
         var errors = scheduleService.getScheduleIterationResult(scheduleIterationResultDto);
         return scheduleResourceMapper.mapScheduleIterationResultModel(errors, scheduleIterationResultDto);
+    }
+
+    @GET
+    @Path("/applications/{applicationId}/schedules/runningSchedule")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ScheduleModel getRunningScheduleByAppId(@Valid @PathParam Long applicationId) throws ValidationException {
+        var scheduleEntity = scheduleService.getRunningScheduleByAppId(applicationId);
+        return scheduleResourceMapper.mapScheduleIterationResultModel(scheduleEntity);
     }
 
     @GET
@@ -93,8 +98,23 @@ public class ScheduleResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ScheduleModel getRunningSchedule() throws ValidationException {
-        var scheduleEntities = scheduleService.getRunningSchedule();
-        return scheduleResourceMapper.mapScheduleIterationResultModel(scheduleEntities);
+        var scheduleEntity = scheduleService.getRunningSchedule();
+        if (Objects.isNull(scheduleEntity)) {
+            return null;
+        }
+        return scheduleResourceMapper.mapScheduleIterationResultModel(scheduleEntity);
+    }
+
+    @GET
+    @Path("/schedules/scheduleToExecute")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ScheduleModel getScheduleToExecute() throws ValidationException {
+        var scheduleEntity = scheduleService.getScheduleToExecute();
+        if (Objects.isNull(scheduleEntity)) {
+            return null;
+        }
+        return scheduleResourceMapper.mapScheduleIterationResultModel(scheduleEntity);
     }
 
     @POST
@@ -116,8 +136,7 @@ public class ScheduleResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<ErrorMessageModel> updateScheduleStatus(@Valid @PathParam Long scheduleId,
-                                                        @Valid UpdateScheduleStatusModel updateScheduleStatusModel) throws ValidationException {
+    public List<ErrorMessageModel> updateScheduleStatus(@Valid @PathParam Long scheduleId, @Valid UpdateScheduleStatusModel updateScheduleStatusModel) throws ValidationException {
         var updateScheduleStatusDto = scheduleResourceMapper.mapUpdateScheduleStatusDto(scheduleId, updateScheduleStatusModel);
         var errors = scheduleService.updateScheduleStatus(updateScheduleStatusDto);
         if (CollectionUtils.isNotEmpty(errors)) {
@@ -131,8 +150,7 @@ public class ScheduleResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<ErrorMessageModel> reSchedule(@Valid @PathParam Long scheduleId,
-                                              @Valid ReScheduleModel reScheduleModel) throws ValidationException {
+    public List<ErrorMessageModel> reSchedule(@Valid @PathParam Long scheduleId, @Valid ReScheduleModel reScheduleModel) throws ValidationException {
         var reScheduleStatusDto = scheduleResourceMapper.mapReScheduleStatusDto(scheduleId, reScheduleModel);
         var errors = scheduleService.reSchedule(reScheduleStatusDto);
         if (CollectionUtils.isNotEmpty(errors)) {

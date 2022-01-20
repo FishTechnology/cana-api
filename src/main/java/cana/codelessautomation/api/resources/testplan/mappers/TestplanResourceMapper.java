@@ -11,7 +11,7 @@ import cana.codelessautomation.api.resources.testplan.service.repositories.daos.
 import java.util.List;
 
 public interface TestplanResourceMapper {
-    CreateTestplanDto mapCreateTestplanDto(CreateTestplanModel createTestplanModel);
+    CreateTestplanDto mapCreateTestplanDto(Long applicationId, CreateTestplanModel createTestplanModel);
 
     ResultModel mapResultModel(CreateTestplanDto createTestplanDto, List<ErrorMessageDto> errorMessages);
 

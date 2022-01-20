@@ -2,6 +2,9 @@ package cana.codelessautomation.api.resources.schedule.service.verifiers;
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.dtos.KeyValue;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.application.service.verifiers.ApplicationVerifier;
+import cana.codelessautomation.api.resources.config.services.configservice.verifiers.ConfigServiceVerifier;
 import cana.codelessautomation.api.resources.customer.service.verifiers.CustomerServiceVerifier;
 import cana.codelessautomation.api.resources.environment.service.verifiers.EnvironmentVerifier;
 import cana.codelessautomation.api.resources.schedule.service.dtos.*;
@@ -14,7 +17,6 @@ import cana.codelessautomation.api.resources.schedule.service.repositories.daos.
 import cana.codelessautomation.api.resources.testplan.service.errorcodes.TestplanErrorCode;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestPlanStatusDao;
 import cana.codelessautomation.api.resources.testplan.service.verifiers.TestplanVerifier;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -46,6 +48,12 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
     @Inject
     TestplanErrorCode testplanErrorCode;
 
+    @Inject
+    ConfigServiceVerifier configServiceVerifier;
+
+    @Inject
+    ApplicationVerifier applicationVerifier;
+
 
     @Override
     public List<ErrorMessageDto> verifyCreateSchedule(CreateScheduleDto createScheduleDto) {
@@ -62,7 +70,21 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
 
     @Override
     public List<ErrorMessageDto> verifyGetScheduleSummary(ScheduleSummaryDto scheduleSummaryDto) {
+        var errors = isApplicationIdValid(scheduleSummaryDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
         return isUserId(scheduleSummaryDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isApplicationIdValid(ScheduleSummaryDto scheduleSummaryDto) {
+        var response = applicationVerifier.isApplicationIdValid(scheduleSummaryDto.getApplicationId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        scheduleSummaryDto.setApplication(response.getValue());
+        return Collections.emptyList();
     }
 
     @Override
@@ -256,7 +278,7 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
 
     @Override
     public List<ErrorMessageDto> isTestPlanIdValid(CreateScheduleDto createScheduleDto) {
-        var response = testplanVerifier.isTestplanIdValid(createScheduleDto.getTestPlanId());
+        var response = testplanVerifier.isTestplanIdValid(createScheduleDto.getApplicationId(), createScheduleDto.getTestPlanId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }
@@ -266,7 +288,7 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
 
     @Override
     public List<ErrorMessageDto> isEnvironmentIdValid(CreateScheduleDto createScheduleDto) {
-        var response = environmentVerifier.isEnvironmentIdValid(createScheduleDto.getEnvironmentId());
+        var response = configServiceVerifier.isConfigIdValid(createScheduleDto.getEnvironmentId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }

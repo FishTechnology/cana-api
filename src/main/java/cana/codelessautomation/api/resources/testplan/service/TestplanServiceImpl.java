@@ -34,8 +34,6 @@ public class TestplanServiceImpl implements TestplanService {
 
     @Override
     public List<ErrorMessageDto> createTestplan(CreateTestplanDto createTestplan) throws ValidationException {
-        createTestplan.setCreatedOn(OffsetDateTime.now());
-        createTestplan.setModifiedOn(OffsetDateTime.now());
         createTestplan.setCreatedBy(createTestplan.getUserId().toString());
         createTestplan.setModifiedBy(createTestplan.getUserId().toString());
         createTestplan.setStatus(TestPlanStatusDao.SETUP);
@@ -58,8 +56,8 @@ public class TestplanServiceImpl implements TestplanService {
     }
 
     @Override
-    public TestplanDao getTestplanById(Long testplanId) throws ValidationException {
-        var testplanDao = testPlanRepository.findByIdAndStatus(testplanId);
+    public TestplanDao getTestplanById(Long applicationId, Long testplanId) throws ValidationException {
+        var testplanDao = testPlanRepository.findByIdAndStatus(applicationId, testplanId);
         if (testplanDao == null) {
             throw new ValidationException(CanaUtility.getErrorMessageModels(testplanErrorCode.getTestPlanIdNotFound()));
         }

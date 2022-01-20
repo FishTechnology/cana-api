@@ -28,6 +28,8 @@ public class TestplanDao {
     @JMap
     private String modifiedBy;
     @JMap
+    private Long applicationId;
+    @JMap
     @Enumerated(EnumType.STRING)
     private TestPlanStatusDao status;
 }

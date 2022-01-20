@@ -24,6 +24,7 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
         scheduleDao.setModifiedOn(OffsetDateTime.now());
         scheduleDao.setCreatedBy(createScheduleDto.getCreatedBy());
         scheduleDao.setModifiedBy(createScheduleDto.getModifiedBy());
+        scheduleDao.setApplicationId(createScheduleDto.getApplicationId());
         scheduleDao.setStatus(createScheduleDto.getStatus());
         return scheduleDao;
     }

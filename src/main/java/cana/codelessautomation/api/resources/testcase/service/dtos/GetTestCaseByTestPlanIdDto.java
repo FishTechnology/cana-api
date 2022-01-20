@@ -11,6 +11,7 @@ import java.util.List;
 public class GetTestCaseByTestPlanIdDto {
     private Long testPlanId;
     private TestplanDao testplanDao;
+    private Long applicationId;
     private List<TestplanTestcaseGroupingDao> testplanTestcaseGroupingDaos;
     private List<TestCaseDao> testCaseDaos;
 }

@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
 
-@Path("/api")
+@Path("/api/applications/{applicationId}")
 public class TestCaseResource {
     @Inject
     TestCaseResourceMapper testCaseResourceMapper;
@@ -65,8 +65,8 @@ public class TestCaseResource {
     @Path("/testPlans/{testPlanId}/testCases")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<TestCaseModel> getTestCaseByTestPlanId(@Valid @PathParam Long testPlanId) throws ValidationException {
-        var getTestCaseByTestPlanIdDto = testCaseResourceMapper.mapGetTestCaseByTestPlanIdDto(testPlanId);
+    public List<TestCaseModel> getTestCaseByTestPlanId(@Valid @PathParam Long applicationId, @Valid @PathParam Long testPlanId) throws ValidationException {
+        var getTestCaseByTestPlanIdDto = testCaseResourceMapper.mapGetTestCaseByTestPlanIdDto(applicationId, testPlanId);
         var errors = testCaseService.getTestCaseByTestPlanId(getTestCaseByTestPlanIdDto);
         if (CollectionUtils.isEmpty(getTestCaseByTestPlanIdDto.getTestCaseDaos())) {
             return Collections.emptyList();

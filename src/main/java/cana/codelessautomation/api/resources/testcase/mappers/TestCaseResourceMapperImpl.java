@@ -76,8 +76,9 @@ public class TestCaseResourceMapperImpl implements TestCaseResourceMapper {
     }
 
     @Override
-    public GetTestCaseByTestPlanIdDto mapGetTestCaseByTestPlanIdDto(Long testPlanId) {
+    public GetTestCaseByTestPlanIdDto mapGetTestCaseByTestPlanIdDto(Long applicationId, Long testPlanId) {
         GetTestCaseByTestPlanIdDto getTestCaseByTestPlanId = new GetTestCaseByTestPlanIdDto();
+        getTestCaseByTestPlanId.setApplicationId(applicationId);
         getTestCaseByTestPlanId.setTestPlanId(testPlanId);
         return getTestCaseByTestPlanId;
     }

@@ -14,6 +14,8 @@ public class ScheduleModel {
     @JMap
     private Long environmentId;
     @JMap
+    private Long applicationId;
+    @JMap
     private Long userId;
     @JMap
     private String status;

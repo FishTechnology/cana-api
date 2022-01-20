@@ -21,4 +21,5 @@ public class CreateTestCaseByTestPlanIdDto {
     private CustomDetailDao customDetail;
     private TestplanDao testplan;
     private Long testPlanTestCaseGroupingId;
+    private Long applicationId;
 }

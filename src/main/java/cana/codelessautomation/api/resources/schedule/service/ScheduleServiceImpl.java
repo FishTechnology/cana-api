@@ -32,8 +32,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<ErrorMessageDto> createSchedule(CreateScheduleDto createScheduleDto) {
-        createScheduleDto.setCreatedOn(OffsetDateTime.now());
-        createScheduleDto.setModifiedOn(OffsetDateTime.now());
         createScheduleDto.setCreatedBy(createScheduleDto.getUserId().toString());
         createScheduleDto.setModifiedBy(createScheduleDto.getUserId().toString());
         createScheduleDto.setStatus(ScheduleStatusDao.READY);
@@ -120,7 +118,17 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleEntity> getRunningSchedule() {
-        return ScheduleEntity.findFirstByStatus(ScheduleStatusDao.INPROGRESS);
+    public ScheduleEntity getRunningScheduleByAppId(Long applicationId) {
+        return ScheduleEntity.findByAppIdStatus(applicationId, ScheduleStatusDao.INPROGRESS);
+    }
+
+    @Override
+    public ScheduleEntity getRunningSchedule() {
+        return ScheduleEntity.findByStatus(ScheduleStatusDao.INPROGRESS);
+    }
+
+    @Override
+    public ScheduleEntity getScheduleToExecute() {
+        return ScheduleEntity.findByStatus(ScheduleStatusDao.QUEUE);
     }
 }

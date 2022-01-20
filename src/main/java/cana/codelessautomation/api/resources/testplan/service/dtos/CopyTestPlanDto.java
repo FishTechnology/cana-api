@@ -12,6 +12,7 @@ public class CopyTestPlanDto {
     private String testPlanName;
     private String comments;
     private Long userId;
+    private Long applicationId;
     private TestPlanStatusDao status;
     private CustomDetailDao customDetail;
     private TestplanDao testplan;

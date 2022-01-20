@@ -12,7 +12,7 @@ public interface TestplanService {
 
     List<TestplanDao> getTestplans(Long applicationId, Long userId) throws ValidationException;
 
-    TestplanDao getTestplanById(Long testplanId) throws ValidationException;
+    TestplanDao getTestplanById(Long applicationId, Long testplanId) throws ValidationException;
 
     List<ErrorMessageDto> deleteTestplan(DeleteTestplanDto testplanId) throws ValidationException;
 

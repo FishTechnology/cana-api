@@ -8,4 +8,6 @@ public interface TestplanProcessorMapper {
     TestplanDao mapTestplanDao(CreateTestplanDto createTestplan);
 
     TestplanDao mapTestplanDao(CopyTestPlanDto copyTestPlanDto);
+
+    TestplanDao getBaseTestplanDao();
 }

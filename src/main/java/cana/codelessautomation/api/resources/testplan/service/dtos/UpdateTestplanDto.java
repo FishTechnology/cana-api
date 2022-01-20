@@ -15,6 +15,7 @@ public class UpdateTestplanDto {
     @JMap
     private String comments;
     private Long testplanId;
+    private Long applicationId;
     private OffsetDateTime createdOn;
     private OffsetDateTime modifiedOn;
     private String createdBy;

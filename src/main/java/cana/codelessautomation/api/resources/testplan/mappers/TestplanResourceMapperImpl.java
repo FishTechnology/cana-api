@@ -27,11 +27,12 @@ public class TestplanResourceMapperImpl implements TestplanResourceMapper {
     TestCaseResourceMapper testCaseServiceMapper;
 
     @Override
-    public CreateTestplanDto mapCreateTestplanDto(CreateTestplanModel createTestplanModel) {
+    public CreateTestplanDto mapCreateTestplanDto(Long applicationId, CreateTestplanModel createTestplanModel) {
         CreateTestplanDto createTestplanDto = new CreateTestplanDto();
         createTestplanDto.setName(createTestplanModel.getName());
         createTestplanDto.setUserId(createTestplanModel.getUserId());
         createTestplanDto.setComments(createTestplanModel.getComments());
+        createTestplanDto.setApplicationId(applicationId);
         return createTestplanDto;
     }
 

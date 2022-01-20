@@ -1,5 +1,6 @@
 package cana.codelessautomation.api.resources.testplan.service.dtos;
 
+import cana.codelessautomation.api.resources.application.service.repositories.daos.ApplicationDao;
 import cana.codelessautomation.api.resources.customer.service.repository.daos.CustomDetailDao;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestPlanStatusDao;
 import com.googlecode.jmapper.annotations.JMap;
@@ -25,7 +26,9 @@ public class CreateTestplanDto {
     @JMap
     private String modifiedBy;
     @JMap
+    private Long applicationId;
+    @JMap
     private TestPlanStatusDao status;
-
+    private ApplicationDao application;
     private CustomDetailDao customDetail;
 }

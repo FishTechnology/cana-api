@@ -33,8 +33,8 @@ public class TestplanResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public ResultModel createTestplan(@Valid CreateTestplanModel createTestplanModel) throws ValidationException {
-        var createTestplanDto = testplanResourceMapper.mapCreateTestplanDto(createTestplanModel);
+    public ResultModel createTestplan(@Valid @PathParam Long applicationId, @Valid CreateTestplanModel createTestplanModel) throws ValidationException {
+        var createTestplanDto = testplanResourceMapper.mapCreateTestplanDto(applicationId, createTestplanModel);
         var errorMessages = testplanService.createTestplan(createTestplanDto);
         return testplanResourceMapper.mapResultModel(createTestplanDto, errorMessages);
     }
@@ -52,8 +52,8 @@ public class TestplanResource {
     @Path("/testPlans/{testplanId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public TestPlanModel getTestplanById(@Valid @PathParam Long testplanId) throws ValidationException {
-        var testPlanDao = testplanService.getTestplanById(testplanId);
+    public TestPlanModel getTestplanById(@Valid @PathParam Long applicationId, @Valid @PathParam Long testplanId) throws ValidationException {
+        var testPlanDao = testplanService.getTestplanById(applicationId, testplanId);
         return testplanResourceMapper.mapTestPlanModel(testPlanDao);
     }
 

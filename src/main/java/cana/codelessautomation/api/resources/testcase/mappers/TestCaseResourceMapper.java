@@ -21,7 +21,7 @@ public interface TestCaseResourceMapper {
 
     List<TestCaseModel> mapTestCaseModels(List<TestCaseDao> testCaseDaos);
 
-    GetTestCaseByTestPlanIdDto mapGetTestCaseByTestPlanIdDto(Long testPlanId);
+    GetTestCaseByTestPlanIdDto mapGetTestCaseByTestPlanIdDto(Long applicationId, Long testPlanId);
 
     List<TestCaseModel> mapTestCaseModels(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto);
 

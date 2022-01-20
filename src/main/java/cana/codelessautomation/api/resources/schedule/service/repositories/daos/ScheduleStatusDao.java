@@ -1,6 +1,7 @@
 package cana.codelessautomation.api.resources.schedule.service.repositories.daos;
 
 public enum ScheduleStatusDao {
+    QUEUE,
     READY,
     ERROR,
     COMPLETED,

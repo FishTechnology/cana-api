@@ -13,4 +13,5 @@ public class UpdateTestCaseOrderDto {
     private List<TestCaseOrderDto> TestCaseOrderDtos;
     private CustomDetailDao customDetail;
     private TestplanDao testplan;
+    private Long applicationId;
 }

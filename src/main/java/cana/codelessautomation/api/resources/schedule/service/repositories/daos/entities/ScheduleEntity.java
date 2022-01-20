@@ -22,6 +22,8 @@ public class ScheduleEntity extends PanacheEntityBase {
     @JMap
     private Long environmentId;
     @JMap
+    private Long applicationId;
+    @JMap
     private Long userId;
     @JMap
     @Enumerated(EnumType.STRING)
@@ -38,7 +40,11 @@ public class ScheduleEntity extends PanacheEntityBase {
     @OrderBy("modifiedOn DESC")
     private List<ScheduleIterationDao> scheduleIterations;
 
-    public static List<ScheduleEntity> findFirstByStatus(ScheduleStatusDao scheduleStatusDao) {
-        return list("status = ?1", scheduleStatusDao);
+    public static ScheduleEntity findByAppIdStatus(Long applicationId, ScheduleStatusDao scheduleStatusDao) {
+        return find("status = ?1 and applicationId = ?2", scheduleStatusDao, applicationId).firstResult();
+    }
+
+    public static ScheduleEntity findByStatus(ScheduleStatusDao inProgressStatus) {
+        return find("status = ?1", inProgressStatus).firstResult();
     }
 }

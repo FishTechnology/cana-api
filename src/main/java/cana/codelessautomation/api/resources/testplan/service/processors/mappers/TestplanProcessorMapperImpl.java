@@ -12,29 +12,35 @@ import java.time.OffsetDateTime;
 public class TestplanProcessorMapperImpl implements TestplanProcessorMapper {
     @Override
     public TestplanDao mapTestplanDao(CreateTestplanDto createTestplan) {
-        TestplanDao testplan = new TestplanDao();
+        TestplanDao testplan = getBaseTestplanDao();
         testplan.setName(createTestplan.getName());
         testplan.setComments(createTestplan.getComments());
         testplan.setStatus(createTestplan.getStatus());
-        testplan.setCreatedOn(createTestplan.getCreatedOn());
-        testplan.setModifiedOn(createTestplan.getModifiedOn());
         testplan.setCreatedBy(createTestplan.getCreatedBy());
         testplan.setModifiedBy(createTestplan.getModifiedBy());
+        testplan.setApplicationId(createTestplan.getApplicationId());
         testplan.setUserId(createTestplan.getUserId());
         return testplan;
     }
 
     @Override
     public TestplanDao mapTestplanDao(CopyTestPlanDto copyTestPlanDto) {
-        TestplanDao testplan = new TestplanDao();
+        TestplanDao testplan = getBaseTestplanDao();
         testplan.setName(copyTestPlanDto.getTestPlanName());
         testplan.setComments(copyTestPlanDto.getComments());
         testplan.setStatus(copyTestPlanDto.getStatus());
-        testplan.setCreatedOn(OffsetDateTime.now());
-        testplan.setModifiedOn(OffsetDateTime.now());
         testplan.setCreatedBy(copyTestPlanDto.getUserId().toString());
         testplan.setModifiedBy(copyTestPlanDto.getUserId().toString());
         testplan.setUserId(copyTestPlanDto.getUserId());
+        testplan.setApplicationId(copyTestPlanDto.getApplicationId());
+        return testplan;
+    }
+
+    @Override
+    public TestplanDao getBaseTestplanDao() {
+        TestplanDao testplan = new TestplanDao();
+        testplan.setCreatedOn(OffsetDateTime.now());
+        testplan.setModifiedOn(OffsetDateTime.now());
         return testplan;
     }
 }

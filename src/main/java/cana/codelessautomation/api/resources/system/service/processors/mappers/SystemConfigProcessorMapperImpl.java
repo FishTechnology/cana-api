@@ -14,6 +14,8 @@ public class SystemConfigProcessorMapperImpl implements SystemConfigProcessorMap
         List<SystemConfigDao> systemConfigDaos = new ArrayList<>();
         SystemConfigDao systemConfigDao = mapSystemConfigDao("IS_PARALLEL_EXECUTION_ENABLE", "false", applicationId, userId);
         systemConfigDaos.add(systemConfigDao);
+        systemConfigDao = mapSystemConfigDao("PARALLEL_EXECUTION_COUNT", "3", applicationId, userId);
+        systemConfigDaos.add(systemConfigDao);
         return systemConfigDaos;
     }
 

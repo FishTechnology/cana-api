@@ -43,6 +43,8 @@ public interface ScheduleServiceVerifier {
 
     List<ErrorMessageDto> verifyGetScheduleSummary(ScheduleSummaryDto scheduleSummaryDto);
 
+    List<ErrorMessageDto> isApplicationIdValid(ScheduleSummaryDto scheduleSummaryDto);
+
     List<ErrorMessageDto> verifyCopyTestPlanDetail(CopyTestPlanDetailDto copyTestPlanDetailDto);
 
     List<ErrorMessageDto> verifyGetScheduleIterationResult(ScheduleIterationResultDto scheduleIterationResultDto);

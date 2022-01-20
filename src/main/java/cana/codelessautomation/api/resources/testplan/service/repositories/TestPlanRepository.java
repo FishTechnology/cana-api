@@ -20,8 +20,8 @@ public class TestPlanRepository implements PanacheRepository<TestplanDao> {
         return list("applicationId = ?1 and status NOT IN ( ?2 )", applicationId, TestPlanStatusDao.DELETED);
     }
 
-    public TestplanDao findByIdAndStatus(Long testplanId) {
-        return find("id = ?1 and status NOT IN ( ?2 )", testplanId, TestPlanStatusDao.DELETED).firstResult();
+    public TestplanDao findByIdAndStatus(Long applicationId, Long testplanId) {
+        return find("id = ?1 and applicationId = ?2 and status NOT IN ( ?3 )", testplanId, applicationId, TestPlanStatusDao.DELETED).firstResult();
     }
 
     public void deleteTestplan(Long testplanId) {
