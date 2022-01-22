@@ -24,7 +24,6 @@ public class SystemConfigProcessorMapperImpl implements SystemConfigProcessorMap
         SystemConfigDao systemConfigDao = new SystemConfigDao();
         systemConfigDao.setKey(key);
         systemConfigDao.setValue(value);
-        systemConfigDao.setApplicationId(applicationId);
         systemConfigDao.setIsActive(true);
         systemConfigDao.setCreatedOn(OffsetDateTime.now());
         systemConfigDao.setModifiedOn(OffsetDateTime.now());

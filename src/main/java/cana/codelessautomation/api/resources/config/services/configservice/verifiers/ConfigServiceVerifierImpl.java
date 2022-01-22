@@ -7,6 +7,7 @@ import cana.codelessautomation.api.resources.application.service.verifiers.Appli
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.CreateConfigDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigByIdDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByAppIdDto;
+import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByConfigTypeDto;
 import cana.codelessautomation.api.resources.config.services.configservice.errorcodes.ConfigServiceErrorCode;
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.ConfigRepository;
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.daos.ConfigDao;
@@ -34,7 +35,7 @@ public class ConfigServiceVerifierImpl implements ConfigServiceVerifier {
     ApplicationVerifier applicationVerifier;
 
     @Override
-    public List<ErrorMessageDto> verifyGetConfigsByUserId(GetConfigsByAppIdDto getConfigsByAppIdDto) {
+    public List<ErrorMessageDto> verifyGetConfigsByUserId(GetConfigsByConfigTypeDto getConfigsByConfigTypeDto) {
         return Collections.emptyList();
     }
 
@@ -52,6 +53,26 @@ public class ConfigServiceVerifierImpl implements ConfigServiceVerifier {
     }
 
     @Override
+    public List<ErrorMessageDto> verifyGetConfigsByAppId(GetConfigsByAppIdDto getConfigsByAppIdDto) {
+        return isApplicationIdValid(getConfigsByAppIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isApplicationIdValid(GetConfigsByAppIdDto getConfigsByAppIdDto) {
+        var response = applicationVerifier.isApplicationIdValid(getConfigsByAppIdDto.getApplicationId());
+        if (!CollectionUtils.isEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        getConfigsByAppIdDto.setApplication(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyGetConfigById(GetConfigByIdDto getConfigByIdDto) {
+        return isApplicationIdValid(getConfigByIdDto);
+    }
+
+    @Override
     public List<ErrorMessageDto> isApplicationIdValid(CreateConfigDto createConfigDto) {
         var response = applicationVerifier.isApplicationIdValid(createConfigDto.getApplicationId());
         if (!CollectionUtils.isEmpty(response.getKey())) {
@@ -59,11 +80,6 @@ public class ConfigServiceVerifierImpl implements ConfigServiceVerifier {
         }
         createConfigDto.setApplication(response.getValue());
         return Collections.emptyList();
-    }
-
-    @Override
-    public List<ErrorMessageDto> verifyGetConfigById(GetConfigByIdDto getConfigByIdDto) {
-        return isApplicationIdValid(getConfigByIdDto);
     }
 
     @Override
@@ -111,12 +127,12 @@ public class ConfigServiceVerifierImpl implements ConfigServiceVerifier {
     }
 
     @Override
-    public List<ErrorMessageDto> isUserIdValid(GetConfigsByAppIdDto getConfigsByAppIdDto) {
-        var response = customerServiceVerifier.isUserIdValid(getConfigsByAppIdDto.getUserId());
+    public List<ErrorMessageDto> isUserIdValid(GetConfigsByConfigTypeDto getConfigsByConfigTypeDto) {
+        var response = customerServiceVerifier.isUserIdValid(getConfigsByConfigTypeDto.getUserId());
         if (!CollectionUtils.isEmpty(response.getKey())) {
             return response.getKey();
         }
-        getConfigsByAppIdDto.setCustomDetailDao(response.getValue());
+        getConfigsByConfigTypeDto.setCustomDetailDao(response.getValue());
         return Collections.emptyList();
     }
 

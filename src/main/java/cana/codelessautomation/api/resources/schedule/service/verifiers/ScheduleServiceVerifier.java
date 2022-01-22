@@ -37,8 +37,6 @@ public interface ScheduleServiceVerifier {
 
     KeyValue<List<ErrorMessageDto>, ScheduleDao> isScheduleIdValid(Long scheduleId);
 
-    List<ErrorMessageDto> isUserId(ScheduleSummaryDto scheduleSummaryDto);
-
     List<ErrorMessageDto> isUserId(CreateScheduleDto createScheduleDto);
 
     List<ErrorMessageDto> verifyGetScheduleSummary(ScheduleSummaryDto scheduleSummaryDto);

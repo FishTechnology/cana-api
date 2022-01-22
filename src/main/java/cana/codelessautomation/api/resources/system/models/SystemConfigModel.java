@@ -14,8 +14,6 @@ public class SystemConfigModel {
     @JMap
     private String userid;
     @JMap
-    private String applicationId;
-    @JMap
     private String createdOn;
     @JMap
     private String modifiedOn;

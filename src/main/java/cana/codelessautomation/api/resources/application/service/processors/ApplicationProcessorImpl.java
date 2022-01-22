@@ -7,7 +7,6 @@ import cana.codelessautomation.api.resources.application.service.dtos.UpdateAppl
 import cana.codelessautomation.api.resources.application.service.processors.mappers.ApplicationProcessorMapper;
 import cana.codelessautomation.api.resources.application.service.repositories.ApplicationRepository;
 import cana.codelessautomation.api.resources.application.service.repositories.daos.ApplicationDao;
-import cana.codelessautomation.api.resources.system.service.processors.SystemConfigProcessor;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,9 +23,6 @@ public class ApplicationProcessorImpl implements ApplicationProcessor {
     @Inject
     ApplicationRepository applicationRepository;
 
-    @Inject
-    SystemConfigProcessor systemConfigProcessor;
-
     @Override
     public List<ErrorMessageDto> processCreateApplication(CreateApplicationDto createApplicationDto) {
         var errors = createApplication(createApplicationDto);
@@ -38,7 +34,6 @@ public class ApplicationProcessorImpl implements ApplicationProcessor {
 
     @Override
     public List<ErrorMessageDto> createSystemConfig(CreateApplicationDto createApplicationDto) {
-        systemConfigProcessor.createInitialConfig(createApplicationDto.getId(), createApplicationDto.getUserId());
         return Collections.emptyList();
     }
 

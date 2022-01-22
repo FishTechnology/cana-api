@@ -11,6 +11,7 @@ import cana.codelessautomation.api.resources.config.services.configkeyvalueservi
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.CreateConfigDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigByIdDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByAppIdDto;
+import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByConfigTypeDto;
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.daos.ConfigDao;
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.daos.ConfigTypeDao;
 import org.apache.commons.collections.CollectionUtils;
@@ -30,17 +31,17 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
     ConfigKeyValueResourceMapper configKeyValueResourceMapper;
 
     @Override
-    public GetConfigsByAppIdDto mapGetConfigsByUserIdDto(Long applicationId, String configType) {
-        GetConfigsByAppIdDto getTestCaseByTestPlanId = new GetConfigsByAppIdDto();
+    public GetConfigsByConfigTypeDto mapGetConfigsByConfigTypeDto(Long applicationId, String configType) {
+        GetConfigsByConfigTypeDto getTestCaseByTestPlanId = new GetConfigsByConfigTypeDto();
         getTestCaseByTestPlanId.setApplicationId(applicationId);
         getTestCaseByTestPlanId.setConfigType(EnumUtils.getEnum(ConfigTypeDao.class, configType));
         return getTestCaseByTestPlanId;
     }
 
     @Override
-    public List<ConfigModel> mapConfigModels(GetConfigsByAppIdDto getConfigsByAppIdDto) {
+    public List<ConfigModel> mapConfigModels(GetConfigsByConfigTypeDto getConfigsByConfigTypeDto) {
         List<ConfigModel> configModels = new ArrayList<>();
-        for (ConfigDao configDao : getConfigsByAppIdDto.getConfigDaos()) {
+        for (ConfigDao configDao : getConfigsByConfigTypeDto.getConfigDaos()) {
             configModels.add(mapConfigModel(configDao));
         }
         return configModels;
@@ -54,7 +55,7 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
         configModel.setModifiedBy(configDao.getModifiedBy());
         configModel.setCreatedOn(configDao.getCreatedOn().toString());
         configModel.setModifiedOn(configDao.getModifiedOn().toString());
-        configModel.setType(configDao.getType().name());
+        configModel.setType(configDao.getType());
         configModel.setName(configDao.getName());
         configModel.setComments(configDao.getComments());
         configModel.setUserId(configDao.getUserId().toString());
@@ -89,7 +90,7 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
         if (StringUtils.isNotEmpty(createConfigModel.getIdentifier())) {
             createConfigDto.setIdentifier(Long.valueOf(createConfigModel.getIdentifier()));
         }
-        createConfigDto.setType(EnumUtils.getEnum(ConfigTypeDao.class, configType));
+        createConfigDto.setType(configType);
         return createConfigDto;
     }
 
@@ -116,6 +117,23 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
     @Override
     public ConfigModel mapConfigModel(GetConfigByIdDto getConfigByIdDto) {
         return mapConfigModel(getConfigByIdDto.getConfigDao());
+    }
+
+    @Override
+    public GetConfigsByAppIdDto mapGetConfigsByAppIdDto(Long applicationId) {
+        GetConfigsByAppIdDto getConfigByIdDto = new GetConfigsByAppIdDto();
+        getConfigByIdDto.setApplicationId(applicationId);
+        return getConfigByIdDto;
+    }
+
+    @Override
+    public List<ConfigModel> mapConfigModels(GetConfigsByAppIdDto getConfigsByAppIdDto) {
+        List<ConfigModel> configModels = new ArrayList<>();
+        for (ConfigDao configDao : getConfigsByAppIdDto.getConfigDaos()) {
+            ConfigModel configModel = mapConfigModel(configDao);
+            configModels.add(configModel);
+        }
+        return configModels;
     }
 }
 

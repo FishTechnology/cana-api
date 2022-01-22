@@ -19,7 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/api/applications/{applicationId}")
+@Path("/api")
 @ApplicationScoped
 public class ConfigKeyValueResource {
 
@@ -30,7 +30,7 @@ public class ConfigKeyValueResource {
     ConfigKeyValueService configKeyValueService;
 
     @POST
-    @Path("/configs/{configType}/{configId}/keyValues")
+    @Path("/applications/{applicationId}/configs/{configType}/{configId}/keyValues")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -41,7 +41,7 @@ public class ConfigKeyValueResource {
     }
 
     @GET
-    @Path("/configs/{configId}/keyValues")
+    @Path("/applications/{applicationId}/configs/{configId}/keyValues")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional

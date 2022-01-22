@@ -4,11 +4,9 @@ import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.resources.system.mappers.SystemConfigResourceMapper;
 import cana.codelessautomation.api.resources.system.models.GetSystemConfigsByAppIdModel;
 import cana.codelessautomation.api.resources.system.service.SystemConfigService;
-import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -28,8 +26,8 @@ public class SystemConfigResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public GetSystemConfigsByAppIdModel getSystemConfigsByAppId(@Valid @QueryParam Long applicationId) throws ValidationException {
-        var getSystemConfigsByAppIdDto = systemConfigResourceMapper.mapSystemConfigResourceMapper(applicationId);
+    public GetSystemConfigsByAppIdModel getSystemConfigsByAppId() throws ValidationException {
+        var getSystemConfigsByAppIdDto = systemConfigResourceMapper.mapSystemConfigResourceMapper();
         var errors = systemConfigService.getSystemConfigsByAppId(getSystemConfigsByAppIdDto);
         return systemConfigResourceMapper.mapSystemConfigModel(getSystemConfigsByAppIdDto, errors);
     }

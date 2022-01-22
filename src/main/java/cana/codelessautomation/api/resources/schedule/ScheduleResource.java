@@ -44,8 +44,8 @@ public class ScheduleResource {
     @Path("/applications/{applicationId}/schedules")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public SchedulePageModel getScheduleSummary(@Valid @PathParam Long applicationId, @Valid @QueryParam Long userId, @Valid @DefaultValue("10") @QueryParam int pageSize, @Valid @DefaultValue("0") @QueryParam int pageNumber) throws ValidationException {
-        var scheduleSummaryDto = scheduleResourceMapper.mapScheduleSummaryDto(applicationId, userId, pageSize, pageNumber);
+    public SchedulePageModel getScheduleSummary(@Valid @PathParam Long applicationId, @Valid @DefaultValue("10") @QueryParam int pageSize, @Valid @DefaultValue("0") @QueryParam int pageNumber) throws ValidationException {
+        var scheduleSummaryDto = scheduleResourceMapper.mapScheduleSummaryDto(applicationId, pageSize, pageNumber);
         var errorMessages = scheduleService.getScheduleSummary(scheduleSummaryDto);
         return scheduleResourceMapper.mapSchedulePageModel(scheduleSummaryDto, errorMessages);
     }

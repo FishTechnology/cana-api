@@ -13,6 +13,5 @@ public class ConfigKeyValueModel extends BaseModel {
     private String type;
     private String content;
     private String comments;
-
     private Boolean isActive = false;
 }

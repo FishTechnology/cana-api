@@ -7,6 +7,7 @@ import cana.codelessautomation.api.resources.config.models.CreateConfigModel;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.CreateConfigDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigByIdDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByAppIdDto;
+import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByConfigTypeDto;
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.daos.ConfigDao;
 
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.List;
 
 public interface ConfigResourceMapper {
 
-    GetConfigsByAppIdDto mapGetConfigsByUserIdDto(Long applicationId, String configType);
+    GetConfigsByConfigTypeDto mapGetConfigsByConfigTypeDto(Long applicationId, String configType);
 
-    List<ConfigModel> mapConfigModels(GetConfigsByAppIdDto getConfigsByAppIdDto);
+    List<ConfigModel> mapConfigModels(GetConfigsByConfigTypeDto getConfigsByConfigTypeDto);
 
     ConfigModel mapConfigModel(ConfigDao configDao);
 
@@ -27,4 +28,8 @@ public interface ConfigResourceMapper {
     GetConfigByIdDto mapGetConfigByIdDto(Long applicationId, String configId, String configType);
 
     ConfigModel mapConfigModel(GetConfigByIdDto getConfigByIdDto);
+
+    GetConfigsByAppIdDto mapGetConfigsByAppIdDto(Long applicationId);
+
+    List<ConfigModel> mapConfigModels(GetConfigsByAppIdDto getConfigsByAppIdDto);
 }

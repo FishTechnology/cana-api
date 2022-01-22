@@ -27,7 +27,7 @@ public class SystemConfigProcessorImpl implements SystemConfigProcessor {
 
     @Override
     public List<ErrorMessageDto> getSystemConfigsByAppId(GetSystemConfigsByAppIdDto getSystemConfigsByAppIdDto) {
-        var systemConfigDaos = systemConfigRepository.findByAppId(getSystemConfigsByAppIdDto.getApplicationId());
+        var systemConfigDaos = systemConfigRepository.findByAppId();
         if (CollectionUtils.isNotEmpty(systemConfigDaos)) {
             getSystemConfigsByAppIdDto.setSystemConfigDao(systemConfigDaos);
         }

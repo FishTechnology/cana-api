@@ -8,7 +8,7 @@ import java.util.List;
 
 @ApplicationScoped
 public class SystemConfigRepository implements PanacheRepository<SystemConfigDao> {
-    public List<SystemConfigDao> findByAppId(Long applicationId) {
-        return list("applicationid = ?1 and isActive=true", applicationId);
+    public List<SystemConfigDao> findByAppId() {
+        return list("isActive=true");
     }
 }

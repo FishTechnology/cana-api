@@ -63,9 +63,8 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     }
 
     @Override
-    public ScheduleSummaryDto mapScheduleSummaryDto(Long applicationId, Long userId, int pageSize, int pageNumber) {
+    public ScheduleSummaryDto mapScheduleSummaryDto(Long applicationId, int pageSize, int pageNumber) {
         ScheduleSummaryDto scheduleSummaryDto = new ScheduleSummaryDto();
-        scheduleSummaryDto.setUserId(userId);
         scheduleSummaryDto.setApplicationId(applicationId);
         scheduleSummaryDto.setPageSize(pageSize);
         scheduleSummaryDto.setPageNumber(pageNumber);
@@ -276,6 +275,14 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         scheduleModel.setModifiedOn(scheduleEntity.getModifiedOn().toString());
         scheduleModel.setStatus(scheduleEntity.getStatus().name());
         scheduleModel.setApplicationId(scheduleEntity.getApplicationId());
+
+        if (CollectionUtils.isEmpty(scheduleEntity.getScheduleIterations())) {
+            return scheduleModel;
+        }
+
+        var ScheduleIterationDao = scheduleEntity.getScheduleIterations().get(0);
+        ScheduleIterationModel scheduleIterationModel = mapScheduleIterationModel(ScheduleIterationDao);
+        scheduleModel.setScheduleIteration(scheduleIterationModel);
         return scheduleModel;
     }
 }

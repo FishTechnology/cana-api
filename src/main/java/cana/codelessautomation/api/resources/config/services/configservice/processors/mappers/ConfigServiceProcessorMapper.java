@@ -5,4 +5,6 @@ import cana.codelessautomation.api.resources.config.services.configservice.repos
 
 public interface ConfigServiceProcessorMapper {
     ConfigDao mapConfigDao(CreateConfigDto createConfigDto);
+
+    ConfigDao mapConfigDao(String name, String type, String value, Long applicationId, Long userId);
 }

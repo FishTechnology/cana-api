@@ -20,8 +20,6 @@ public class SystemConfigDao {
     @JMap
     private Long userId;
     @JMap
-    private Long applicationId;
-    @JMap
     private OffsetDateTime createdOn;
     @JMap
     private OffsetDateTime modifiedOn;

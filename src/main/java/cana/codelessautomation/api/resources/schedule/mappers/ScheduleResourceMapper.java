@@ -22,7 +22,7 @@ public interface ScheduleResourceMapper {
 
     CreateScheduleDto mapCreateScheduleDto(Long applicationId, CreateScheduleModel createScheduleModel, Long testPlanId);
 
-    ScheduleSummaryDto mapScheduleSummaryDto(Long applicationId, Long userId, int pageSize, int pageNumber);
+    ScheduleSummaryDto mapScheduleSummaryDto(Long applicationId, int pageSize, int pageNumber);
 
     SchedulePageModel mapSchedulePageModel(ScheduleSummaryDto scheduleSummaryDto, List<ErrorMessageDto> errorMessages);
 

@@ -9,7 +9,7 @@ import cana.codelessautomation.api.resources.system.service.repositories.daos.Sy
 import java.util.List;
 
 public interface SystemConfigResourceMapper {
-    GetSystemConfigsByAppIdDto mapSystemConfigResourceMapper(Long applicationId);
+    GetSystemConfigsByAppIdDto mapSystemConfigResourceMapper();
 
     GetSystemConfigsByAppIdModel mapSystemConfigModel(GetSystemConfigsByAppIdDto getSystemConfigsByAppIdDto, List<ErrorMessageDto> errors);
 

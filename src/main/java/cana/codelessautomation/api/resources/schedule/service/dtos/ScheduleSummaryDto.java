@@ -9,7 +9,6 @@ import java.util.List;
 
 @Data
 public class ScheduleSummaryDto {
-    private Long userId;
     private int pageSize;
     private int pageNumber;
     private int totalPageCount;

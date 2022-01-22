@@ -17,7 +17,7 @@ public class SystemConfigVerifierImpl implements SystemConfigVerifier {
 
     @Override
     public List<ErrorMessageDto> verifyGetSystemConfigsByAppId(GetSystemConfigsByAppIdDto getSystemConfigsByAppIdDto) {
-        return isApplicationIdValid(getSystemConfigsByAppIdDto);
+        return Collections.emptyList();
     }
 
     @Override

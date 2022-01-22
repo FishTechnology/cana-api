@@ -2,6 +2,7 @@ package cana.codelessautomation.api.resources.config.services.configkeyvalueserv
 
 import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.dtos.CreateConfigKeyValueDto;
 import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.repositories.daos.ConfigKeyValueDao;
+import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.repositories.daos.ConfigKeyValueType;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.OffsetDateTime;
@@ -21,6 +22,23 @@ public class ConfigKeyValueServiceProcessorMapperImpl implements ConfigKeyValueS
         configKeyValueDao.setComments(createConfigKeyValueDto.getComments());
         configKeyValueDao.setCreatedBy(createConfigKeyValueDto.getUserId().toString());
         configKeyValueDao.setModifiedBy(createConfigKeyValueDto.getUserId().toString());
+        configKeyValueDao.setCreatedOn(OffsetDateTime.now());
+        configKeyValueDao.setModifiedOn(OffsetDateTime.now());
+        return configKeyValueDao;
+    }
+
+    @Override
+    public ConfigKeyValueDao mapConfigKeyValueDao(Long configId, String key, String value, ConfigKeyValueType type, Long userId) {
+        ConfigKeyValueDao configKeyValueDao = new ConfigKeyValueDao();
+        configKeyValueDao.setKey(key);
+        configKeyValueDao.setValue(value);
+        configKeyValueDao.setUserId(userId);
+        configKeyValueDao.setConfigId(configId);
+        configKeyValueDao.setType(type);
+        configKeyValueDao.setFileId(configKeyValueDao.getFileId());
+        configKeyValueDao.setIsActive(true);
+        configKeyValueDao.setCreatedBy(userId.toString());
+        configKeyValueDao.setModifiedBy(userId.toString());
         configKeyValueDao.setCreatedOn(OffsetDateTime.now());
         configKeyValueDao.setModifiedOn(OffsetDateTime.now());
         return configKeyValueDao;

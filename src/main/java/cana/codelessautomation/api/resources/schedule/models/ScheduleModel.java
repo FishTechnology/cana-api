@@ -27,4 +27,6 @@ public class ScheduleModel {
     private String createdBy;
     @JMap
     private String modifiedBy;
+    @JMap
+    private ScheduleIterationModel scheduleIteration;
 }

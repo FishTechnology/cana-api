@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@Path("/api/applications/{applicationId}")
+@Path("/api")
 @ApplicationScoped
 public class ConfigResource {
     @Inject
@@ -30,24 +30,41 @@ public class ConfigResource {
     ConfigService configService;
 
     @GET
-    @Path("/configs/{configType}")
+    @Path("/applications/{applicationId}/configs")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<ConfigModel> getConfigsByAppId(@Valid @PathParam Long applicationId, @Valid @PathParam String configType) {
-        var getConfigsByUserIdDto = configResourceMapper.mapGetConfigsByUserIdDto(applicationId, configType);
-        var errorMessages = configService.getConfigsByAppId(getConfigsByUserIdDto);
+    public List<ConfigModel> getConfigsByAppId(@Valid @PathParam Long applicationId) {
+        var getConfigsByAppIdDto = configResourceMapper.mapGetConfigsByAppIdDto(applicationId);
+        var errorMessages = configService.getConfigsByAppId(getConfigsByAppIdDto);
         if (CollectionUtils.isNotEmpty(errorMessages)) {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }
 
-        if (CollectionUtils.isEmpty(getConfigsByUserIdDto.getConfigDaos())) {
+        if (CollectionUtils.isEmpty(getConfigsByAppIdDto.getConfigDaos())) {
             return Collections.emptyList();
         }
-        return configResourceMapper.mapConfigModels(getConfigsByUserIdDto);
+        return configResourceMapper.mapConfigModels(getConfigsByAppIdDto);
     }
 
     @GET
-    @Path("/configs/{configType}/{configId}")
+    @Path("/applications/{applicationId}/configs/{configType}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<ConfigModel> getConfigsByConfigType(@Valid @PathParam Long applicationId, @Valid @PathParam String configType) {
+        var getConfigsByConfigTypeDto = configResourceMapper.mapGetConfigsByConfigTypeDto(applicationId, configType);
+        var errorMessages = configService.getConfigsByConfigType(getConfigsByConfigTypeDto);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+
+        if (CollectionUtils.isEmpty(getConfigsByConfigTypeDto.getConfigDaos())) {
+            return Collections.emptyList();
+        }
+        return configResourceMapper.mapConfigModels(getConfigsByConfigTypeDto);
+    }
+
+    @GET
+    @Path("/applications/{applicationId}/configs/{configType}/{configId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public ConfigModel getConfigById(@Valid @PathParam Long applicationId, @Valid @PathParam String configType, @Valid @PathParam String configId) {
@@ -65,7 +82,7 @@ public class ConfigResource {
 
 
     @POST
-    @Path("/configs/{configType}")
+    @Path("/applications/{applicationId}/configs/{configType}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional

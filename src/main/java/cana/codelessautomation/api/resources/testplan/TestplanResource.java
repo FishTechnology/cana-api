@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
 
-@Path("/api/applications/{applicationId}")
+@Path("/api")
 public class TestplanResource {
 
     @Inject
@@ -29,7 +29,7 @@ public class TestplanResource {
     TestplanService testplanService;
 
     @POST
-    @Path("/testPlans")
+    @Path("/applications/{applicationId}/testPlans")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -40,7 +40,7 @@ public class TestplanResource {
     }
 
     @GET
-    @Path("/testplans")
+    @Path("/applications/{applicationId}/testplans")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<TestPlanModel> getTestplans(@Valid @PathParam Long applicationId, @Valid @QueryParam Long userId) throws ValidationException {
@@ -49,7 +49,7 @@ public class TestplanResource {
     }
 
     @GET
-    @Path("/testPlans/{testplanId}")
+    @Path("/applications/{applicationId}/testPlans/{testplanId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public TestPlanModel getTestplanById(@Valid @PathParam Long applicationId, @Valid @PathParam Long testplanId) throws ValidationException {
@@ -58,7 +58,7 @@ public class TestplanResource {
     }
 
     @DELETE
-    @Path("/testPlans/{testplanId}")
+    @Path("/applications/{applicationId}/testPlans/{testplanId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -72,7 +72,7 @@ public class TestplanResource {
     }
 
     @PUT
-    @Path("/testPlans/{testplanId}")
+    @Path("/applications/{applicationId}/testPlans/{testplanId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -86,7 +86,7 @@ public class TestplanResource {
     }
 
     @PUT
-    @Path("/testPlans/{testplanId}/status")
+    @Path("/applications/{applicationId}/testPlans/{testplanId}/status")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -100,7 +100,7 @@ public class TestplanResource {
     }
 
     @POST
-    @Path("/testPlans/{testplanId}/copy")
+    @Path("/applications/{applicationId}/testPlans/{testplanId}/copy")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional

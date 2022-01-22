@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
 
-@Path("/api/applications/{applicationId}")
+@Path("/api")
 public class TestCaseResource {
     @Inject
     TestCaseResourceMapper testCaseResourceMapper;
@@ -28,7 +28,7 @@ public class TestCaseResource {
     TestCaseService testCaseService;
 
     @POST
-    @Path("/testCases")
+    @Path("/applications/{applicationId}/testCases")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -39,7 +39,7 @@ public class TestCaseResource {
     }
 
     @POST
-    @Path("/testPlans/{testPlanId}/testCases")
+    @Path("/applications/{applicationId}/testPlans/{testPlanId}/testCases")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -50,7 +50,7 @@ public class TestCaseResource {
     }
 
     @GET
-    @Path("/testCases")
+    @Path("/applications/{applicationId}/testCases")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<TestCaseModel> getTestCaseByUserId(@Valid @QueryParam Long userId) throws ValidationException {
@@ -62,7 +62,7 @@ public class TestCaseResource {
     }
 
     @GET
-    @Path("/testPlans/{testPlanId}/testCases")
+    @Path("/applications/{applicationId}/testPlans/{testPlanId}/testCases")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<TestCaseModel> getTestCaseByTestPlanId(@Valid @PathParam Long applicationId, @Valid @PathParam Long testPlanId) throws ValidationException {
@@ -75,7 +75,7 @@ public class TestCaseResource {
     }
 
     @GET
-    @Path("/testCases/{testCaseId}/isDeletable")
+    @Path("/applications/{applicationId}/testCases/{testCaseId}/isDeletable")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public CheckTestCaseIsDeletableModel checkTestCaseIsDeletable(@Valid @PathParam Long testCaseId) throws ValidationException {
@@ -85,7 +85,7 @@ public class TestCaseResource {
     }
 
     @GET
-    @Path("/testCases/{testCaseId}")
+    @Path("/applications/{applicationId}/testCases/{testCaseId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public TestCaseModel getTestCaseById(@Valid @PathParam Long testCaseId) throws ValidationException {
@@ -95,7 +95,7 @@ public class TestCaseResource {
     }
 
     @PUT
-    @Path("/testCases/{testCaseId}")
+    @Path("/applications/{applicationId}/testCases/{testCaseId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -110,7 +110,7 @@ public class TestCaseResource {
     }
 
     @PUT
-    @Path("/testPlans/{testPlanId}/testCases/{testCaseId}")
+    @Path("/applications/{applicationId}/testPlans/{testPlanId}/testCases/{testCaseId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -125,7 +125,7 @@ public class TestCaseResource {
     }
 
     @PUT
-    @Path("/testPlans/{testPlanId}/testCases/order")
+    @Path("/applications/{applicationId}/testPlans/{testPlanId}/testCases/order")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional

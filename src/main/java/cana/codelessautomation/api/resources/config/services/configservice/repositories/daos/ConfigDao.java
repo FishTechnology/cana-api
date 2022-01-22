@@ -18,8 +18,8 @@ public class ConfigDao {
     @Column(nullable = false)
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    private ConfigTypeDao type;
+    @Column(nullable = false)
+    private String type;
 
     @Column(nullable = false)
     private Long userId;

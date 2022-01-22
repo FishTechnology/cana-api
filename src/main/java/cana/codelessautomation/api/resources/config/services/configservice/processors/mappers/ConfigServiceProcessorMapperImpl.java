@@ -28,4 +28,19 @@ public class ConfigServiceProcessorMapperImpl implements ConfigServiceProcessorM
         configDao.setIsActive(true);
         return configDao;
     }
+
+    @Override
+    public ConfigDao mapConfigDao(String name, String type, String value, Long applicationId, Long userId) {
+        ConfigDao configDao = new ConfigDao();
+        configDao.setCreatedBy(userId.toString());
+        configDao.setModifiedBy(userId.toString());
+        configDao.setCreatedOn(OffsetDateTime.now());
+        configDao.setModifiedOn(OffsetDateTime.now());
+        configDao.setType(type);
+        configDao.setName(name);
+        configDao.setApplicationId(applicationId);
+        configDao.setUserId(userId);
+        configDao.setIsActive(true);
+        return configDao;
+    }
 }

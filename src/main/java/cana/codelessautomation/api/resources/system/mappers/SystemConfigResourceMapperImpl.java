@@ -15,9 +15,8 @@ import java.util.List;
 @ApplicationScoped
 public class SystemConfigResourceMapperImpl implements SystemConfigResourceMapper {
     @Override
-    public GetSystemConfigsByAppIdDto mapSystemConfigResourceMapper(Long applicationId) {
+    public GetSystemConfigsByAppIdDto mapSystemConfigResourceMapper() {
         GetSystemConfigsByAppIdDto getSystemConfigsByAppIdDto = new GetSystemConfigsByAppIdDto();
-        getSystemConfigsByAppIdDto.setApplicationId(applicationId);
         return getSystemConfigsByAppIdDto;
     }
 
@@ -29,11 +28,16 @@ public class SystemConfigResourceMapperImpl implements SystemConfigResourceMappe
             return getSystemConfigsByAppIdModel;
         }
 
+        if (CollectionUtils.isEmpty(getSystemConfigsByAppIdDto.getSystemConfigDao())) {
+            return getSystemConfigsByAppIdModel;
+        }
+
         List<SystemConfigModel> systemConfigs = new ArrayList<>();
         for (SystemConfigDao systemConfigDao : getSystemConfigsByAppIdDto.getSystemConfigDao()) {
             var systemConfigModel = mapSystemConfigModel(systemConfigDao);
             systemConfigs.add(systemConfigModel);
         }
+        getSystemConfigsByAppIdModel.setSystemConfigs(systemConfigs);
         return getSystemConfigsByAppIdModel;
     }
 
@@ -50,7 +54,6 @@ public class SystemConfigResourceMapperImpl implements SystemConfigResourceMappe
         systemConfigModel.setCreatedOn(systemConfigDao.getCreatedOn().toString());
         systemConfigModel.setModifiedBy(systemConfigDao.getModifiedBy());
         systemConfigModel.setModifiedOn(systemConfigDao.getModifiedOn().toString());
-        systemConfigModel.setApplicationId(systemConfigDao.getApplicationId().toString());
         return systemConfigModel;
     }
 }

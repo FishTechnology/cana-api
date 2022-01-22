@@ -13,11 +13,11 @@ public class ConfigRepository implements PanacheRepository<ConfigDao> {
         return list("applicationId = ?1 and type = ?2  and isActive=true", applicationId, configType);
     }
 
-    public List<ConfigDao> findByUserIdAndTypeAndName(Long userId, ConfigTypeDao configType, String name) {
+    public List<ConfigDao> findByUserIdAndTypeAndName(Long userId, String configType, String name) {
         return list("userId = ?1 and type = ?2 and lower(name) = lower(?3) and isActive=true", userId, configType, name);
     }
 
-    public List<ConfigDao> findByUserIdAndTypeAndNameAndIdentifier(Long userId, ConfigTypeDao configType, String name, Long identifier) {
+    public List<ConfigDao> findByUserIdAndTypeAndNameAndIdentifier(Long userId, String configType, String name, Long identifier) {
         return list("userId = ?1 and type = ?2 and lower(name) = lower(?3) and isActive=true and identifier = ?4", userId, configType, name, identifier);
     }
 
@@ -27,5 +27,9 @@ public class ConfigRepository implements PanacheRepository<ConfigDao> {
 
     public ConfigDao findByIdAndTypeAndActive(ConfigTypeDao configType, Long configId) {
         return find("id = ?1 and type = ?2 and isActive=true", configId, configType).firstResult();
+    }
+
+    public List<ConfigDao> findByAppId(Long applicationId) {
+        return list("applicationId = ?1 and isActive=true", applicationId);
     }
 }

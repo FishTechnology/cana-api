@@ -70,11 +70,7 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
 
     @Override
     public List<ErrorMessageDto> verifyGetScheduleSummary(ScheduleSummaryDto scheduleSummaryDto) {
-        var errors = isApplicationIdValid(scheduleSummaryDto);
-        if (CollectionUtils.isNotEmpty(errors)) {
-            return errors;
-        }
-        return isUserId(scheduleSummaryDto);
+        return isApplicationIdValid(scheduleSummaryDto);
     }
 
     @Override
@@ -253,16 +249,6 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
         }
         response.setValue(scheduleDao);
         return response;
-    }
-
-    @Override
-    public List<ErrorMessageDto> isUserId(ScheduleSummaryDto scheduleSummaryDto) {
-        var response = customerServiceVerifier.isUserIdValid(scheduleSummaryDto.getUserId());
-        if (CollectionUtils.isNotEmpty(response.getKey())) {
-            return response.getKey();
-        }
-        scheduleSummaryDto.setCustomDetail(response.getValue());
-        return Collections.emptyList();
     }
 
 

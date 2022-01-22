@@ -21,7 +21,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
 
-@Path("/api/applications/{applicationId}")
+@Path("/api")
 public class EnvironmentResource {
 
     @Inject
@@ -31,7 +31,7 @@ public class EnvironmentResource {
     EnvironmentService environmentService;
 
     @POST
-    @Path("/environments")
+    @Path("/applications/{applicationId}/environments")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -42,7 +42,7 @@ public class EnvironmentResource {
     }
 
     @PUT
-    @Path("/environments/{environmentId}")
+    @Path("/applications/{applicationId}/environments/{environmentId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -57,7 +57,7 @@ public class EnvironmentResource {
     }
 
     @GET
-    @Path("/environments")
+    @Path("/applications/{applicationId}/environments")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<EnvironmentModel> getEnvironments(@Valid @QueryParam Long userId) throws ValidationException {
@@ -69,7 +69,7 @@ public class EnvironmentResource {
     }
 
     @GET
-    @Path("/environments/{environmentId}")
+    @Path("/applications/{applicationId}/environments/{environmentId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public EnvironmentModel getEnvironmentById(@Valid @PathParam Long environmentId) throws ValidationException {
@@ -81,7 +81,7 @@ public class EnvironmentResource {
     }
 
     @DELETE
-    @Path("/environments/{environmentId}")
+    @Path("/applications/{applicationId}/environments/{environmentId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional

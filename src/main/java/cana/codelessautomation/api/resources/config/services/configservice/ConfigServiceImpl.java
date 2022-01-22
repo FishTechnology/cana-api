@@ -7,6 +7,7 @@ import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.CreateConfigDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigByIdDto;
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByAppIdDto;
+import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByConfigTypeDto;
 import cana.codelessautomation.api.resources.config.services.configservice.processors.ConfigServiceProcessor;
 import cana.codelessautomation.api.resources.config.services.configservice.verifiers.ConfigServiceVerifier;
 import org.apache.commons.collections.CollectionUtils;
@@ -24,12 +25,12 @@ public class ConfigServiceImpl implements ConfigService {
     ConfigServiceProcessor configServiceProcessor;
 
     @Override
-    public List<ErrorMessageDto> getConfigsByAppId(GetConfigsByAppIdDto getConfigsByAppIdDto) {
-        var errorMessages = configServiceVerifier.verifyGetConfigsByUserId(getConfigsByAppIdDto);
+    public List<ErrorMessageDto> getConfigsByConfigType(GetConfigsByConfigTypeDto getConfigsByConfigTypeDto) {
+        var errorMessages = configServiceVerifier.verifyGetConfigsByUserId(getConfigsByConfigTypeDto);
         if (CollectionUtils.isNotEmpty(errorMessages)) {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }
-        return configServiceProcessor.processorGetConfigsByAppId(getConfigsByAppIdDto);
+        return configServiceProcessor.processorGetConfigsByAppId(getConfigsByConfigTypeDto);
     }
 
     @Override
@@ -48,5 +49,14 @@ public class ConfigServiceImpl implements ConfigService {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }
         return configServiceProcessor.processorGetConfigById(getConfigByIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> getConfigsByAppId(GetConfigsByAppIdDto getConfigsByAppIdDto) {
+        var errorMessages = configServiceVerifier.verifyGetConfigsByAppId(getConfigsByAppIdDto);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return configServiceProcessor.processorGetConfigsByAppId(getConfigsByAppIdDto);
     }
 }
