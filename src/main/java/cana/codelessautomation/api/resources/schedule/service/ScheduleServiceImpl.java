@@ -6,7 +6,6 @@ import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.schedule.service.dtos.*;
 import cana.codelessautomation.api.resources.schedule.service.processors.ScheduleServiceProcessor;
 import cana.codelessautomation.api.resources.schedule.service.repositories.ScheduleIterationRepository;
-import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleIterationDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleStatusDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleEntity;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleSummaryEntity;
@@ -15,7 +14,6 @@ import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @ApplicationScoped
@@ -53,14 +51,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleIterationDao> getScheduleIterations(Long scheduleId) {
-        return scheduleIterationRepository.findByScheduleId(scheduleId);
+    public List<ErrorMessageDto> getScheduleIterations(GetScheduleIterationsDto getScheduleIterationsDto) {
+        var errors = scheduleServiceVerifier.verifyGetScheduleIterations(getScheduleIterationsDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
+        }
+        return scheduleServiceProcessor.processGetScheduleIterations(getScheduleIterationsDto);
     }
 
     @Override
     public List<ErrorMessageDto> copyTestPlanDetail(CopyTestPlanDetailDto copyTestPlanDetailDto) {
-        copyTestPlanDetailDto.setCreatedOn(OffsetDateTime.now());
-        copyTestPlanDetailDto.setModifiedOn(OffsetDateTime.now());
         copyTestPlanDetailDto.setCreatedBy("SCHEDULED_JOB");
         copyTestPlanDetailDto.setModifiedBy("SCHEDULED_JOB");
 

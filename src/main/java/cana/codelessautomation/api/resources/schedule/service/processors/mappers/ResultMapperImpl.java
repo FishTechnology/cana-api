@@ -11,6 +11,7 @@ import cana.codelessautomation.api.resources.schedule.service.dtos.CopyTestPlanD
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.entities.TestplanTestcaseGroupingDaoEntity;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
 
 @ApplicationScoped
 public class ResultMapperImpl implements ResultMapper {
@@ -18,8 +19,8 @@ public class ResultMapperImpl implements ResultMapper {
     public TestPlanResultDao mapTestPlanResultDao(CopyTestPlanDetailDto copyTestPlanDetailDto) {
         TestPlanResultDao testPlanResultDao = new TestPlanResultDao();
         testPlanResultDao.setTestPlanId(copyTestPlanDetailDto.getTestPlanSummary().getId());
-        testPlanResultDao.setCreatedOn(copyTestPlanDetailDto.getCreatedOn());
-        testPlanResultDao.setModifiedOn(copyTestPlanDetailDto.getModifiedOn());
+        testPlanResultDao.setCreatedOn(OffsetDateTime.now());
+        testPlanResultDao.setModifiedOn(OffsetDateTime.now());
         testPlanResultDao.setStatus(TestPlanResultStatusDao.NOT_STARTED);
         testPlanResultDao.setScheduleIterationId(copyTestPlanDetailDto.getScheduleIteration().getId());
         return testPlanResultDao;
@@ -29,8 +30,8 @@ public class ResultMapperImpl implements ResultMapper {
     public TestCaseResultDao mapTestCaseResultDao(CopyTestPlanDetailDto copyTestPlanDetailDto, TestplanTestcaseGroupingDaoEntity testplanTestcaseGroupings) {
         TestCaseResultDao testCaseResultDao = new TestCaseResultDao();
         testCaseResultDao.setTestCaseId(testplanTestcaseGroupings.getTestCaseId());
-        testCaseResultDao.setCreatedOn(copyTestPlanDetailDto.getCreatedOn());
-        testCaseResultDao.setModifiedOn(copyTestPlanDetailDto.getModifiedOn());
+        testCaseResultDao.setCreatedOn(OffsetDateTime.now());
+        testCaseResultDao.setModifiedOn(OffsetDateTime.now());
         testCaseResultDao.setStatus(TestCaseResultStatusDao.NOT_STARTED);
         testCaseResultDao.setTestplanResultId(copyTestPlanDetailDto.getTestPlanResultId());
         testCaseResultDao.setExecutionOrder(testplanTestcaseGroupings.getExecutionOrder());
@@ -42,8 +43,8 @@ public class ResultMapperImpl implements ResultMapper {
                                               TestCaseResultDao testCaseResultDao,
                                               ActionDaoEntity actionDaoEntity) {
         ActionResultDao actionResultDao = new ActionResultDao();
-        actionResultDao.setCreatedOn(copyTestPlanDetailDto.getCreatedOn());
-        actionResultDao.setModifiedOn(copyTestPlanDetailDto.getModifiedOn());
+        actionResultDao.setCreatedOn(OffsetDateTime.now());
+        actionResultDao.setModifiedOn(OffsetDateTime.now());
         actionResultDao.setTestcaseResultId(testCaseResultDao.getId());
         actionResultDao.setActionId(actionDaoEntity.getId());
         actionResultDao.setStatus(ActionResultStatusDao.NOT_STARTED);

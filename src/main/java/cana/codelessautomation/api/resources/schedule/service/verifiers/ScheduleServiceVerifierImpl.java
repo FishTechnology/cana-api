@@ -161,6 +161,42 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
     }
 
     @Override
+    public List<ErrorMessageDto> verifyGetScheduleIterations(GetScheduleIterationsDto getScheduleIterationsDto) {
+        var errors = isScheduleIdValid(getScheduleIterationsDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isApplicationIdValid(getScheduleIterationsDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isScheduleIdValid(GetScheduleIterationsDto getScheduleIterationsDto) {
+        var response = isScheduleIdValid(getScheduleIterationsDto.getScheduleId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        getScheduleIterationsDto.setSchedule(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isApplicationIdValid(GetScheduleIterationsDto getScheduleIterationsDto) {
+        if (Objects.isNull(getScheduleIterationsDto.getApplicationId())) {
+            return Collections.emptyList();
+        }
+        var response = applicationVerifier.isApplicationIdValid(getScheduleIterationsDto.getApplicationId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        getScheduleIterationsDto.setApplication(response.getValue());
+
+        if (!Objects.equals(getScheduleIterationsDto.getSchedule().getApplicationId(), getScheduleIterationsDto.getApplication().getId())) {
+            return CanaUtility.getErrorMessages(scheduleServiceErrorCode.getScheduleIdAndAppIdNotMapped(), "schedule status is ready status");
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<ErrorMessageDto> isApplicationIdValid(ReScheduleStatusDto reScheduleStatusDto) {
         if (Objects.isNull(reScheduleStatusDto.getApplicationId())) {
             return Collections.emptyList();

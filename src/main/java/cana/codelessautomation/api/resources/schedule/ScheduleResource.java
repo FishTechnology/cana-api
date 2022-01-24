@@ -64,26 +64,37 @@ public class ScheduleResource {
     }
 
     @GET
-    @Path("/schedules/{scheduleId}")
+    @Path("/applications/{applicationId}/schedules/{scheduleId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<ScheduleIterationModel> getScheduleIterations(@Valid @PathParam Long scheduleId) throws ValidationException {
-        var scheduleIterationDtos = scheduleService.getScheduleIterations(scheduleId);
-        if (CollectionUtils.isEmpty(scheduleIterationDtos)) {
-            return Collections.emptyList();
+    public List<ScheduleIterationModel> getScheduleIterations(@Valid @PathParam Long applicationId, @Valid @PathParam Long scheduleId) throws ValidationException {
+        var getScheduleIterationsDto = scheduleResourceMapper.mapGetScheduleIterationsDto(applicationId, scheduleId);
+        var errors = scheduleService.getScheduleIterations(getScheduleIterationsDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
         }
-        return scheduleResourceMapper.mapScheduleIterationModels(scheduleIterationDtos);
+        return scheduleResourceMapper.mapScheduleIterationModels(getScheduleIterationsDto);
     }
 
     @GET
-    @Path("/schedules/{scheduleId}/scheduleIterations/{scheduleIterationId}/result")
+    @Path("/applications/{applicationId}/schedules/{scheduleId}/scheduleIterations/{scheduleIterationId}/result")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ScheduleIterationResultModel getScheduleIterationResult(@Valid @PathParam Long scheduleId, @Valid @PathParam Long scheduleIterationId) throws ValidationException {
+    public ScheduleIterationResultModel getScheduleIterationResult(@Valid @PathParam Long applicationId, @Valid @PathParam Long scheduleId, @Valid @PathParam Long scheduleIterationId) throws ValidationException {
         var scheduleIterationResultDto = scheduleResourceMapper.mapScheduleIterationResultDto(scheduleId, scheduleIterationId);
         var errors = scheduleService.getScheduleIterationResult(scheduleIterationResultDto);
         return scheduleResourceMapper.mapScheduleIterationResultModel(errors, scheduleIterationResultDto);
     }
+
+//    @GET
+//    @Path("/schedules/{scheduleId}/scheduleIterations/{scheduleIterationId}")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    public ScheduleIterationResultModel getScheduleIterations(@Valid @PathParam Long scheduleId, @Valid @PathParam Long scheduleIterationId) throws ValidationException {
+//        var scheduleIterationsDto = scheduleResourceMapper.mapScheduleIterationsDto(scheduleId, scheduleIterationId);
+//        var errors = scheduleService.getScheduleIterations(scheduleIterationsDto);
+//        return scheduleResourceMapper.mapScheduleIterationResultModel(errors, scheduleIterationsDto);
+//    }
 
     @GET
     @Path("/applications/{applicationId}/schedules/runningSchedule")

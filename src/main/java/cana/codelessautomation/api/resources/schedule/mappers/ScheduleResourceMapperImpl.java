@@ -95,9 +95,9 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     }
 
     @Override
-    public List<ScheduleIterationModel> mapScheduleIterationModels(List<ScheduleIterationDao> scheduleIterationDaos) {
+    public List<ScheduleIterationModel> mapScheduleIterationModels(GetScheduleIterationsDto scheduleIterationDaos) {
         List<ScheduleIterationModel> scheduleIterationModels = new ArrayList<>();
-        for (ScheduleIterationDao scheduleIterationDao : scheduleIterationDaos) {
+        for (ScheduleIterationDao scheduleIterationDao : scheduleIterationDaos.getScheduleIterations()) {
             scheduleIterationModels.add(mapScheduleIterationModel(scheduleIterationDao));
         }
         return scheduleIterationModels;
@@ -303,5 +303,19 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         updateScheduleStatusReadyDto.setApplicationId(applicationId);
         updateScheduleStatusReadyDto.setScheduleStatus(EnumUtils.getEnumIgnoreCase(ScheduleStatusDao.class, updateScheduleStatusModel.getStatus()));
         return updateScheduleStatusReadyDto;
+    }
+
+    @Override
+    public ScheduleIterationsDto mapScheduleIterationsDto(Long scheduleId, Long scheduleIterationId) {
+        ScheduleIterationsDto scheduleIterationsDto = new ScheduleIterationsDto();
+        return scheduleIterationsDto;
+    }
+
+    @Override
+    public GetScheduleIterationsDto mapGetScheduleIterationsDto(Long applicationId, Long scheduleId) {
+        GetScheduleIterationsDto getScheduleIterationsDto = new GetScheduleIterationsDto();
+        getScheduleIterationsDto.setScheduleId(scheduleId);
+        getScheduleIterationsDto.setApplicationId(applicationId);
+        return getScheduleIterationsDto;
     }
 }

@@ -26,7 +26,7 @@ public interface ScheduleResourceMapper {
 
     SchedulePageModel mapSchedulePageModel(ScheduleSummaryDto scheduleSummaryDto, List<ErrorMessageDto> errorMessages);
 
-    List<ScheduleIterationModel> mapScheduleIterationModels(List<ScheduleIterationDao> scheduleIterationDaos);
+    List<ScheduleIterationModel> mapScheduleIterationModels(GetScheduleIterationsDto scheduleIterationDaos);
 
     ScheduleIterationModel mapScheduleIterationModel(ScheduleIterationDao scheduleIterationDao);
 
@@ -57,4 +57,8 @@ public interface ScheduleResourceMapper {
     List<ScheduleModel> mapScheduleModels(List<ScheduleEntity> scheduleEntities);
 
     UpdateScheduleStatusReadyDto mapUpdateScheduleStatusDto(Long applicationId, Long scheduleId, UpdateScheduleStatusModel updateScheduleStatusModel);
+
+    ScheduleIterationsDto mapScheduleIterationsDto(Long scheduleId, Long scheduleIterationId);
+
+    GetScheduleIterationsDto mapGetScheduleIterationsDto(Long applicationId, Long scheduleId);
 }

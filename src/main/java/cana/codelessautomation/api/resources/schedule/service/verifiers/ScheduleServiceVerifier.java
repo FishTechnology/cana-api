@@ -15,6 +15,10 @@ public interface ScheduleServiceVerifier {
 
     List<ErrorMessageDto> isEnvironmentIdValid(CreateScheduleDto createScheduleDto);
 
+    List<ErrorMessageDto> isScheduleIdValid(GetScheduleIterationsDto getScheduleIterationsDto);
+
+    List<ErrorMessageDto> isApplicationIdValid(GetScheduleIterationsDto getScheduleIterationsDto);
+
     List<ErrorMessageDto> isApplicationIdValid(ReScheduleStatusDto reScheduleStatusDto);
 
     List<ErrorMessageDto> isScheduleStatusValid(ReScheduleStatusDto reScheduleStatusDto);
@@ -56,4 +60,6 @@ public interface ScheduleServiceVerifier {
     List<ErrorMessageDto> isApplicationIdValid(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto);
 
     List<ErrorMessageDto> verifyReSchedule(ReScheduleStatusDto reScheduleStatusDto);
+
+    List<ErrorMessageDto> verifyGetScheduleIterations(GetScheduleIterationsDto getScheduleIterationsDto);
 }

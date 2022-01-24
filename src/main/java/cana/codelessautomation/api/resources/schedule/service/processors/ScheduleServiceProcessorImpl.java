@@ -137,6 +137,20 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
     }
 
     @Override
+    public List<ErrorMessageDto> processGetScheduleIterations(GetScheduleIterationsDto getScheduleIterationsDto) {
+        return getScheduleIterations(getScheduleIterationsDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> getScheduleIterations(GetScheduleIterationsDto getScheduleIterationsDto) {
+        var scheduleIterationDaos = scheduleIterationRepository.findByScheduleId(getScheduleIterationsDto.getScheduleId());
+        if (CollectionUtils.isNotEmpty(scheduleIterationDaos)) {
+            getScheduleIterationsDto.setScheduleIterations(scheduleIterationDaos);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<ErrorMessageDto> updateScheduleIteration(ReScheduleStatusDto reScheduleStatusDto) {
         var scheduleIterationDao = scheduleIterationRepository.findLatestIteration(reScheduleStatusDto.getScheduleId());
         reScheduleStatusDto.setScheduleIteration(scheduleIterationDao);

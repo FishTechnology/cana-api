@@ -2,7 +2,6 @@ package cana.codelessautomation.api.resources.schedule.service;
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.schedule.service.dtos.*;
-import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleIterationDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleEntity;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleSummaryEntity;
 
@@ -13,7 +12,7 @@ public interface ScheduleService {
 
     List<ErrorMessageDto> getScheduleSummary(ScheduleSummaryDto scheduleSummaryDto);
 
-    List<ScheduleIterationDao> getScheduleIterations(Long scheduleId);
+    List<ErrorMessageDto> getScheduleIterations(GetScheduleIterationsDto getScheduleIterationsDto);
 
     List<ErrorMessageDto> copyTestPlanDetail(CopyTestPlanDetailDto copyTestPlanDetailDto);
 

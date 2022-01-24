@@ -10,10 +10,10 @@ import java.util.List;
 @ApplicationScoped
 public class ScheduleIterationRepository implements PanacheRepository<ScheduleIterationDao> {
     public List<ScheduleIterationDao> findByScheduleId(Long scheduleId) {
-        return list("scheduleId = ?1", scheduleId);
+        return list("scheduleId = ?1", Sort.descending("modifiedOn"), scheduleId);
     }
 
     public ScheduleIterationDao findLatestIteration(Long scheduleId) {
-        return find("scheduleId = ?1", Sort.descending("id"),scheduleId).firstResult();
+        return find("scheduleId = ?1", Sort.descending("id"), scheduleId).firstResult();
     }
 }
