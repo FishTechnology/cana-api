@@ -34,7 +34,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<ErrorMessageDto> createSchedule(CreateScheduleDto createScheduleDto) {
         createScheduleDto.setCreatedBy(createScheduleDto.getUserId().toString());
         createScheduleDto.setModifiedBy(createScheduleDto.getUserId().toString());
-        createScheduleDto.setStatus(ScheduleStatusDao.READY);
+        createScheduleDto.setStatus(ScheduleStatusDao.QUEUE);
 
         var errors = scheduleServiceVerifier.verifyCreateSchedule(createScheduleDto);
         if (CollectionUtils.isNotEmpty(errors)) {
@@ -105,10 +105,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public List<ErrorMessageDto> reSchedule(ReScheduleStatusDto reScheduleStatusDto) {
-        reScheduleStatusDto.setCreatedOn(OffsetDateTime.now());
-        reScheduleStatusDto.setModifiedOn(OffsetDateTime.now());
-        reScheduleStatusDto.setCreatedBy("SCHEDULED_JOB");
-        reScheduleStatusDto.setModifiedBy("SCHEDULED_JOB");
+        reScheduleStatusDto.setCreatedBy(reScheduleStatusDto.getUserId().toString());
+        reScheduleStatusDto.setModifiedBy(reScheduleStatusDto.getUserId().toString());
 
         var errors = scheduleServiceVerifier.verifyReSchedule(reScheduleStatusDto);
         if (CollectionUtils.isNotEmpty(errors)) {
@@ -118,7 +116,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public ScheduleEntity getRunningScheduleByAppId(Long applicationId) {
+    public List<ScheduleEntity> getRunningScheduleByAppId(Long applicationId) {
         return ScheduleEntity.findByAppIdStatus(applicationId, ScheduleStatusDao.INPROGRESS);
     }
 

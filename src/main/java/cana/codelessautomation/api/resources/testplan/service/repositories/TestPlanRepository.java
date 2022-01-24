@@ -5,6 +5,7 @@ import cana.codelessautomation.api.resources.testplan.service.dtos.UpdateTestpla
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestPlanStatusDao;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestplanDao;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.panache.common.Sort;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.OffsetDateTime;
@@ -16,8 +17,8 @@ public class TestPlanRepository implements PanacheRepository<TestplanDao> {
         return find("name = ?1 and userid = ?2", name, userId).firstResult();
     }
 
-    public List<TestplanDao> findByUserId(Long applicationId) {
-        return list("applicationId = ?1 and status NOT IN ( ?2 )", applicationId, TestPlanStatusDao.DELETED);
+    public List<TestplanDao> findByAppId(Long applicationId) {
+        return list("applicationId = ?1 and status NOT IN ( ?2 )", Sort.descending("modifiedOn"), applicationId, TestPlanStatusDao.DELETED);
     }
 
     public TestplanDao findByIdAndStatus(Long applicationId, Long testplanId) {

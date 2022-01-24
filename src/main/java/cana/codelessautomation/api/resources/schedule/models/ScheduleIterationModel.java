@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class ScheduleIterationModel {
     @JMap
-    private Long id;
+    private String id;
     @JMap
-    private Long scheduleId;
+    private String scheduleId;
     @JMap
     private String status;
     @JMap

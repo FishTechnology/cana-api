@@ -23,7 +23,7 @@ public interface TestplanResourceMapper {
 
     UpdateTestplanDto mapUpdateTestplanDto(UpdateTestplanModel updateTestplanModel, Long testplanId);
 
-    UpdateTestplanStatusDto mapUpdateTestplanStatusDto(UpdateTestplanStatusModel updateTestplanStatusModel, Long testplanId);
+    UpdateTestplanStatusDto mapUpdateTestplanStatusDto(UpdateTestplanStatusModel updateTestplanStatusModel, Long testplanId, Long applicationId);
 
     ScheduleTestPlanModel mapTestPlanModel(TestPlanSummaryDaoEntity testplanDaos);
 

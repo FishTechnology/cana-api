@@ -45,7 +45,7 @@ public class TestPlanProcessorImpl implements TestPlanProcessor {
 
     @Override
     public List<TestplanDao> getTestplans(Long applicationId) {
-        return testPlanRepository.findByUserId(applicationId);
+        return testPlanRepository.findByAppId(applicationId);
     }
 
     @Override

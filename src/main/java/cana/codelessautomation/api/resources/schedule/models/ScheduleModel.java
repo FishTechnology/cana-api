@@ -8,15 +8,15 @@ import javax.persistence.Id;
 @Data
 public class ScheduleModel {
     @Id
-    private Long id;
+    private String id;
     @JMap
-    private Long testPlanId;
+    private String testPlanId;
     @JMap
-    private Long environmentId;
+    private String environmentId;
     @JMap
-    private Long applicationId;
+    private String applicationId;
     @JMap
-    private Long userId;
+    private String userId;
     @JMap
     private String status;
     @JMap

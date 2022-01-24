@@ -6,7 +6,6 @@ import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.application.service.verifiers.ApplicationVerifier;
 import cana.codelessautomation.api.resources.config.services.configservice.verifiers.ConfigServiceVerifier;
 import cana.codelessautomation.api.resources.customer.service.verifiers.CustomerServiceVerifier;
-import cana.codelessautomation.api.resources.environment.service.verifiers.EnvironmentVerifier;
 import cana.codelessautomation.api.resources.schedule.service.dtos.*;
 import cana.codelessautomation.api.resources.schedule.service.errorcodes.ScheduleServiceErrorCode;
 import cana.codelessautomation.api.resources.schedule.service.repositories.ScheduleIterationRepository;
@@ -23,15 +22,13 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
 
     @Inject
     TestplanVerifier testplanVerifier;
-
-    @Inject
-    EnvironmentVerifier environmentVerifier;
 
     @Inject
     CustomerServiceVerifier customerServiceVerifier;
@@ -61,11 +58,26 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
         }
+        errors = isTestPlanStatusValid(createScheduleDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
         errors = isUserId(createScheduleDto);
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
         }
         return isEnvironmentIdValid(createScheduleDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestPlanStatusValid(CreateScheduleDto createScheduleDto) {
+        if (Objects.isNull(createScheduleDto.getTestplan())) {
+            return Collections.emptyList();
+        }
+        if (createScheduleDto.getTestplan().getStatus() != TestPlanStatusDao.READY) {
+            return CanaUtility.getErrorMessages(testplanErrorCode.getTestPlanIsNotInReadyStatus(), "Test plan status is ready status");
+        }
+        return Collections.emptyList();
     }
 
     @Override
@@ -103,6 +115,10 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
         }
+        errors = isApplicationIdValid(updateScheduleStatusReadyDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
         errors = isScheduleStatusValid(updateScheduleStatusReadyDto);
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
@@ -115,12 +131,50 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
     }
 
     @Override
+    public List<ErrorMessageDto> isApplicationIdValid(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
+        if (Objects.isNull(updateScheduleStatusReadyDto.getApplicationId())) {
+            return Collections.emptyList();
+        }
+        var response = applicationVerifier.isApplicationIdValid(updateScheduleStatusReadyDto.getApplicationId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        updateScheduleStatusReadyDto.setApplication(response.getValue());
+
+        if (!Objects.equals(updateScheduleStatusReadyDto.getSchedule().getApplicationId(), updateScheduleStatusReadyDto.getApplication().getId())) {
+            return CanaUtility.getErrorMessages(scheduleServiceErrorCode.getScheduleIdAndAppIdNotMapped(), "schedule status is ready status");
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<ErrorMessageDto> verifyReSchedule(ReScheduleStatusDto reScheduleStatusDto) {
         var errors = isScheduleIdValid(reScheduleStatusDto);
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
         }
+        errors = isApplicationIdValid(reScheduleStatusDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
         return isScheduleStatusValid(reScheduleStatusDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isApplicationIdValid(ReScheduleStatusDto reScheduleStatusDto) {
+        if (Objects.isNull(reScheduleStatusDto.getApplicationId())) {
+            return Collections.emptyList();
+        }
+        var response = applicationVerifier.isApplicationIdValid(reScheduleStatusDto.getApplicationId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        reScheduleStatusDto.setApplication(response.getValue());
+
+        if (!Objects.equals(reScheduleStatusDto.getScheduleDao().getApplicationId(), reScheduleStatusDto.getApplication().getId())) {
+            return CanaUtility.getErrorMessages(scheduleServiceErrorCode.getScheduleIdAndAppIdNotMapped(), "schedule status is ready status");
+        }
+        return Collections.emptyList();
     }
 
     @Override
@@ -143,9 +197,7 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
 
     @Override
     public List<ErrorMessageDto> isTestPlanStatusValid(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
-        var testPlanDto = updateScheduleStatusReadyDto
-                .getSchedule()
-                .getTestplanDaos();
+        var testPlanDto = updateScheduleStatusReadyDto.getSchedule().getTestplanDaos();
         if (testPlanDto.getStatus() != TestPlanStatusDao.READY) {
             return CanaUtility.getErrorMessages(testplanErrorCode.getTestPlanIsNotInReadyStatus());
         }
@@ -154,14 +206,11 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
 
     @Override
     public List<ErrorMessageDto> isScheduleIterationStatusValid(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
-        var scheduleIterationDao = updateScheduleStatusReadyDto
-                .getSchedule()
-                .getScheduleIterations()
-                .get(0);
+        var scheduleIterationDao = updateScheduleStatusReadyDto.getSchedule().getScheduleIterations().get(0);
 
         if (updateScheduleStatusReadyDto.getScheduleStatus() == ScheduleStatusDao.INPROGRESS) {
-            if (updateScheduleStatusReadyDto.getSchedule().getScheduleIterations().get(0).getStatus() != ScheduleStatusDao.READY) {
-                return CanaUtility.getErrorMessages(ScheduleServiceErrorCode.getScheduleNotInReadyStatus);
+            if (updateScheduleStatusReadyDto.getSchedule().getScheduleIterations().get(0).getStatus() != ScheduleStatusDao.QUEUE) {
+                return CanaUtility.getErrorMessages(ScheduleServiceErrorCode.getScheduleNotInQueueStatus);
             }
         }
 
@@ -175,8 +224,8 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
     @Override
     public List<ErrorMessageDto> isScheduleStatusValid(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
         if (updateScheduleStatusReadyDto.getScheduleStatus() == ScheduleStatusDao.INPROGRESS) {
-            if (updateScheduleStatusReadyDto.getSchedule().getStatus() != ScheduleStatusDao.READY) {
-                return CanaUtility.getErrorMessages(ScheduleServiceErrorCode.getScheduleNotInReadyStatus);
+            if (updateScheduleStatusReadyDto.getSchedule().getStatus() != ScheduleStatusDao.QUEUE) {
+                return CanaUtility.getErrorMessages(ScheduleServiceErrorCode.getScheduleNotInQueueStatus);
             }
         }
 

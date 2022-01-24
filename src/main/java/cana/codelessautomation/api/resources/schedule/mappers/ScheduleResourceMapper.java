@@ -50,9 +50,11 @@ public interface ScheduleResourceMapper {
 
     UpdateScheduleStatusReadyDto mapUpdateScheduleStatusDto(Long scheduleId, UpdateScheduleStatusModel scheduleStatus);
 
-    ReScheduleStatusDto mapReScheduleStatusDto(Long scheduleId, ReScheduleModel reScheduleModel);
-
-    ScheduleModel mapScheduleIterationResultModel(List<ScheduleEntity> scheduleEntities);
+    ReScheduleStatusDto mapReScheduleStatusDto(Long applicationId, Long scheduleId, ReScheduleModel reScheduleModel);
 
     ScheduleModel mapScheduleIterationResultModel(ScheduleEntity scheduleEntity);
+
+    List<ScheduleModel> mapScheduleModels(List<ScheduleEntity> scheduleEntities);
+
+    UpdateScheduleStatusReadyDto mapUpdateScheduleStatusDto(Long applicationId, Long scheduleId, UpdateScheduleStatusModel updateScheduleStatusModel);
 }

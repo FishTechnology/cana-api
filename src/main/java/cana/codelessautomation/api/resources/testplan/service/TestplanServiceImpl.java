@@ -92,8 +92,6 @@ public class TestplanServiceImpl implements TestplanService {
 
     @Override
     public List<ErrorMessageDto> updateTestplanStatus(UpdateTestplanStatusDto updateTestplanStatus) throws ValidationException {
-        updateTestplanStatus.setCreatedOn(OffsetDateTime.now());
-        updateTestplanStatus.setModifiedOn(OffsetDateTime.now());
         updateTestplanStatus.setCreatedBy(updateTestplanStatus.getUserId().toString());
         updateTestplanStatus.setModifiedBy(updateTestplanStatus.getUserId().toString());
 

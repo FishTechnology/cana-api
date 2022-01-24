@@ -10,7 +10,7 @@ import java.util.List;
 @ApplicationScoped
 public class ConfigRepository implements PanacheRepository<ConfigDao> {
     public List<ConfigDao> findByUserId(Long applicationId, ConfigTypeDao configType) {
-        return list("applicationId = ?1 and type = ?2  and isActive=true", applicationId, configType);
+        return list("applicationId = ?1 and type = ?2  and isActive=true", applicationId, configType.name());
     }
 
     public List<ConfigDao> findByUserIdAndTypeAndName(Long userId, String configType, String name) {
@@ -26,7 +26,7 @@ public class ConfigRepository implements PanacheRepository<ConfigDao> {
     }
 
     public ConfigDao findByIdAndTypeAndActive(ConfigTypeDao configType, Long configId) {
-        return find("id = ?1 and type = ?2 and isActive=true", configId, configType).firstResult();
+        return find("id = ?1 and type = ?2 and isActive=true", configId, configType.name()).firstResult();
     }
 
     public List<ConfigDao> findByAppId(Long applicationId) {

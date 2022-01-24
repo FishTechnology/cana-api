@@ -8,6 +8,7 @@ import cana.codelessautomation.api.resources.schedule.mappers.ReScheduleModel;
 import cana.codelessautomation.api.resources.schedule.mappers.ScheduleResourceMapper;
 import cana.codelessautomation.api.resources.schedule.models.*;
 import cana.codelessautomation.api.resources.schedule.service.ScheduleService;
+import cana.codelessautomation.api.resources.schedule.service.dtos.UpdateScheduleStatusReadyDto;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
@@ -88,9 +89,9 @@ public class ScheduleResource {
     @Path("/applications/{applicationId}/schedules/runningSchedule")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public ScheduleModel getRunningScheduleByAppId(@Valid @PathParam Long applicationId) throws ValidationException {
-        var scheduleEntity = scheduleService.getRunningScheduleByAppId(applicationId);
-        return scheduleResourceMapper.mapScheduleIterationResultModel(scheduleEntity);
+    public List<ScheduleModel> getRunningScheduleByAppId(@Valid @PathParam Long applicationId) throws ValidationException {
+        var scheduleEntities = scheduleService.getRunningScheduleByAppId(applicationId);
+        return scheduleResourceMapper.mapScheduleModels(scheduleEntities);
     }
 
     @GET
@@ -138,21 +139,35 @@ public class ScheduleResource {
     @Transactional
     public List<ErrorMessageModel> updateScheduleStatus(@Valid @PathParam Long scheduleId, @Valid UpdateScheduleStatusModel updateScheduleStatusModel) throws ValidationException {
         var updateScheduleStatusDto = scheduleResourceMapper.mapUpdateScheduleStatusDto(scheduleId, updateScheduleStatusModel);
-        var errors = scheduleService.updateScheduleStatus(updateScheduleStatusDto);
+        return updateScheduleStatus(updateScheduleStatusDto);
+    }
+
+    @PUT
+    @Path("/applications/{applicationId}/schedules/{scheduleId}/status")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<ErrorMessageModel> updateScheduleStatusByAppId(@Valid @PathParam Long applicationId, @Valid @PathParam Long scheduleId, @Valid UpdateScheduleStatusModel updateScheduleStatusModel) throws ValidationException {
+        var updateScheduleStatusDto = scheduleResourceMapper.mapUpdateScheduleStatusDto(applicationId, scheduleId, updateScheduleStatusModel);
+        return updateScheduleStatus(updateScheduleStatusDto);
+    }
+
+    @PUT
+    @Path("/applications/{applicationId}/schedules/{scheduleId}/reschedule")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<ErrorMessageModel> reSchedule(@Valid @PathParam Long applicationId, @Valid @PathParam Long scheduleId, @Valid ReScheduleModel reScheduleModel) throws ValidationException {
+        var reScheduleStatusDto = scheduleResourceMapper.mapReScheduleStatusDto(applicationId, scheduleId, reScheduleModel);
+        var errors = scheduleService.reSchedule(reScheduleStatusDto);
         if (CollectionUtils.isNotEmpty(errors)) {
             return CanaUtility.getErrorMessageModels(errors);
         }
         return Collections.emptyList();
     }
 
-    @PUT
-    @Path("/schedules/{scheduleId}/reschedule")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Transactional
-    public List<ErrorMessageModel> reSchedule(@Valid @PathParam Long scheduleId, @Valid ReScheduleModel reScheduleModel) throws ValidationException {
-        var reScheduleStatusDto = scheduleResourceMapper.mapReScheduleStatusDto(scheduleId, reScheduleModel);
-        var errors = scheduleService.reSchedule(reScheduleStatusDto);
+    private List<ErrorMessageModel> updateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
+        var errors = scheduleService.updateScheduleStatus(updateScheduleStatusReadyDto);
         if (CollectionUtils.isNotEmpty(errors)) {
             return CanaUtility.getErrorMessageModels(errors);
         }

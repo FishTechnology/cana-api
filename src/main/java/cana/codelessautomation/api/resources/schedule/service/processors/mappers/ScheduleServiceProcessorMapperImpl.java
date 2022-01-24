@@ -76,7 +76,7 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
     @Override
     public ScheduleDao mapScheduleDao(ReScheduleStatusDto reScheduleStatusDto) {
         ScheduleDao scheduleDao = reScheduleStatusDto.getScheduleDao();
-        scheduleDao.setStatus(ScheduleStatusDao.READY);
+        scheduleDao.setStatus(ScheduleStatusDao.QUEUE);
         scheduleDao.setModifiedBy(reScheduleStatusDto.getModifiedBy());
         scheduleDao.setModifiedOn(OffsetDateTime.now());
         return scheduleDao;
@@ -86,7 +86,7 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
     public ScheduleIterationDao mapScheduleIterationDao(ReScheduleStatusDto reScheduleStatusDto) {
         ScheduleIterationDao existingScheduleIteration = reScheduleStatusDto.getScheduleIteration();
         ScheduleIterationDao scheduleIterationDao = new ScheduleIterationDao();
-        scheduleIterationDao.setStatus(ScheduleStatusDao.READY);
+        scheduleIterationDao.setStatus(ScheduleStatusDao.QUEUE);
         scheduleIterationDao.setComments(reScheduleStatusDto.getComments());
         scheduleIterationDao.setScheduleId(reScheduleStatusDto.getScheduleId());
         scheduleIterationDao.setCreatedOn(OffsetDateTime.now());
@@ -103,7 +103,7 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
     @Override
     public ScheduleIterationDao mapScheduleIterationDao(ReScheduleStatusDto reScheduleStatusDto, ScheduleIterationDao scheduleIterationDao) {
         scheduleIterationDao.setStatus(ScheduleStatusDao.RE_SCHEDULE);
-        scheduleIterationDao.setModifiedOn(reScheduleStatusDto.getModifiedOn());
+        scheduleIterationDao.setModifiedOn(OffsetDateTime.now());
         scheduleIterationDao.setModifiedBy(reScheduleStatusDto.getModifiedBy());
         return scheduleIterationDao;
     }

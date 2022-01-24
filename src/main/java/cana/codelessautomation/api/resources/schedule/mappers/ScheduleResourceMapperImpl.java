@@ -80,11 +80,13 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         List<ScheduleItemModel> scheduleItemModels = new ArrayList<>();
         for (ScheduleDao scheduleDao : scheduleSummaryDto.getScheduleDaos()) {
             ScheduleItemModel scheduleItemModel = new ScheduleItemModel();
-            scheduleItemModel.setScheduleId(scheduleDao.getId());
+            scheduleItemModel.setScheduleId(scheduleDao.getId().toString());
             var scheduleIteration = scheduleDao.getScheduleIterations().get(0);
             scheduleItemModel.setStatus(scheduleIteration.getStatus().name());
-            scheduleItemModel.setLastExecute(scheduleIteration.getModifiedOn().toString());
-            // scheduleItemModel.setEnvironmentName(scheduleDao.getEnvironmentDaos().getName());
+            if (!Objects.isNull(scheduleIteration.getCompletedOn())) {
+                scheduleItemModel.setLastExecute(scheduleIteration.getCompletedOn().toString());
+            }
+            scheduleItemModel.setEnvironmentName(scheduleDao.getEnvironmentDaos().getName());
             scheduleItemModel.setTestplanName(scheduleDao.getTestplanDaos().getName());
             scheduleItemModels.add(scheduleItemModel);
         }
@@ -104,8 +106,8 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     @Override
     public ScheduleIterationModel mapScheduleIterationModel(ScheduleIterationDao scheduleIterationDao) {
         ScheduleIterationModel scheduleIterationModel = new ScheduleIterationModel();
-        scheduleIterationModel.setId(scheduleIterationDao.getId());
-        scheduleIterationModel.setScheduleId(scheduleIterationDao.getScheduleId());
+        scheduleIterationModel.setId(scheduleIterationDao.getId().toString());
+        scheduleIterationModel.setScheduleId(scheduleIterationDao.getScheduleId().toString());
         scheduleIterationModel.setComments(scheduleIterationDao.getComments());
         scheduleIterationModel.setCreatedBy(scheduleIterationDao.getCreatedBy());
         scheduleIterationModel.setCreatedOn(scheduleIterationDao.getCreatedOn().toString());
@@ -198,10 +200,10 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     @Override
     public ScheduleModel mapScheduleModel(ScheduleDao scheduleDao) {
         ScheduleModel scheduleModel = new ScheduleModel();
-        scheduleModel.setId(scheduleDao.getId());
-        scheduleModel.setEnvironmentId(scheduleDao.getEnvironmentId());
-        scheduleModel.setTestPlanId(scheduleDao.getTestPlanId());
-        scheduleModel.setUserId(scheduleDao.getUserId());
+        scheduleModel.setId(scheduleDao.getId().toString());
+        scheduleModel.setEnvironmentId(scheduleDao.getEnvironmentId().toString());
+        scheduleModel.setTestPlanId(scheduleDao.getTestPlanId().toString());
+        scheduleModel.setUserId(scheduleDao.getUserId().toString());
         scheduleModel.setCreatedBy(scheduleDao.getCreatedBy());
         scheduleModel.setCreatedOn(scheduleDao.getCreatedOn().toString());
         scheduleModel.setModifiedBy(scheduleDao.getModifiedBy());
@@ -212,10 +214,10 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     @Override
     public ScheduleModel mapScheduleModel(ScheduleSummaryEntity scheduleDetailEntity) {
         ScheduleModel scheduleModel = new ScheduleModel();
-        scheduleModel.setId(scheduleDetailEntity.getId());
-        scheduleModel.setEnvironmentId(scheduleDetailEntity.getEnvironmentId());
-        scheduleModel.setTestPlanId(scheduleDetailEntity.getTestPlanId());
-        scheduleModel.setUserId(scheduleDetailEntity.getUserId());
+        scheduleModel.setId(scheduleDetailEntity.getId().toString());
+        scheduleModel.setEnvironmentId(scheduleDetailEntity.getEnvironmentId().toString());
+        scheduleModel.setTestPlanId(scheduleDetailEntity.getTestPlanId().toString());
+        scheduleModel.setUserId(scheduleDetailEntity.getUserId().toString());
         scheduleModel.setCreatedBy(scheduleDetailEntity.getCreatedBy());
         scheduleModel.setCreatedOn(scheduleDetailEntity.getCreatedOn().toString());
         scheduleModel.setModifiedBy(scheduleDetailEntity.getModifiedBy());
@@ -250,31 +252,27 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     }
 
     @Override
-    public ReScheduleStatusDto mapReScheduleStatusDto(Long scheduleId, ReScheduleModel reScheduleModel) {
+    public ReScheduleStatusDto mapReScheduleStatusDto(Long applicationId, Long scheduleId, ReScheduleModel reScheduleModel) {
         ReScheduleStatusDto reScheduleStatusDto = new ReScheduleStatusDto();
         reScheduleStatusDto.setUserId(reScheduleModel.getUserId());
+        reScheduleStatusDto.setApplicationId(applicationId);
         reScheduleStatusDto.setScheduleId(scheduleId);
         return reScheduleStatusDto;
     }
 
     @Override
-    public ScheduleModel mapScheduleIterationResultModel(List<ScheduleEntity> scheduleEntities) {
-        return null;
-    }
-
-    @Override
     public ScheduleModel mapScheduleIterationResultModel(ScheduleEntity scheduleEntity) {
         ScheduleModel scheduleModel = new ScheduleModel();
-        scheduleModel.setId(scheduleEntity.getId());
-        scheduleModel.setEnvironmentId(scheduleEntity.getEnvironmentId());
-        scheduleModel.setTestPlanId(scheduleEntity.getTestPlanId());
-        scheduleModel.setUserId(scheduleEntity.getUserId());
+        scheduleModel.setId(scheduleEntity.getId().toString());
+        scheduleModel.setEnvironmentId(scheduleEntity.getEnvironmentId().toString());
+        scheduleModel.setTestPlanId(scheduleEntity.getTestPlanId().toString());
+        scheduleModel.setUserId(scheduleEntity.getUserId().toString());
         scheduleModel.setCreatedBy(scheduleEntity.getCreatedBy());
         scheduleModel.setCreatedOn(scheduleEntity.getCreatedOn().toString());
         scheduleModel.setModifiedBy(scheduleEntity.getModifiedBy());
         scheduleModel.setModifiedOn(scheduleEntity.getModifiedOn().toString());
         scheduleModel.setStatus(scheduleEntity.getStatus().name());
-        scheduleModel.setApplicationId(scheduleEntity.getApplicationId());
+        scheduleModel.setApplicationId(scheduleEntity.getApplicationId().toString());
 
         if (CollectionUtils.isEmpty(scheduleEntity.getScheduleIterations())) {
             return scheduleModel;
@@ -284,5 +282,26 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         ScheduleIterationModel scheduleIterationModel = mapScheduleIterationModel(ScheduleIterationDao);
         scheduleModel.setScheduleIteration(scheduleIterationModel);
         return scheduleModel;
+    }
+
+    @Override
+    public List<ScheduleModel> mapScheduleModels(List<ScheduleEntity> scheduleEntities) {
+        List<ScheduleModel> schedules = new ArrayList<>();
+        for (ScheduleEntity scheduleEntity : scheduleEntities) {
+            ScheduleModel scheduleModel = mapScheduleIterationResultModel(scheduleEntity);
+            schedules.add(scheduleModel);
+        }
+        return schedules;
+    }
+
+    @Override
+    public UpdateScheduleStatusReadyDto mapUpdateScheduleStatusDto(Long applicationId, Long scheduleId, UpdateScheduleStatusModel updateScheduleStatusModel) {
+        UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto = new UpdateScheduleStatusReadyDto();
+        updateScheduleStatusReadyDto.setErrorMessage(updateScheduleStatusModel.getErrorMessage());
+        updateScheduleStatusReadyDto.setScheduleId(scheduleId);
+        updateScheduleStatusReadyDto.setTotalDuration(updateScheduleStatusModel.getTotalDuration());
+        updateScheduleStatusReadyDto.setApplicationId(applicationId);
+        updateScheduleStatusReadyDto.setScheduleStatus(EnumUtils.getEnumIgnoreCase(ScheduleStatusDao.class, updateScheduleStatusModel.getStatus()));
+        return updateScheduleStatusReadyDto;
     }
 }

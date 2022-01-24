@@ -1,5 +1,6 @@
 package cana.codelessautomation.api.resources.schedule.service.repositories.daos;
 
+import cana.codelessautomation.api.resources.config.services.configservice.repositories.daos.ConfigDao;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestplanDao;
 import com.googlecode.jmapper.annotations.JMap;
 import lombok.Data;
@@ -38,9 +39,9 @@ public class ScheduleDao {
     @OrderBy("modifiedOn DESC")
     private List<ScheduleIterationDao> scheduleIterations;
 
-    //    @OneToOne
-//    @JoinColumn(name = "environmentId", referencedColumnName = "id", updatable = false, insertable = false)
-    //private EnvironmentDao environmentDaos;
+    @OneToOne
+    @JoinColumn(name = "environmentId", referencedColumnName = "id", updatable = false, insertable = false)
+    private ConfigDao environmentDaos;
 
     @OneToOne
     @JoinColumn(name = "testPlanId", updatable = false, insertable = false, referencedColumnName = "id")

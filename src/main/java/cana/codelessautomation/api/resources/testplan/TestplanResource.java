@@ -90,8 +90,8 @@ public class TestplanResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<ErrorMessageModel> updateTestplanStatus(@Valid @PathParam Long testplanId, @Valid UpdateTestplanStatusModel updateTestplanStatusModel) throws ValidationException {
-        var updateTestplanStatus = testplanResourceMapper.mapUpdateTestplanStatusDto(updateTestplanStatusModel, testplanId);
+    public List<ErrorMessageModel> updateTestplanStatus(@Valid @PathParam Long applicationId, @Valid @PathParam Long testplanId, @Valid UpdateTestplanStatusModel updateTestplanStatusModel) throws ValidationException {
+        var updateTestplanStatus = testplanResourceMapper.mapUpdateTestplanStatusDto(updateTestplanStatusModel, testplanId, applicationId);
         var errorMessages = testplanService.updateTestplanStatus(updateTestplanStatus);
         if (CollectionUtils.isNotEmpty(errorMessages)) {
             return CanaUtility.getErrorMessageModels(errorMessages);

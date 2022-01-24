@@ -40,8 +40,8 @@ public class ScheduleEntity extends PanacheEntityBase {
     @OrderBy("modifiedOn DESC")
     private List<ScheduleIterationDao> scheduleIterations;
 
-    public static ScheduleEntity findByAppIdStatus(Long applicationId, ScheduleStatusDao scheduleStatusDao) {
-        return find("status = ?1 and applicationId = ?2", scheduleStatusDao, applicationId).firstResult();
+    public static List<ScheduleEntity> findByAppIdStatus(Long applicationId, ScheduleStatusDao scheduleStatusDao) {
+        return list("status = ?1 and applicationId = ?2", scheduleStatusDao, applicationId);
     }
 
     public static ScheduleEntity findByStatus(ScheduleStatusDao inProgressStatus) {
