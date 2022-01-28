@@ -27,4 +27,12 @@ public class TestplanErrorCode extends BaseErrorCode {
     public String getTestPlanIsInSameStatus() {
         return "CanaApi." + getHttpMethod() + ".Testplan.Same.Status";
     }
+
+    public String getAppIdAndTestPlanIdAreNotMapped() {
+        return "CanaApi." + getHttpMethod() + ".Testplan.And.AppId.Not.Mapped";
+    }
+
+    public String getTestPlanIdAndTestCaseIdAreNotMapped() {
+        return "CanaApi." + getHttpMethod() + ".Testplan.And.TestCase.Not.Mapped";
+    }
 }

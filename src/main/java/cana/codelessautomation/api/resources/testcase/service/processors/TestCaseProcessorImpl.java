@@ -167,4 +167,22 @@ public class TestCaseProcessorImpl implements TestCaseProcessor {
         getTestCaseByTestPlanIdDto.setTestCaseDaos(testCaseDaos);
         return Collections.emptyList();
     }
+
+    @Override
+    public List<ErrorMessageDto> processDeleteTestCase(DeleteTestCaseDto deleteTestCaseDto) {
+        deleteTestCaseDto(deleteTestCaseDto);
+        return deleteTestplanTestcaseGrouping(deleteTestCaseDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> deleteTestplanTestcaseGrouping(DeleteTestCaseDto deleteTestCaseDto) {
+        testplanTestcaseGroupingRepository.deleteByTestCaseIdAndTestPlanId(deleteTestCaseDto.getTestPlanId(), deleteTestCaseDto.getTestCaseId());
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> deleteTestCaseDto(DeleteTestCaseDto deleteTestCaseDto) {
+        testCaseRepository.deleteByTestCaseId(deleteTestCaseDto.getTestCaseId());
+        return Collections.emptyList();
+    }
 }

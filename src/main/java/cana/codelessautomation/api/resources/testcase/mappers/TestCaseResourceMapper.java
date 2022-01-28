@@ -42,4 +42,8 @@ public interface TestCaseResourceMapper {
     ScheduledTestCaseModel mapScheduledTestCaseModel(TestCaseDaoEntity testCase);
 
     UpdateTestCaseOrderDto mapUpdateTestCaseOrderDto(Long testPlanId, UpdateTestCaseOrderModel updateTestCaseOrderModel);
+
+    DeleteTestCaseDto mapDeleteTestCaseDto(Long applicationId, Long testPlanId, Long testCaseId);
+
+    DeleteTestCaseDto mapDeleteTestCaseDto(Long applicationId, Long testCaseId);
 }

@@ -138,4 +138,36 @@ public class TestCaseResource {
         }
         return Collections.emptyList();
     }
+
+    @PUT
+    @Path("/applications/{applicationId}/testPlans/{testPlanId}/testCases/{testCaseId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<ErrorMessageModel> deleteTestCase(@Valid @PathParam Long applicationId,
+                                                  @Valid @PathParam Long testPlanId,
+                                                  @Valid @PathParam Long testCaseId) throws ValidationException {
+        var deleteTestCaseDto = testCaseResourceMapper.mapDeleteTestCaseDto(applicationId, testPlanId, testCaseId);
+        var errors = testCaseService.deleteTestCase(deleteTestCaseDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return CanaUtility.getErrorMessageModels(errors);
+        }
+        return Collections.emptyList();
+    }
+
+    @PUT
+    @Path("/applications/{applicationId}/testPlans/{testPlanId}/testCases/{testCaseId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<ErrorMessageModel> deleteTestCaseByTestCaseId(@Valid @PathParam Long applicationId,
+                                                              @Valid @PathParam Long testPlanId,
+                                                              @Valid @PathParam Long testCaseId) throws ValidationException {
+        var deleteTestCaseDto = testCaseResourceMapper.mapDeleteTestCaseDto(applicationId, testCaseId);
+        var errors = testCaseService.deleteTestCase(deleteTestCaseDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return CanaUtility.getErrorMessageModels(errors);
+        }
+        return Collections.emptyList();
+    }
 }

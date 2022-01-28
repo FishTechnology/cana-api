@@ -3,6 +3,7 @@ package cana.codelessautomation.api.resources.testcase.service.verifiers;
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.dtos.KeyValue;
 import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.application.service.verifiers.ApplicationVerifier;
 import cana.codelessautomation.api.resources.customer.service.verifiers.CustomerServiceVerifier;
 import cana.codelessautomation.api.resources.testcase.service.dtos.*;
 import cana.codelessautomation.api.resources.testcase.service.errorcodes.TestCaseErrorCode;
@@ -11,6 +12,7 @@ import cana.codelessautomation.api.resources.testcase.service.repositories.TestC
 import cana.codelessautomation.api.resources.testcase.service.repositories.TestplanTestcaseGroupingRepository;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestplanTestcaseGroupingDao;
+import cana.codelessautomation.api.resources.testplan.service.errorcodes.TestplanErrorCode;
 import cana.codelessautomation.api.resources.testplan.service.verifiers.TestplanVerifier;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +43,12 @@ public class TestCaseVerifierImpl implements TestCaseVerifier {
 
     @Inject
     TestPlanAndTestCaseGroupErrorCode testPlanAndTestCaseGroupErrorCode;
+
+    @Inject
+    ApplicationVerifier applicationVerifier;
+
+    @Inject
+    TestplanErrorCode testplanErrorCode;
 
     @Override
     public List<ErrorMessageDto> verifyCreateTestCase(CreateTestCaseDto createTestCase) {
@@ -112,6 +120,60 @@ public class TestCaseVerifierImpl implements TestCaseVerifier {
             return errors;
         }
         return isTestCaseIdValid(updateTestCaseOrderDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> verifyDeleteTestCase(DeleteTestCaseDto deleteTestCaseDto) {
+        var errors = isApplicationIdValid(deleteTestCaseDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        errors = isTestPlanIdValid(deleteTestCaseDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isTestCaseIdValid(deleteTestCaseDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestCaseIdValid(DeleteTestCaseDto deleteTestCaseDto) {
+        var response = isTestCaseIdValid(deleteTestCaseDto.getTestCaseId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        deleteTestCaseDto.setTestCase(response.getValue());
+
+        var testplanTestcaseGroupingDao = testplanTestcaseGroupingRepository.findByTestPlanIdAndTestCaseId(deleteTestCaseDto.getTestPlanId(), deleteTestCaseDto.getTestCaseId());
+        if (Objects.isNull(testplanTestcaseGroupingDao)) {
+            return CanaUtility.getErrorMessages(testplanErrorCode.getTestPlanIdAndTestCaseIdAreNotMapped());
+        }
+
+        deleteTestCaseDto.setTestplanTestcaseGroupingDao(testplanTestcaseGroupingDao);
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isTestPlanIdValid(DeleteTestCaseDto deleteTestCaseDto) {
+        var response = this.testplanVerifier.isTestplanIdValid(deleteTestCaseDto.getApplicationId(), deleteTestCaseDto.getTestPlanId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        deleteTestCaseDto.setTestplan(response.getValue());
+
+        if (deleteTestCaseDto.getApplicationId() != deleteTestCaseDto.getTestplan().getApplicationId()) {
+            return CanaUtility.getErrorMessages(testplanErrorCode.getAppIdAndTestPlanIdAreNotMapped());
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isApplicationIdValid(DeleteTestCaseDto deleteTestCaseDto) {
+        var response = this.applicationVerifier.isApplicationIdValid(deleteTestCaseDto.getApplicationId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        deleteTestCaseDto.setApplication(response.getValue());
+        return Collections.emptyList();
     }
 
     @Override

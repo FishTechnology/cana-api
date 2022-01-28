@@ -116,4 +116,13 @@ public class TestCaseServiceImpl implements TestCaseService {
         }
         return testCaseProcessor.processUpdateTestCaseOrder(updateTestCaseOrderDto);
     }
+
+    @Override
+    public List<ErrorMessageDto> deleteTestCase(DeleteTestCaseDto deleteTestCaseDto) {
+        var errorMessages = testCaseVerifier.verifyDeleteTestCase(deleteTestCaseDto);
+        if (!errorMessages.isEmpty()) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return testCaseProcessor.processDeleteTestCase(deleteTestCaseDto);
+    }
 }

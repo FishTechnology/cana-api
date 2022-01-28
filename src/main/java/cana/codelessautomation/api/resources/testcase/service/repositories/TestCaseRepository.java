@@ -30,4 +30,10 @@ public class TestCaseRepository implements PanacheRepository<TestCaseDao> {
                 modifiedBy,
                 testCaseId);
     }
+
+    public void deleteByTestCaseId(Long testCaseId) {
+        update(" isActive=false ,modifiedOn = ?1  WHERE id = ?2",
+                OffsetDateTime.now(),
+                testCaseId);
+    }
 }

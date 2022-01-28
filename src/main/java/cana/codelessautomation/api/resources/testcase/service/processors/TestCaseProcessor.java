@@ -39,4 +39,10 @@ public interface TestCaseProcessor {
     List<ErrorMessageDto> updateTestCaseOrder(UpdateTestCaseOrderDto updateTestCaseOrderDto);
 
     List<ErrorMessageDto> getTestCaseByTestCaseIds(GetTestCaseByTestPlanIdDto getTestCaseByTestPlanIdDto);
+
+    List<ErrorMessageDto> processDeleteTestCase(DeleteTestCaseDto deleteTestCaseDto);
+
+    List<ErrorMessageDto> deleteTestplanTestcaseGrouping(DeleteTestCaseDto deleteTestCaseDto);
+
+    List<ErrorMessageDto> deleteTestCaseDto(DeleteTestCaseDto deleteTestCaseDto);
 }

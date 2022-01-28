@@ -25,4 +25,6 @@ public interface TestCaseService {
     List<ErrorMessageDto> updateTestCaseByTestPlanId(UpdateTestCaseByTestPlanIdDto updateTestCaseByTestPlanIdDto);
 
     List<ErrorMessageDto> updateTestCaseOrder(UpdateTestCaseOrderDto updateTestCaseOrderDto);
+
+    List<ErrorMessageDto> deleteTestCase(DeleteTestCaseDto deleteTestCaseDto);
 }

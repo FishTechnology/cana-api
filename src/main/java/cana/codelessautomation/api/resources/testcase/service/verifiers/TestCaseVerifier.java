@@ -28,6 +28,12 @@ public interface TestCaseVerifier {
 
     List<ErrorMessageDto> verifyGetTestCaseByUserId(Long userId);
 
+    List<ErrorMessageDto> isTestCaseIdValid(DeleteTestCaseDto deleteTestCaseDto);
+
+    List<ErrorMessageDto> isTestPlanIdValid(DeleteTestCaseDto deleteTestCaseDto);
+
+    List<ErrorMessageDto> isApplicationIdValid(DeleteTestCaseDto deleteTestCaseDto);
+
     List<ErrorMessageDto> isTestPlanAndTestCaseGroupValid(UpdateTestCaseOrderDto updateTestCaseOrderDto);
 
     List<ErrorMessageDto> isTestCaseIdValid(UpdateTestCaseOrderDto updateTestCaseOrderDto);
@@ -65,4 +71,6 @@ public interface TestCaseVerifier {
     List<ErrorMessageDto> verifyUpdateTestCaseById(UpdateTestCaseByIdDto updateTestCaseByIdDto);
 
     List<ErrorMessageDto> verifyUpdateTestCaseOrder(UpdateTestCaseOrderDto updateTestCaseOrderDto);
+
+    List<ErrorMessageDto> verifyDeleteTestCase(DeleteTestCaseDto deleteTestCaseDto);
 }

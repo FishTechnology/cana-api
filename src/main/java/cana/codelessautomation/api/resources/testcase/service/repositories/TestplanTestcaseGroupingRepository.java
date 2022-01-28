@@ -5,6 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Sort;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @ApplicationScoped
@@ -23,5 +24,12 @@ public class TestplanTestcaseGroupingRepository implements PanacheRepository<Tes
 
     public List<TestplanTestcaseGroupingDao> findByTestCaseId(Long testCaseId) {
         return list("testCaseId = ?1 and isActive=true", testCaseId);
+    }
+
+    public void deleteByTestCaseIdAndTestPlanId(Long testPlanId, Long testCaseId) {
+        update(" isActive=false ,modifiedOn = ?1  WHERE testPlanId = ?2 AND testCaseId = ?3",
+                OffsetDateTime.now(),
+                testPlanId,
+                testCaseId);
     }
 }

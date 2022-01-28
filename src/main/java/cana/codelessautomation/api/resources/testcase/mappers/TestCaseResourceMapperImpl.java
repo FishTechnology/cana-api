@@ -210,5 +210,22 @@ public class TestCaseResourceMapperImpl implements TestCaseResourceMapper {
         updateTestCaseOrderDto.setTestCaseOrderDtos(testCaseOrderDtos);
         return updateTestCaseOrderDto;
     }
+
+    @Override
+    public DeleteTestCaseDto mapDeleteTestCaseDto(Long applicationId, Long testPlanId, Long testCaseId) {
+        DeleteTestCaseDto deleteTestCaseDto = new DeleteTestCaseDto();
+        deleteTestCaseDto.setApplicationId(applicationId);
+        deleteTestCaseDto.setTestCaseId(testCaseId);
+        deleteTestCaseDto.setTestPlanId(testPlanId);
+        return deleteTestCaseDto;
+    }
+
+    @Override
+    public DeleteTestCaseDto mapDeleteTestCaseDto(Long applicationId, Long testCaseId) {
+        DeleteTestCaseDto deleteTestCaseDto = new DeleteTestCaseDto();
+        deleteTestCaseDto.setApplicationId(applicationId);
+        deleteTestCaseDto.setTestCaseId(testCaseId);
+        return deleteTestCaseDto;
+    }
 }
 
