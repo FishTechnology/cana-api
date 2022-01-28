@@ -11,7 +11,7 @@ public interface TestPlanProcessor {
 
     List<ErrorMessageDto> createTestplan(CreateTestplanDto createTestplan);
 
-    List<TestplanDao> processorGetTestplans(Long userId, Long id);
+    List<TestplanDao> processorGetTestplans(Long userId);
 
     List<TestplanDao> getTestplans(Long userId);
 

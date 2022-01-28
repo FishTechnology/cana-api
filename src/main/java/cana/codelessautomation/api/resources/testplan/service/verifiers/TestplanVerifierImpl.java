@@ -72,12 +72,8 @@ public class TestplanVerifierImpl implements TestplanVerifier {
     }
 
     @Override
-    public List<ErrorMessageDto> verifyGetTestplans(Long applicationId, Long userId) {
-        var errors = isApplicationIdValid(applicationId);
-        if (CollectionUtils.isNotEmpty(errors)) {
-            return errors;
-        }
-        return isUserIdValid(userId);
+    public List<ErrorMessageDto> verifyGetTestplans(Long applicationId) {
+        return isApplicationIdValid(applicationId);
     }
 
     @Override

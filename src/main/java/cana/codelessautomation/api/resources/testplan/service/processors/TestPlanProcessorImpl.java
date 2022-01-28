@@ -39,7 +39,7 @@ public class TestPlanProcessorImpl implements TestPlanProcessor {
     }
 
     @Override
-    public List<TestplanDao> processorGetTestplans(Long applicationId, Long userId) {
+    public List<TestplanDao> processorGetTestplans(Long applicationId) {
         return getTestplans(applicationId);
     }
 

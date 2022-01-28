@@ -9,7 +9,6 @@ import cana.codelessautomation.api.resources.testplan.models.*;
 import cana.codelessautomation.api.resources.testplan.service.TestplanService;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
-import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -43,8 +42,8 @@ public class TestplanResource {
     @Path("/applications/{applicationId}/testplans")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<TestPlanModel> getTestplans(@Valid @PathParam Long applicationId, @Valid @QueryParam Long userId) throws ValidationException {
-        var testPlanDaos = testplanService.getTestplans(applicationId, userId);
+    public List<TestPlanModel> getTestplans(@Valid @PathParam Long applicationId) throws ValidationException {
+        var testPlanDaos = testplanService.getTestplans(applicationId);
         return testplanResourceMapper.mapTestPlanModels(testPlanDaos);
     }
 
