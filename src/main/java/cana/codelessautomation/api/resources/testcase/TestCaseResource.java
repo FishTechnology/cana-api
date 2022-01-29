@@ -43,8 +43,8 @@ public class TestCaseResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public ResultModel createTestCaseByPlanId(@Valid @PathParam Long testPlanId, @Valid CreateTestCaseByTestPlanIdModel createTestCaseByTestPlanIdModel) throws ValidationException {
-        var createTestCaseByTestPlanId = testCaseResourceMapper.mapCreateTestCaseByTestPlanIdDto(createTestCaseByTestPlanIdModel, testPlanId);
+    public ResultModel createTestCaseByPlanId(@Valid @PathParam Long applicationId, @Valid @PathParam Long testPlanId, @Valid CreateTestCaseByTestPlanIdModel createTestCaseByTestPlanIdModel) throws ValidationException {
+        var createTestCaseByTestPlanId = testCaseResourceMapper.mapCreateTestCaseByTestPlanIdDto(createTestCaseByTestPlanIdModel, applicationId, testPlanId);
         var errorMessages = testCaseService.createTestCaseByPlanId(createTestCaseByTestPlanId);
         return testCaseResourceMapper.mapResultModel(createTestCaseByTestPlanId, errorMessages);
     }

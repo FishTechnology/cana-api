@@ -17,7 +17,7 @@ public interface TestCaseResourceMapper {
 
     ResultModel mapResultModel(CreateTestCaseByTestPlanIdDto createTestCaseByTestPlanId, List<ErrorMessageDto> errorMessages);
 
-    CreateTestCaseByTestPlanIdDto mapCreateTestCaseByTestPlanIdDto(CreateTestCaseByTestPlanIdModel createTestCaseByTestPlanIdModel, Long testPlanId);
+    CreateTestCaseByTestPlanIdDto mapCreateTestCaseByTestPlanIdDto(CreateTestCaseByTestPlanIdModel createTestCaseByTestPlanIdModel, Long applicationId, Long testPlanId);
 
     List<TestCaseModel> mapTestCaseModels(List<TestCaseDao> testCaseDaos);
 

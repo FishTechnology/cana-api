@@ -57,12 +57,13 @@ public class TestCaseResourceMapperImpl implements TestCaseResourceMapper {
     }
 
     @Override
-    public CreateTestCaseByTestPlanIdDto mapCreateTestCaseByTestPlanIdDto(CreateTestCaseByTestPlanIdModel createTestCaseByTestPlanIdModel, Long testPlanId) {
+    public CreateTestCaseByTestPlanIdDto mapCreateTestCaseByTestPlanIdDto(CreateTestCaseByTestPlanIdModel createTestCaseByTestPlanIdModel, Long applicationId, Long testPlanId) {
         CreateTestCaseByTestPlanIdDto createTestCaseByTestPlanId = new CreateTestCaseByTestPlanIdDto();
         createTestCaseByTestPlanId.setName(createTestCaseByTestPlanIdModel.getName());
         createTestCaseByTestPlanId.setComments(createTestCaseByTestPlanIdModel.getComments());
         createTestCaseByTestPlanId.setUserId(createTestCaseByTestPlanIdModel.getUserId());
         createTestCaseByTestPlanId.setTestPlanId(testPlanId);
+        createTestCaseByTestPlanId.setApplicationId(applicationId);
         return createTestCaseByTestPlanId;
     }
 

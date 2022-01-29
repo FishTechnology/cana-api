@@ -41,8 +41,6 @@ public class TestCaseServiceImpl implements TestCaseService {
 
     @Override
     public List<ErrorMessageDto> createTestCaseByPlanId(CreateTestCaseByTestPlanIdDto createTestCaseByTestPlanId) throws ValidationException {
-        createTestCaseByTestPlanId.setCreatedOn(OffsetDateTime.now());
-        createTestCaseByTestPlanId.setModifiedOn(OffsetDateTime.now());
         createTestCaseByTestPlanId.setCreatedBy(createTestCaseByTestPlanId.getUserId().toString());
         createTestCaseByTestPlanId.setModifiedBy(createTestCaseByTestPlanId.getUserId().toString());
         createTestCaseByTestPlanId.setIsActive(true);
