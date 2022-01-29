@@ -66,7 +66,21 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
         }
-        return isEnvironmentIdValid(createScheduleDto);
+        errors = isEnvironmentIdValid(createScheduleDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isCheckTestPlanAlreadyScheduled(createScheduleDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isCheckTestPlanAlreadyScheduled(CreateScheduleDto createScheduleDto) {
+        var schedules = scheduleRepository.findByTestPlanIdAndEnvId(createScheduleDto.getTestPlanId(), createScheduleDto.getEnvironmentId(), ScheduleStatusDao.QUEUE);
+        if (CollectionUtils.isEmpty(schedules)) {
+            return Collections.emptyList();
+        }
+        createScheduleDto.setSchedules(schedules);
+        return CanaUtility.getErrorMessages(scheduleServiceErrorCode.getTestPlanIsAlreadyScheduled());
     }
 
     @Override

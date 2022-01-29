@@ -3,11 +3,13 @@ package cana.codelessautomation.api.resources.schedule.service.dtos;
 import cana.codelessautomation.api.resources.commonmodels.BrowserType;
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.daos.ConfigDao;
 import cana.codelessautomation.api.resources.customer.service.repository.daos.CustomDetailDao;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleStatusDao;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.TestplanDao;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 public class CreateScheduleDto {
@@ -31,4 +33,5 @@ public class CreateScheduleDto {
     private ConfigDao environment;
     private CustomDetailDao customDetail;
     private CreateNotificationDto notification;
+    private List<ScheduleDao> schedules;
 }

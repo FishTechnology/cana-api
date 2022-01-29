@@ -45,6 +45,8 @@ public interface ScheduleServiceVerifier {
 
     List<ErrorMessageDto> isUserId(CreateScheduleDto createScheduleDto);
 
+    List<ErrorMessageDto> isCheckTestPlanAlreadyScheduled(CreateScheduleDto createScheduleDto);
+
     List<ErrorMessageDto> isTestPlanStatusValid(CreateScheduleDto createScheduleDto);
 
     List<ErrorMessageDto> verifyGetScheduleSummary(ScheduleSummaryDto scheduleSummaryDto);

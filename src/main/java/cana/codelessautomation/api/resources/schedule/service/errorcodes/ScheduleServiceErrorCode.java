@@ -31,4 +31,8 @@ public class ScheduleServiceErrorCode extends BaseErrorCode {
     public String getScheduleIdAndAppIdNotMapped() {
         return "CanaApi." + getResourceName() + "." + getHttpMethod() + ".ScheduleId.And.ApplicationId.Not.Mapped";
     }
+
+    public String getTestPlanIsAlreadyScheduled() {
+        return "CanaApi." + getResourceName() + "." + getHttpMethod() + ".TestPlan.Already.Scheduled";
+    }
 }
