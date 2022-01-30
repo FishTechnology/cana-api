@@ -15,6 +15,7 @@ import cana.codelessautomation.api.resources.schedule.service.processors.mappers
 import cana.codelessautomation.api.resources.schedule.service.processors.mappers.ScheduleServiceProcessorMapper;
 import cana.codelessautomation.api.resources.schedule.service.repositories.ScheduleIterationRepository;
 import cana.codelessautomation.api.resources.schedule.service.repositories.ScheduleRepository;
+import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleStatusDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleSummaryEntity;
 import cana.codelessautomation.api.resources.testplan.service.repositories.daos.entities.TestPlanSummaryDaoEntity;
 import org.apache.commons.collections.CollectionUtils;
@@ -154,8 +155,14 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
     public List<ErrorMessageDto> updateScheduleIteration(ReScheduleStatusDto reScheduleStatusDto) {
         var scheduleIterationDao = scheduleIterationRepository.findLatestIteration(reScheduleStatusDto.getScheduleId());
         reScheduleStatusDto.setScheduleIteration(scheduleIterationDao);
-        scheduleIterationDao = scheduleServiceProcessorMapper.mapScheduleIterationDao(reScheduleStatusDto, scheduleIterationDao);
-        scheduleIterationRepository.persist(scheduleIterationDao);
+        if (scheduleIterationDao.getStatus() == ScheduleStatusDao.QUEUE ||
+                scheduleIterationDao.getStatus() == ScheduleStatusDao.READY ||
+                scheduleIterationDao.getStatus() == ScheduleStatusDao.INPROGRESS ||
+                scheduleIterationDao.getStatus() == ScheduleStatusDao.PAUSE) {
+            scheduleIterationDao = scheduleServiceProcessorMapper.mapScheduleIterationDao(reScheduleStatusDto, scheduleIterationDao);
+            scheduleIterationRepository.persist(scheduleIterationDao);
+        }
+
         return Collections.emptyList();
     }
 
