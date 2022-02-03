@@ -6,6 +6,7 @@ import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.dtos.CreateConfigKeyValueDto;
 import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.dtos.GetConfigKeyValueDto;
 import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.processors.ConfigKeyValueServiceProcessor;
+import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.validator.ConfigKeyValueServiceValidator;
 import cana.codelessautomation.api.resources.config.services.configkeyvalueservice.verifiers.ConfigKeyValueServiceVerifier;
 import org.apache.commons.collections.CollectionUtils;
 
@@ -22,9 +23,16 @@ public class ConfigKeyValueServiceImpl implements ConfigKeyValueService {
     @Inject
     ConfigKeyValueServiceProcessor configKeyValueServiceProcessor;
 
+    @Inject
+    ConfigKeyValueServiceValidator configKeyValueServiceValidator;
+
     @Override
     public List<ErrorMessageDto> createConfigKeyValue(CreateConfigKeyValueDto createConfigKeyValueDto) {
-        var errorMessages = configKeyValueServiceVerifier.verifyCreateConfigKeyValue(createConfigKeyValueDto);
+        var errorMessages = configKeyValueServiceValidator.validateCreateConfig(createConfigKeyValueDto);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        errorMessages = configKeyValueServiceVerifier.verifyCreateConfigKeyValue(createConfigKeyValueDto);
         if (CollectionUtils.isNotEmpty(errorMessages)) {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }

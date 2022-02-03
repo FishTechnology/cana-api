@@ -24,6 +24,7 @@ public class ConfigKeyValueServiceProcessorMapperImpl implements ConfigKeyValueS
         configKeyValueDao.setModifiedBy(createConfigKeyValueDto.getUserId().toString());
         configKeyValueDao.setCreatedOn(OffsetDateTime.now());
         configKeyValueDao.setModifiedOn(OffsetDateTime.now());
+        configKeyValueDao.setIsApplicationVariable(createConfigKeyValueDto.getIsApplicationVariable());
         return configKeyValueDao;
     }
 

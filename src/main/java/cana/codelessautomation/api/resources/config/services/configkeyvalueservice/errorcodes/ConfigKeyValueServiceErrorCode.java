@@ -9,4 +9,8 @@ public class ConfigKeyValueServiceErrorCode extends BaseErrorCode {
     public String getConfigKeyValueDuplicateErrorCode() {
         return "CanaApi.{0}." + getHttpMethod() + ".ConfigKeyValue.Key.Duplicated";
     }
+
+    public String getInValidSystemVariable() {
+        return "CanaApi.{0}." + getHttpMethod() + ".SystemVariable.Invalid";
+    }
 }

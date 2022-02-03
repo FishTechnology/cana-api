@@ -10,4 +10,5 @@ public class CreateConfigKeyValueModel {
     private Long fileId;
     private String comments;
     private Long userId;
+    private Boolean isApplicationVariable;
 }

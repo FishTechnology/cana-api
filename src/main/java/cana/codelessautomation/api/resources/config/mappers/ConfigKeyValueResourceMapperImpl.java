@@ -19,7 +19,10 @@ import java.util.List;
 @ApplicationScoped
 public class ConfigKeyValueResourceMapperImpl implements ConfigKeyValueResourceMapper {
     @Override
-    public CreateConfigKeyValueDto mapCreateConfigKeyValueDto(Long applicationId, String configType, String configId, CreateConfigKeyValueModel createConfigKeyValue) {
+    public CreateConfigKeyValueDto mapCreateConfigKeyValueDto(Long applicationId,
+                                                              String configType,
+                                                              String configId,
+                                                              CreateConfigKeyValueModel createConfigKeyValue) {
         CreateConfigKeyValueDto createConfigKeyValueDto = new CreateConfigKeyValueDto();
         createConfigKeyValueDto.setKey(createConfigKeyValue.getKey());
         createConfigKeyValueDto.setValue(createConfigKeyValue.getValue());
@@ -29,6 +32,7 @@ public class ConfigKeyValueResourceMapperImpl implements ConfigKeyValueResourceM
         createConfigKeyValueDto.setApplicationId(applicationId);
         createConfigKeyValueDto.setType(EnumUtils.getEnumIgnoreCase(ConfigKeyValueType.class, createConfigKeyValue.getType()));
         createConfigKeyValueDto.setConfigId(Long.valueOf(configId));
+        createConfigKeyValueDto.setIsApplicationVariable(createConfigKeyValue.getIsApplicationVariable());
         return createConfigKeyValueDto;
     }
 
@@ -74,6 +78,7 @@ public class ConfigKeyValueResourceMapperImpl implements ConfigKeyValueResourceM
         configKeyValueModel.setComments(configKeyValueDao.getComments());
         configKeyValueModel.setIsActive(configKeyValueDao.getIsActive());
         configKeyValueModel.setType(configKeyValueDao.getType().name());
+        configKeyValueModel.setIsApplicationVariable(configKeyValueDao.getIsApplicationVariable());
         return configKeyValueModel;
     }
 }

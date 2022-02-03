@@ -19,4 +19,5 @@ public class CreateConfigDto {
     private ApplicationDao application;
     private CustomDetailDao customDetailDao;
     private List<ConfigDao> configDaos;
+    private Boolean isSystemVariable;
 }

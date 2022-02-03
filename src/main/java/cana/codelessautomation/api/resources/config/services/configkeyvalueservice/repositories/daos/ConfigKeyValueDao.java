@@ -30,6 +30,8 @@ public class ConfigKeyValueDao {
     private String createdBy;
     private String modifiedBy;
     private String comments;
+    @Column(name = "is_application_variable")
+    private Boolean isApplicationVariable;
 
     @Column(nullable = false)
     private Boolean isActive = false;

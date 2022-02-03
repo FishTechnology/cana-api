@@ -86,7 +86,9 @@ public class ConfigResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public ResultModel createConfig(@Valid @PathParam Long applicationId, @Valid CreateConfigModel createConfigModel, @Valid @PathParam String configType) {
+    public ResultModel createConfig(@Valid @PathParam Long applicationId,
+                                    @Valid CreateConfigModel createConfigModel,
+                                    @Valid @PathParam String configType) {
         var createConfigDto = configResourceMapper.mapCreateConfigDto(applicationId, createConfigModel, configType);
         var errorMessages = configService.createConfig(createConfigDto);
         return configResourceMapper.mapResultModel(errorMessages, createConfigDto);

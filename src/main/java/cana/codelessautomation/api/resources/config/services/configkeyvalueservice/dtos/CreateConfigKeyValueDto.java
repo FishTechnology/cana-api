@@ -20,4 +20,5 @@ public class CreateConfigKeyValueDto {
     private ConfigDao configDao;
     private Long applicationId;
     private ApplicationDao application;
+    private Boolean isApplicationVariable;
 }

@@ -35,6 +35,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public List<ErrorMessageDto> createConfig(CreateConfigDto createConfigDto) {
+
         var errorMessages = configServiceVerifier.verifyCreateConfig(createConfigDto);
         if (CollectionUtils.isNotEmpty(errorMessages)) {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
