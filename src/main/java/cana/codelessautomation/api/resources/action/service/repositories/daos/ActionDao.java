@@ -56,6 +56,9 @@ public class ActionDao {
     @Column(name = "condition_type")
     private ConditionType conditionType;
 
+    @JMap
+    private Boolean isOptional;
+
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "actionId")
     private List<ActionOptionDao> actionOptionDaos;
 }

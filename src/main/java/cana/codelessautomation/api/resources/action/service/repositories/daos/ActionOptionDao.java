@@ -32,4 +32,8 @@ public class ActionOptionDao {
     private String modifiedBy;
     @JMap
     private Boolean isActive;
+    @JMap
+    @Enumerated(EnumType.STRING)
+    @Column(name = "condition_type")
+    private UIOptionConditionTypeDao conditionType;
 }

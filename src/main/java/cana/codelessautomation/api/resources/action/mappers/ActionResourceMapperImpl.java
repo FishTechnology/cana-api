@@ -35,6 +35,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
         createActionDto.setComments(createActionModel.getComments());
         createActionDto.setIsAssertVerification(createActionModel.getIsAssertVerification());
         createActionDto.setUiActionType(EnumUtils.getEnumIgnoreCase(UIActionTypeDao.class, createActionModel.getUiActionType()));
+        createActionDto.setIsOptional(createActionModel.getIsOptional());
         List<CreateActionOptionDto> createActionOptionDtos = new ArrayList<>();
 
         if (createActionModel.getBrowserOptions() != null) {
@@ -55,6 +56,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
             createActionOptionDto.setOptionType(EnumUtils.getEnumIgnoreCase(ActionOptionTypeDao.class, createActionOptionModel.getOptionType()));
             createActionOptionDto.setWaitDuration(createActionOptionModel.getWaitDuration());
             createActionOptionDto.setOrder(createActionOptionModel.getOrder());
+            createActionOptionDto.setConditionType(EnumUtils.getEnumIgnoreCase(UIOptionConditionTypeDao.class, createActionOptionModel.getConditionType()));
             createActionOptionDtos.add(createActionOptionDto);
         }
         createActionDto.setOptionDtos(createActionOptionDtos);
@@ -104,6 +106,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
         actionDetailModel.setCreatedBy(actionDao.getCreatedBy());
         actionDetailModel.setCreatedOn(actionDao.getCreatedOn().toString());
         actionDetailModel.setIsActive(actionDao.getIsActive());
+        actionDetailModel.setIsOptional(actionDao.getIsOptional());
         actionDetailModel.setUiActionType(actionDao.getUiActionType().name());
 
         if (!Objects.isNull(actionDao.getConditionType())) {
@@ -120,6 +123,8 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
                 actionOptionModel.setOptionType(actionOptionDao.getOptionType().name());
                 actionOptionModel.setOrder(actionOptionDao.getOrderNumber());
                 actionOptionModel.setWaitDuration(actionOptionDao.getWaitDuration());
+                actionOptionModel.setConditionType(actionOptionDao.getConditionType().name());
+
                 actionOptionModels.add(actionOptionModel);
             }
             actionDetailModel.setActionOptionModels(actionOptionModels);

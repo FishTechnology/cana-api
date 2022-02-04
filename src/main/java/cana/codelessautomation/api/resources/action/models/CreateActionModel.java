@@ -32,4 +32,5 @@ public class CreateActionModel {
     private List<CreateActionOptionModel> uiControlOptions;
     @Valid
     private BrowserDetailModel browserOptions;
+    private Boolean isOptional;
 }

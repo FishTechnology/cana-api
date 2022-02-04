@@ -1,12 +1,13 @@
 package cana.codelessautomation.api.resources.action.service;
 
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.action.service.dtos.CreateActionDto;
 import cana.codelessautomation.api.resources.action.service.dtos.GetActionsByTestCaseIdDto;
 import cana.codelessautomation.api.resources.action.service.processors.ActionServiceProcessor;
+import cana.codelessautomation.api.resources.action.service.validatos.ActionServiceValidator;
 import cana.codelessautomation.api.resources.action.service.verifiers.ActionServiceVerifier;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -23,6 +24,9 @@ public class ActionServiceImpl implements ActionService {
     @Inject
     ActionServiceProcessor actionServiceProcessor;
 
+    @Inject
+    ActionServiceValidator actionServiceValidator;
+
     @Override
     public List<ErrorMessageDto> createAction(CreateActionDto createActionDto) {
         createActionDto.setCreatedOn(OffsetDateTime.now());
@@ -31,7 +35,11 @@ public class ActionServiceImpl implements ActionService {
         createActionDto.setModifiedBy(createActionDto.getUserId().toString());
         createActionDto.setIsActive(true);
 
-        var errorMessages = actionServiceVerifier.verifyCreateAction(createActionDto);
+        var errorMessages = actionServiceValidator.validateCreateAction(createActionDto);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        errorMessages = actionServiceVerifier.verifyCreateAction(createActionDto);
         if (CollectionUtils.isNotEmpty(errorMessages)) {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }

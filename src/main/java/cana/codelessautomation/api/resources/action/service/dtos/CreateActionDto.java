@@ -30,4 +30,5 @@ public class CreateActionDto {
     private Boolean isAssertVerification;
     private List<CreateActionOptionDto> optionDtos;
     private BrowserDetailDto browserDetailDto;
+    private Boolean isOptional;
 }

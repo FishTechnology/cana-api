@@ -27,6 +27,7 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionDao.setOrderNumber(createActionDto.getOrder());
         actionDao.setUiActionType(createActionDto.getUiActionType());
         actionDao.setIsAssertVerification(createActionDto.getIsAssertVerification());
+        actionDao.setIsOptional(createActionDto.getIsOptional());
         if (createActionDto.getBrowserDetailDto() != null
                 && createActionDto.getBrowserDetailDto().getActionType() != null) {
             actionDao.setBrowserActionType(createActionDto.getBrowserDetailDto().getActionType());
@@ -49,6 +50,7 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionOptionDao.setModifiedOn(OffsetDateTime.now());
         actionOptionDao.setCreatedBy(createActionDto.getCreatedBy());
         actionOptionDao.setModifiedBy(createActionDto.getModifiedBy());
+        actionOptionDao.setConditionType(createActionOptionDto.getConditionType());
         return actionOptionDao;
     }
 }
