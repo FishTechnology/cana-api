@@ -1,13 +1,13 @@
 package cana.codelessautomation.api.resources.result.testplanresult;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.result.testplanresult.mappers.TestPlanResultMapper;
 import cana.codelessautomation.api.resources.result.testplanresult.models.TestPlanResultModel;
 import cana.codelessautomation.api.resources.result.testplanresult.models.UpdateTestPlanResultAsCompletedModel;
 import cana.codelessautomation.api.resources.result.testplanresult.service.TestPlanResultService;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
@@ -34,7 +34,8 @@ public class TestPlanResultResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public ResultModel updateTestPlanResultAsStarted(@Valid @PathParam Long scheduleIterationId, @Valid @PathParam Long testPlanResultId) throws ValidationException {
+    public ResultModel updateTestPlanResultAsStarted(@Valid @PathParam Long scheduleIterationId,
+                                                     @Valid @PathParam Long testPlanResultId) throws ValidationException {
         return new ResultModel();
     }
 
@@ -43,8 +44,10 @@ public class TestPlanResultResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public ResultModel updateTestPlanResultAsCompleted(@Valid @PathParam Long scheduleIterationId, @Valid @PathParam Long testPlanResultId, UpdateTestPlanResultAsCompletedModel
-            updateTestPlanResultAsCompletedModel) throws ValidationException {
+    public ResultModel updateTestPlanResultAsCompleted(@Valid @PathParam Long scheduleIterationId,
+                                                       @Valid @PathParam Long testPlanResultId,
+                                                       @Valid UpdateTestPlanResultAsCompletedModel
+                                                               updateTestPlanResultAsCompletedModel) throws ValidationException {
         return new ResultModel();
     }
 

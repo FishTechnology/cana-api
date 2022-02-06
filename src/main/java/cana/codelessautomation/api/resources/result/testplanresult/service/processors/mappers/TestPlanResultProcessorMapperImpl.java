@@ -2,10 +2,11 @@ package cana.codelessautomation.api.resources.result.testplanresult.service.proc
 
 import cana.codelessautomation.api.resources.result.testplanresult.service.dtos.UpdateTestPlanResultStatusDto;
 import cana.codelessautomation.api.resources.result.testplanresult.service.repositories.daos.TestPlanResultDao;
+import cana.codelessautomation.api.resources.result.testplanresult.service.repositories.daos.TestPlanResultStatusDao;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.Objects;
+import java.time.OffsetDateTime;
 
 @ApplicationScoped
 public class TestPlanResultProcessorMapperImpl implements TestPlanResultProcessorMapper {
@@ -14,20 +15,17 @@ public class TestPlanResultProcessorMapperImpl implements TestPlanResultProcesso
         var testPlanResultDao = updateTestPlanResultStatusDto.getTestPlanResult();
         testPlanResultDao.setStatus(updateTestPlanResultStatusDto.getStatus());
 
+        if (updateTestPlanResultStatusDto.getStatus() == TestPlanResultStatusDao.STARTED) {
+            testPlanResultDao.setStartedOn(OffsetDateTime.now());
+        } else if (updateTestPlanResultStatusDto.getStatus() == TestPlanResultStatusDao.COMPLETED) {
+            if (StringUtils.isNotEmpty(updateTestPlanResultStatusDto.getTotalDuration())) {
+                testPlanResultDao.setTotalDuration(updateTestPlanResultStatusDto.getTotalDuration());
+            }
+            testPlanResultDao.setCompletedOn(updateTestPlanResultStatusDto.getCompletedOn());
+        }
+
         if (StringUtils.isNotEmpty(updateTestPlanResultStatusDto.getErrorMessage())) {
             testPlanResultDao.setErrorMessage(updateTestPlanResultStatusDto.getErrorMessage());
-        }
-
-        if (StringUtils.isNotEmpty(updateTestPlanResultStatusDto.getTotalDuration())) {
-            testPlanResultDao.setTotalDuration(updateTestPlanResultStatusDto.getTotalDuration());
-        }
-
-        if (!Objects.isNull(updateTestPlanResultStatusDto.getStartedOn())) {
-            testPlanResultDao.setStartedOn(updateTestPlanResultStatusDto.getStartedOn());
-        }
-
-        if (!Objects.isNull(updateTestPlanResultStatusDto.getCompletedOn())) {
-            testPlanResultDao.setCompletedOn(updateTestPlanResultStatusDto.getCompletedOn());
         }
 
         return testPlanResultDao;
