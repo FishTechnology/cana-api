@@ -30,7 +30,7 @@ public class TestPlanResultResource {
     TestPlanResultMapper testPlanResultMapper;
 
     @PUT
-    @Path("scheduleIterationIds/{scheduleIterationId}/testPlanResults/{testPlanResultId}/markAsStarted")
+    @Path("/scheduleIterationIds/{scheduleIterationId}/testPlanResults/{testPlanResultId}/markAsStarted")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -40,7 +40,7 @@ public class TestPlanResultResource {
     }
 
     @PUT
-    @Path("scheduleIterationIds/{scheduleIterationId}/testPlanResults/{testPlanResultId}/markAsStarted")
+    @Path("/scheduleIterationIds/{scheduleIterationId}/testPlanResults/{testPlanResultId}/markAsStarted")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -52,7 +52,7 @@ public class TestPlanResultResource {
     }
 
     @PUT
-    @Path("scheduleIterationIds/{scheduleIterationId}/testPlanResults/{testPlanResultId}/status")
+    @Path("/scheduleIterationIds/{scheduleIterationId}/testPlanResults/{testPlanResultId}/status")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
@@ -68,7 +68,7 @@ public class TestPlanResultResource {
     }
 
     @GET
-    @Path("scheduleIterationIds/{scheduleIterationId}")
+    @Path("/scheduleIterationIds/{scheduleIterationId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public TestPlanResultModel getTestPlanResultBySchIterId(@Valid @PathParam Long scheduleIterationId) throws ValidationException {
