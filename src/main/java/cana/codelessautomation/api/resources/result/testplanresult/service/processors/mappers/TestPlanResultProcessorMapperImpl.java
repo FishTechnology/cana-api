@@ -21,7 +21,7 @@ public class TestPlanResultProcessorMapperImpl implements TestPlanResultProcesso
             if (StringUtils.isNotEmpty(updateTestPlanResultStatusDto.getTotalDuration())) {
                 testPlanResultDao.setTotalDuration(updateTestPlanResultStatusDto.getTotalDuration());
             }
-            testPlanResultDao.setCompletedOn(updateTestPlanResultStatusDto.getCompletedOn());
+            testPlanResultDao.setCompletedOn(OffsetDateTime.now());
         }
 
         if (StringUtils.isNotEmpty(updateTestPlanResultStatusDto.getErrorMessage())) {

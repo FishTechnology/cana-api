@@ -1,12 +1,12 @@
 package cana.codelessautomation.api.resources.result.testcaseresult;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.mappers.TestCaseResultMapper;
 import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
-import cana.codelessautomation.api.resources.result.testcaseresult.models.UpdateTestCaseResultAsCompletedModel;
+import cana.codelessautomation.api.resources.result.testcaseresult.models.UpdateTestCaseResultModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.TestCaseResultService;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
@@ -29,14 +29,14 @@ public class TestCaseResultResource {
     TestCaseResultMapper testCaseResultMapper;
 
     @PUT
-    @Path("testPlanResults/{testPlanResultId}/testCaseResults/{testCaseResultId}/status")
+    @Path("/testPlanResults/{testPlanResultId}/testCaseResults/{testCaseResultId}/status")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
     public List<ErrorMessageModel> updateTestCaseResultStatus(@Valid @PathParam Long testPlanResultId,
                                                               @Valid @PathParam Long testCaseResultId,
-                                                              @Valid UpdateTestCaseResultAsCompletedModel updateTestCaseResultAsCompletedModel) throws ValidationException {
-        var updateTestCaseResultStatusDto = testCaseResultMapper.mapUpdateTestCaseResultStatusDto(testPlanResultId, testCaseResultId, updateTestCaseResultAsCompletedModel);
+                                                              @Valid UpdateTestCaseResultModel updateTestCaseResultModel) throws ValidationException {
+        var updateTestCaseResultStatusDto = testCaseResultMapper.mapUpdateTestCaseResultStatusDto(testPlanResultId, testCaseResultId, updateTestCaseResultModel);
         var errorMessages = testCaseResultService.updateTestCaseResultStatus(updateTestCaseResultStatusDto);
         if (CollectionUtils.isEmpty(errorMessages)) {
             return Collections.emptyList();
@@ -45,7 +45,7 @@ public class TestCaseResultResource {
     }
 
     @GET
-    @Path("testPlanResults/{testPlanResultId}")
+    @Path("/testPlanResults/{testPlanResultId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<TestCaseResultModel> getTestCaseResultByPlanResultId(@Valid @PathParam Long testPlanResultId) throws ValidationException {

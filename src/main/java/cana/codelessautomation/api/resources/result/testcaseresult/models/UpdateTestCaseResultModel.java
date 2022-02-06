@@ -6,7 +6,7 @@ import cana.codelessautomation.api.resources.result.testcaseresult.service.repos
 import lombok.Data;
 
 @Data
-public class UpdateTestCaseResultAsCompletedModel {
+public class UpdateTestCaseResultModel {
     @ValidEnumString(enumRef = TestCaseResultStatusDao.class, message = TestCaseResultErrorCode.getTestCaseResultStatusInValid)
     private String status;
     private String errorMessage;

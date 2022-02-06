@@ -1,7 +1,7 @@
 package cana.codelessautomation.api.resources.result.testcaseresult.mappers;
 
 import cana.codelessautomation.api.resources.result.testcaseresult.models.TestCaseResultModel;
-import cana.codelessautomation.api.resources.result.testcaseresult.models.UpdateTestCaseResultAsCompletedModel;
+import cana.codelessautomation.api.resources.result.testcaseresult.models.UpdateTestCaseResultModel;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.dtos.UpdateTestCaseResultStatusDto;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultDao;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultStatusDao;
@@ -18,7 +18,7 @@ public class TestCaseResultMapperImpl implements TestCaseResultMapper {
     @Override
     public UpdateTestCaseResultStatusDto mapUpdateTestCaseResultStatusDto(Long testPlanResultId,
                                                                           Long testCaseResultId,
-                                                                          UpdateTestCaseResultAsCompletedModel updateTestCaseResultAsCompletedModel) {
+                                                                          UpdateTestCaseResultModel updateTestCaseResultAsCompletedModel) {
         UpdateTestCaseResultStatusDto updateTestCaseResultStatusDto = new UpdateTestCaseResultStatusDto();
         updateTestCaseResultStatusDto.setTestCaseResultId(testCaseResultId);
         updateTestCaseResultStatusDto.setTestPlanResultId(testPlanResultId);
