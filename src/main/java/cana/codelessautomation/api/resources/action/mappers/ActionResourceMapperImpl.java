@@ -123,7 +123,9 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
                 actionOptionModel.setOptionType(actionOptionDao.getOptionType().name());
                 actionOptionModel.setOrder(actionOptionDao.getOrderNumber());
                 actionOptionModel.setWaitDuration(actionOptionDao.getWaitDuration());
-                actionOptionModel.setConditionType(actionOptionDao.getConditionType().name());
+                if (!Objects.isNull(actionOptionDao.getConditionType())) {
+                    actionOptionModel.setConditionType(actionOptionDao.getConditionType().name());
+                }
 
                 actionOptionModels.add(actionOptionModel);
             }
