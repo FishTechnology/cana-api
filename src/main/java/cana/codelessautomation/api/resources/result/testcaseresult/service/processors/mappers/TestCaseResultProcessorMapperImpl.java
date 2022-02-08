@@ -2,11 +2,10 @@ package cana.codelessautomation.api.resources.result.testcaseresult.service.proc
 
 import cana.codelessautomation.api.resources.result.testcaseresult.service.dtos.UpdateTestCaseResultStatusDto;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultDao;
-import org.apache.commons.lang3.StringUtils;
+import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultStatusDao;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.time.OffsetDateTime;
-import java.util.Objects;
 
 @ApplicationScoped
 public class TestCaseResultProcessorMapperImpl implements TestCaseResultProcessorMapper {
@@ -15,22 +14,15 @@ public class TestCaseResultProcessorMapperImpl implements TestCaseResultProcesso
         var testCaseResultDao = updateTestCaseResultStatusDto.getTestCaseResultDao();
         testCaseResultDao.setStatus(updateTestCaseResultStatusDto.getStatus());
 
-        if (!Objects.isNull(updateTestCaseResultStatusDto.getCompletedOn())) {
-            testCaseResultDao.setCompletedOn(updateTestCaseResultStatusDto.getCompletedOn());
-        }
-
-        if (!Objects.isNull(updateTestCaseResultStatusDto.getStartedOn())) {
-            testCaseResultDao.setStartedOn(updateTestCaseResultStatusDto.getStartedOn());
-        }
-
-        if (StringUtils.isNotEmpty(updateTestCaseResultStatusDto.getTotalDuration())) {
+        if (testCaseResultDao.getStatus() == TestCaseResultStatusDao.STARTED) {
+            testCaseResultDao.setStartedOn(OffsetDateTime.now());
+        } else if (testCaseResultDao.getStatus() == TestCaseResultStatusDao.COMPLETED ||
+                testCaseResultDao.getStatus() == TestCaseResultStatusDao.ERROR) {
+            testCaseResultDao.setCompletedOn(OffsetDateTime.now());
             testCaseResultDao.setTotalDuration(updateTestCaseResultStatusDto.getTotalDuration());
         }
 
-        if (StringUtils.isNotEmpty(updateTestCaseResultStatusDto.getErrorMessage())) {
-            testCaseResultDao.setErrorMessage(updateTestCaseResultStatusDto.getErrorMessage());
-        }
-
+        testCaseResultDao.setErrorMessage(updateTestCaseResultStatusDto.getErrorMessage());
         testCaseResultDao.setModifiedOn(OffsetDateTime.now());
 
         return testCaseResultDao;
