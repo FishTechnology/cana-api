@@ -195,10 +195,11 @@ public class TestCaseResourceMapperImpl implements TestCaseResourceMapper {
     }
 
     @Override
-    public UpdateTestCaseOrderDto mapUpdateTestCaseOrderDto(Long testPlanId, UpdateTestCaseOrderModel updateTestCaseOrderModel) {
+    public UpdateTestCaseOrderDto mapUpdateTestCaseOrderDto(Long applicationId, Long testPlanId, UpdateTestCaseOrderModel updateTestCaseOrderModel) {
         UpdateTestCaseOrderDto updateTestCaseOrderDto = new UpdateTestCaseOrderDto();
         updateTestCaseOrderDto.setTestPlanId(testPlanId);
         updateTestCaseOrderDto.setUserId(updateTestCaseOrderModel.getUserId());
+        updateTestCaseOrderDto.setApplicationId(applicationId);
         List<TestCaseOrderDto> testCaseOrderDtos = new ArrayList<>();
         for (TestCaseOrderModel testCaseOrderModel : updateTestCaseOrderModel.getTestcaseOrderModels()) {
             TestCaseOrderDto testCaseOrderDto = new TestCaseOrderDto();

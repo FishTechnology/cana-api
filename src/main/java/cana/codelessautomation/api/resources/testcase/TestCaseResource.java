@@ -129,9 +129,10 @@ public class TestCaseResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public List<ErrorMessageModel> updateTestCaseOrder(@Valid @PathParam Long testPlanId,
+    public List<ErrorMessageModel> updateTestCaseOrder(@Valid @PathParam Long applicationId,
+                                                       @Valid @PathParam Long testPlanId,
                                                        @Valid UpdateTestCaseOrderModel updateTestCaseOrderModel) throws ValidationException {
-        var updateTestCaseOrderDto = testCaseResourceMapper.mapUpdateTestCaseOrderDto(testPlanId, updateTestCaseOrderModel);
+        var updateTestCaseOrderDto = testCaseResourceMapper.mapUpdateTestCaseOrderDto(applicationId, testPlanId, updateTestCaseOrderModel);
         var errors = testCaseService.updateTestCaseOrder(updateTestCaseOrderDto);
         if (CollectionUtils.isNotEmpty(errors)) {
             return CanaUtility.getErrorMessageModels(errors);
