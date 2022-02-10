@@ -6,10 +6,8 @@ import cana.codelessautomation.api.resources.result.actionresult.service.dtos.Up
 import cana.codelessautomation.api.resources.result.actionresult.service.repositories.daos.ActionResultDao;
 import cana.codelessautomation.api.resources.result.actionresult.service.repositories.daos.enums.ActionResultStatusDao;
 import org.apache.commons.lang3.EnumUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -23,21 +21,9 @@ public class ActionResultResourceMapperImpl implements ActionResultResourceMappe
         updateActionResultDto.setActionResultId(actionResultId);
         updateActionResultDto.setTotalDuration(updateActionResultModel.getTotalDuration());
 
-        if (StringUtils.isNotEmpty(updateActionResultModel.getCompletedOn())) {
-            updateActionResultDto.setCompletedOn(OffsetDateTime.parse(updateActionResultModel.getCompletedOn()));
-        }
-
-        if (StringUtils.isNotEmpty(updateActionResultModel.getStartedOn())) {
-            updateActionResultDto.setStartedOn(OffsetDateTime.parse(updateActionResultModel.getStartedOn()));
-        }
-
         updateActionResultDto.setErrorMessage(updateActionResultModel.getErrorMessage());
         updateActionResultDto.setStatus(EnumUtils.getEnumIgnoreCase(ActionResultStatusDao.class, updateActionResultModel.getStatus()));
-
-        if (StringUtils.isNotEmpty(updateActionResultModel.getStartedOn())) {
-            updateActionResultDto.setCompletedOn(OffsetDateTime.parse(updateActionResultModel.getStartedOn()));
-        }
-
+        
         return updateActionResultDto;
     }
 

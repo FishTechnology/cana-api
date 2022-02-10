@@ -1,12 +1,12 @@
 package cana.codelessautomation.api.resources.result.actionresult;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
 import cana.codelessautomation.api.resources.result.actionresult.mappers.ActionResultResourceMapper;
 import cana.codelessautomation.api.resources.result.actionresult.models.ActionResultModel;
 import cana.codelessautomation.api.resources.result.actionresult.models.UpdateActionResultModel;
 import cana.codelessautomation.api.resources.result.actionresult.service.ActionResultService;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
@@ -47,7 +47,7 @@ public class ActionResultResource {
     }
 
     @GET
-    @Path("testcaseResults/{testCaseResultId}/actionsResult")
+    @Path("testcaseResults/{testCaseResultId}/actionResults")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<ActionResultModel> getActionResultsByTestCaseResultId(@Valid @PathParam Long testCaseResultId) throws ValidationException {
