@@ -1,6 +1,9 @@
 package cana.codelessautomation.api.resources.schedule.service.processors.mappers;
 
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionOptionDao;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
+import cana.codelessautomation.api.resources.result.actionoptionresult.service.repositories.daos.ActionOptionResultDao;
+import cana.codelessautomation.api.resources.result.actionoptionresult.service.repositories.daos.ActionOptionResultStatus;
 import cana.codelessautomation.api.resources.result.actionresult.service.repositories.daos.ActionResultDao;
 import cana.codelessautomation.api.resources.result.actionresult.service.repositories.daos.enums.ActionResultStatusDao;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultDao;
@@ -50,5 +53,17 @@ public class ResultMapperImpl implements ResultMapper {
         actionResultDao.setStatus(ActionResultStatusDao.NOT_STARTED);
         actionResultDao.setExecutionOrder(actionDaoEntity.getOrderNumber());
         return actionResultDao;
+    }
+
+    @Override
+    public ActionOptionResultDao mapActionOptionResultDao(ActionOptionDao actionOptionDao, ActionResultDao actionResultDao) {
+        ActionOptionResultDao actionOptionResultDao = new ActionOptionResultDao();
+        actionOptionResultDao.setStatus(ActionOptionResultStatus.NOT_STARTED);
+        actionOptionResultDao.setCreatedOn(OffsetDateTime.now());
+        actionOptionResultDao.setModifiedOn(OffsetDateTime.now());
+        actionOptionResultDao.setExecutionOrder(actionOptionDao.getOrderNumber());
+        actionOptionResultDao.setActionResultId(actionResultDao.getId());
+        actionOptionResultDao.setActionOptionId(actionOptionDao.getId());
+        return actionOptionResultDao;
     }
 }

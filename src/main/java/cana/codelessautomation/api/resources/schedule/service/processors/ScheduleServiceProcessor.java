@@ -2,6 +2,7 @@ package cana.codelessautomation.api.resources.schedule.service.processors;
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
+import cana.codelessautomation.api.resources.result.actionresult.service.repositories.daos.ActionResultDao;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultDao;
 import cana.codelessautomation.api.resources.schedule.service.dtos.*;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleSummaryEntity;
@@ -27,7 +28,10 @@ public interface ScheduleServiceProcessor {
 
     List<ErrorMessageDto> createDraftTestPlanResult(CopyTestPlanDetailDto copyTestPlanDetailDto);
 
+    List<ErrorMessageDto> createActionOptionsResult(ActionDaoEntity actionDaoEntity, ActionResultDao actionResultDao);
+
     List<ErrorMessageDto> createActionResult(CopyTestPlanDetailDto copyTestPlanDetailDto, TestCaseResultDao testCaseResultDao, List<ActionDaoEntity> actionDaoEntities);
+
 
     List<ErrorMessageDto> createTestCaseResult(CopyTestPlanDetailDto copyTestPlanDetailDto);
 

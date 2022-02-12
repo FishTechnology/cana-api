@@ -2,10 +2,13 @@ package cana.codelessautomation.api.resources.schedule.service.processors;
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionOptionDao;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
 import cana.codelessautomation.api.resources.notification.service.mappers.NotificationMapper;
 import cana.codelessautomation.api.resources.notification.service.repositories.NotificationRepository;
+import cana.codelessautomation.api.resources.result.actionoptionresult.service.repositories.ActionOptionResultRepository;
 import cana.codelessautomation.api.resources.result.actionresult.service.repositories.ActionResultRepository;
+import cana.codelessautomation.api.resources.result.actionresult.service.repositories.daos.ActionResultDao;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.TestCaseResultRepository;
 import cana.codelessautomation.api.resources.result.testcaseresult.service.repositories.daos.TestCaseResultDao;
 import cana.codelessautomation.api.resources.result.testplanresult.service.repositories.TestPlanResultRepository;
@@ -52,6 +55,9 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
 
     @Inject
     NotificationRepository notificationRepository;
+
+    @Inject
+    ActionOptionResultRepository actionOptionResultRepository;
 
     @Inject
     ResultMapper resultMapper;
@@ -214,7 +220,15 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
         return Collections.emptyList();
     }
 
-    public List<ErrorMessageDto> createActionOptions(CopyTestPlanDetailDto copyTestPlanDetailDto, ActionDaoEntity actionDaoEntity) {
+    @Override
+    public List<ErrorMessageDto> createActionOptionsResult(ActionDaoEntity actionDaoEntity, ActionResultDao actionResultDao) {
+        if (CollectionUtils.isEmpty(actionDaoEntity.getActionOptionDaos())) {
+            return Collections.emptyList();
+        }
+        for (ActionOptionDao actionOptionDao : actionDaoEntity.getActionOptionDaos()) {
+            var actionOptionResultDao = resultMapper.mapActionOptionResultDao(actionOptionDao, actionResultDao);
+            actionOptionResultRepository.persist(actionOptionResultDao);
+        }
         return Collections.emptyList();
     }
 
@@ -225,7 +239,10 @@ public class ScheduleServiceProcessorImpl implements ScheduleServiceProcessor {
         for (ActionDaoEntity actionDaoEntity : actionDaoEntities) {
             var actionResultDao = resultMapper.mapActionResultDao(copyTestPlanDetailDto, testCaseResultDao, actionDaoEntity);
             actionResultRepository.persist(actionResultDao);
-            var id = actionResultDao.getId();
+            var errors = createActionOptionsResult(actionDaoEntity, actionResultDao);
+            if (CollectionUtils.isNotEmpty(errors)) {
+                return errors;
+            }
         }
 
         return Collections.emptyList();

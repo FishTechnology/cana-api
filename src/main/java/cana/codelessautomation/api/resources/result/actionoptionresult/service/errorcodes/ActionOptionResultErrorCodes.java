@@ -2,6 +2,9 @@ package cana.codelessautomation.api.resources.result.actionoptionresult.service.
 
 import cana.codelessautomation.api.commons.dtos.BaseErrorCode;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class ActionOptionResultErrorCodes extends BaseErrorCode {
     public static final String getActionOptionResultStatusInValid = "CanaApi..Testplan.Status.InValid";
 
