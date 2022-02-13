@@ -27,7 +27,7 @@ public class ActionOptionResultResource {
     ActionOptionResultResourceMapper actionOptionResultResourceMapper;
 
     @GET
-    @Path("/actionResults/{actionResultId}/actionOptionResult")
+    @Path("/actionResults/{actionResultId}/actionOptionResults")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public List<ActionOptionResultModel> getActionOptionResultsByActionResultId(@Valid @PathParam Long actionResultId) throws ValidationException {
@@ -39,7 +39,7 @@ public class ActionOptionResultResource {
     }
 
     @POST
-    @Path("/actionResults/{actionResultId}/actionOptionResult")
+    @Path("/actionResults/{actionResultId}/actionOptionResults/{actionOptionResultId}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional

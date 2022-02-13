@@ -17,7 +17,8 @@ public class ActionResultProcessorMapperImpl implements ActionResultProcessorMap
 
         if (actionResultDao.getStatus() == ActionResultStatusDao.STARTED) {
             actionResultDao.setStartedOn(OffsetDateTime.now());
-        } else if (actionResultDao.getStatus() == ActionResultStatusDao.COMPLETED) {
+        } else if (actionResultDao.getStatus() == ActionResultStatusDao.COMPLETED
+                || actionResultDao.getStatus() == ActionResultStatusDao.ERROR) {
             actionResultDao.setCompletedOn(OffsetDateTime.now());
             actionResultDao.setDuration(updateActionResultDto.getTotalDuration());
         }
