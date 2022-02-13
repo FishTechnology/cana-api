@@ -41,7 +41,8 @@ public class ActionOptionResultVerifierImpl implements ActionOptionResultVerifie
     }
 
     @Override
-    public List<ErrorMessageDto> verifyUpdateActionOptionResult(UpdateActionOptionResultDto updateActionOptionResultDto) {
+    public List<ErrorMessageDto> verifyUpdateActionOptionResult(
+            UpdateActionOptionResultDto updateActionOptionResultDto) {
         var errorMessages = isActionOptionResultIdValid(updateActionOptionResultDto);
         if (CollectionUtils.isNotEmpty(errorMessages)) {
             return errorMessages;
@@ -62,7 +63,7 @@ public class ActionOptionResultVerifierImpl implements ActionOptionResultVerifie
 
     @Override
     public List<ErrorMessageDto> isActionOptionResultIdValid(UpdateActionOptionResultDto updateActionOptionResultDto) {
-        var response = isActionOptionResultIdValid(updateActionOptionResultDto.getActionResultId());
+        var response = isActionOptionResultIdValid(updateActionOptionResultDto.getActionOptionResultId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {
             return response.getKey();
         }
@@ -72,11 +73,13 @@ public class ActionOptionResultVerifierImpl implements ActionOptionResultVerifie
     }
 
     @Override
-    public KeyValue<List<ErrorMessageDto>, ActionOptionResultDao> isActionOptionResultIdValid(Long actionOptionResultId) {
+    public KeyValue<List<ErrorMessageDto>, ActionOptionResultDao> isActionOptionResultIdValid(
+            Long actionOptionResultId) {
         KeyValue<List<ErrorMessageDto>, ActionOptionResultDao> response = new KeyValue<>();
         var scheduleIterationDao = actionOptionResultRepository.findById(actionOptionResultId);
         if (scheduleIterationDao == null) {
-            response.setKey(CanaUtility.getErrorMessages(actionOptionResultErrorCodes.getActionOptionResultIdNotFound()));
+            response.setKey(
+                    CanaUtility.getErrorMessages(actionOptionResultErrorCodes.getActionOptionResultIdNotFound()));
             return response;
         }
         response.setValue(scheduleIterationDao);
