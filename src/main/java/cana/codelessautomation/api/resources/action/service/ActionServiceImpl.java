@@ -4,7 +4,9 @@ import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.action.service.dtos.CreateActionDto;
+import cana.codelessautomation.api.resources.action.service.dtos.DeleteActionByIdDto;
 import cana.codelessautomation.api.resources.action.service.dtos.GetActionsByTestCaseIdDto;
+import cana.codelessautomation.api.resources.action.service.dtos.UpdateActionOrderDto;
 import cana.codelessautomation.api.resources.action.service.processors.ActionServiceProcessor;
 import cana.codelessautomation.api.resources.action.service.validatos.ActionServiceValidator;
 import cana.codelessautomation.api.resources.action.service.verifiers.ActionServiceVerifier;
@@ -53,5 +55,23 @@ public class ActionServiceImpl implements ActionService {
             throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
         }
         return actionServiceProcessor.processGetActionsByTestCaseId(getActionsByTestCaseIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> deleteActionById(DeleteActionByIdDto deleteActionByIdDto) {
+        var errorMessages = actionServiceVerifier.verifyDeleteActionById(deleteActionByIdDto);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return actionServiceProcessor.processDeleteActionById(deleteActionByIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateActionOrder(UpdateActionOrderDto updateActionOrderDto) {
+        var errorMessages = actionServiceVerifier.verifyUpdateActionOrder(updateActionOrderDto);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return actionServiceProcessor.processUpdateActionOrder(updateActionOrderDto);
     }
 }

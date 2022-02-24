@@ -6,5 +6,5 @@ import java.util.List;
 
 @Data
 public class UpdateActionOrderModel {
-    private List<ActionOrderModel> testcaseOrderModels;
+    private List<ActionOrderModel> actionOrderModels;
 }

@@ -1,12 +1,14 @@
 package cana.codelessautomation.api.resources.action;
 
 import cana.codelessautomation.api.commons.exceptions.ValidationException;
+import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.action.mappers.ActionResourceMapper;
 import cana.codelessautomation.api.resources.action.models.ActionDetailModel;
 import cana.codelessautomation.api.resources.action.models.CreateActionModel;
-import cana.codelessautomation.api.resources.commonmodels.ResultModel;
+import cana.codelessautomation.api.resources.action.models.UpdateActionOrderModel;
 import cana.codelessautomation.api.resources.action.service.ActionService;
-import cana.codelessautomation.api.commons.utilities.CanaUtility;
+import cana.codelessautomation.api.resources.commonmodels.ErrorMessageModel;
+import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import org.apache.commons.collections.CollectionUtils;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
@@ -56,5 +58,34 @@ public class ActionResource {
             return Collections.emptyList();
         }
         return actionResourceMapper.mapActionDetailModels(getActionsByTestCaseIdDto);
+    }
+
+    @DELETE
+    @Path("testCases/{testCaseId}/actions/{actionId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<ErrorMessageModel> deleteActionById(@Valid @PathParam Long testCaseId, @Valid @PathParam Long actionId) throws ValidationException {
+        var deleteActionByIdDto = actionResourceMapper.mapDeleteActionByIdDto(testCaseId, actionId);
+        var errorMessages = actionService.deleteActionById(deleteActionByIdDto);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return Collections.emptyList();
+    }
+
+    @PUT
+    @Path("testCases/{testCaseId}/actions/order")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<ErrorMessageModel> updateActionOrder(@Valid UpdateActionOrderModel updateActionOrderModel,
+                                                     @Valid @PathParam Long testCaseId) throws ValidationException {
+        var updateActionOrderDto = actionResourceMapper.mapUpdateActionOrderDto(updateActionOrderModel, testCaseId);
+        var errorMessages = actionService.updateActionOrder(updateActionOrderDto);
+        if (CollectionUtils.isNotEmpty(errorMessages)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errorMessages));
+        }
+        return Collections.emptyList();
     }
 }

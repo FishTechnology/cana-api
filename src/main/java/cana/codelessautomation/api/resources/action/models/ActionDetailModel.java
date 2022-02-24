@@ -7,14 +7,14 @@ import java.util.List;
 
 @Data
 public class ActionDetailModel {
-    private Long id;
+    private String id;
     private ActionTypeDao type;
     private String key;
     private String value;
     private String uiActionType;
     private String comments;
     private Long userId;
-    private Long testCaseId;
+    private String testCaseId;
     private Long order;
     private String createdOn;
     private String modifiedOn;

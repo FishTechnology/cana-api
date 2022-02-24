@@ -20,4 +20,8 @@ public class ActionRepository implements PanacheRepository<ActionDao> {
     public ActionDao findByIdAndIsActive(Long actionId) {
         return find("id = ?1 and isactive=true", actionId).firstResult();
     }
+
+    public List<ActionDao> findByGreaterThan(Long orderNumber) {
+        return list("isactive=true and orderNumber >= ?1", orderNumber);
+    }
 }

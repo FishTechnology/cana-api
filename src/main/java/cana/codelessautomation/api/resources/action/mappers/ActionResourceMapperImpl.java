@@ -2,14 +2,8 @@ package cana.codelessautomation.api.resources.action.mappers;
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.commons.utilities.CanaUtility;
-import cana.codelessautomation.api.resources.action.models.ActionDetailModel;
-import cana.codelessautomation.api.resources.action.models.ActionOptionModel;
-import cana.codelessautomation.api.resources.action.models.CreateActionModel;
-import cana.codelessautomation.api.resources.action.models.CreateActionOptionModel;
-import cana.codelessautomation.api.resources.action.service.dtos.BrowserDetailDto;
-import cana.codelessautomation.api.resources.action.service.dtos.CreateActionDto;
-import cana.codelessautomation.api.resources.action.service.dtos.CreateActionOptionDto;
-import cana.codelessautomation.api.resources.action.service.dtos.GetActionsByTestCaseIdDto;
+import cana.codelessautomation.api.resources.action.models.*;
+import cana.codelessautomation.api.resources.action.service.dtos.*;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.*;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
@@ -93,12 +87,12 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
     @Override
     public ActionDetailModel mapActionDetailModel(ActionDao actionDao) {
         ActionDetailModel actionDetailModel = new ActionDetailModel();
-        actionDetailModel.setId(actionDao.getId());
+        actionDetailModel.setId(actionDao.getId().toString());
         actionDetailModel.setKey(actionDao.getKey());
         actionDetailModel.setValue(actionDao.getValue());
         actionDetailModel.setComments(actionDao.getComments());
         actionDetailModel.setOrder(actionDao.getOrderNumber());
-        actionDetailModel.setTestCaseId(actionDao.getTestCaseId());
+        actionDetailModel.setTestCaseId(actionDao.getTestCaseId().toString());
         actionDetailModel.setType(actionDao.getType());
         actionDetailModel.setUserId(actionDao.getUserId());
         actionDetailModel.setModifiedBy(actionDao.getModifiedBy());
@@ -149,12 +143,12 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
     @Override
     public ScheduledActionDetailModel mapScheduledActionDetailModel(ActionDaoEntity actionDaoEntity) {
         ScheduledActionDetailModel scheduledActionDetail = new ScheduledActionDetailModel();
-        scheduledActionDetail.setId(actionDaoEntity.getId());
+        scheduledActionDetail.setId(actionDaoEntity.getId().toString());
         scheduledActionDetail.setKey(actionDaoEntity.getKey());
         scheduledActionDetail.setValue(actionDaoEntity.getValue());
         scheduledActionDetail.setComments(actionDaoEntity.getComments());
         scheduledActionDetail.setOrder(actionDaoEntity.getOrderNumber());
-        scheduledActionDetail.setTestCaseId(actionDaoEntity.getTestCaseId());
+        scheduledActionDetail.setTestCaseId(actionDaoEntity.getTestCaseId().toString());
         scheduledActionDetail.setType(actionDaoEntity.getType());
         scheduledActionDetail.setUserId(actionDaoEntity.getUserId());
         scheduledActionDetail.setModifiedBy(actionDaoEntity.getModifiedBy());
@@ -186,4 +180,28 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
         scheduledActionDetail.setIsAssertVerification(actionDaoEntity.getIsAssertVerification());
         return scheduledActionDetail;
     }
+
+    @Override
+    public DeleteActionByIdDto mapDeleteActionByIdDto(Long testCaseId, Long actionId) {
+        DeleteActionByIdDto deleteTestplan = new DeleteActionByIdDto();
+        deleteTestplan.setTestCaseId(testCaseId);
+        deleteTestplan.setActionId(actionId);
+        return deleteTestplan;
+    }
+
+    @Override
+    public UpdateActionOrderDto mapUpdateActionOrderDto(UpdateActionOrderModel updateActionModel, Long testCaseId) {
+        UpdateActionOrderDto updateActionOrderDto = new UpdateActionOrderDto();
+        updateActionOrderDto.setActionOrderDtos(new ArrayList<>());
+        updateActionOrderDto.setTestCaseId(testCaseId);
+        for (ActionOrderModel actionOrderModel : updateActionModel.getActionOrderModels()) {
+            ActionOrderDto actionOrderDto = new ActionOrderDto();
+            actionOrderDto.setActionId(actionOrderModel.getActionId());
+            actionOrderDto.setOldExecutionOrder(actionOrderModel.getOldExecutionOrder());
+            actionOrderDto.setCurrentExecutionOrder(actionOrderModel.getCurrentExecutionOrder());
+            updateActionOrderDto.getActionOrderDtos().add(actionOrderDto);
+        }
+        return updateActionOrderDto;
+    }
 }
+

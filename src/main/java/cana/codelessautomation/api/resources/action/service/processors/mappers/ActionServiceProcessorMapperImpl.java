@@ -1,7 +1,9 @@
 package cana.codelessautomation.api.resources.action.service.processors.mappers;
 
+import cana.codelessautomation.api.resources.action.service.dtos.ActionOrderDto;
 import cana.codelessautomation.api.resources.action.service.dtos.CreateActionDto;
 import cana.codelessautomation.api.resources.action.service.dtos.CreateActionOptionDto;
+import cana.codelessautomation.api.resources.action.service.dtos.UpdateActionOrderDto;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionDao;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionOptionDao;
 
@@ -52,5 +54,20 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionOptionDao.setModifiedBy(createActionDto.getModifiedBy());
         actionOptionDao.setConditionType(createActionOptionDto.getConditionType());
         return actionOptionDao;
+    }
+
+    @Override
+    public ActionDao mapDeleteActionDao(ActionDao actionDao) {
+        actionDao.setModifiedOn(OffsetDateTime.now());
+        actionDao.setIsActive(false);
+        return actionDao;
+    }
+
+    @Override
+    public ActionDao mapActionDao(UpdateActionOrderDto updateActionOrderDto, ActionOrderDto actionOrderDto) {
+        ActionDao actionDao = actionOrderDto.getActionDao();
+        actionDao.setOrderNumber(actionOrderDto.getCurrentExecutionOrder());
+        actionDao.setModifiedOn(OffsetDateTime.now());
+        return actionDao;
     }
 }

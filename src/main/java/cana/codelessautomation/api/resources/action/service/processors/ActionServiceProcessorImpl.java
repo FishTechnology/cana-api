@@ -1,16 +1,16 @@
 package cana.codelessautomation.api.resources.action.service.processors;
 
-import cana.codelessautomation.api.resources.action.service.dtos.CreateActionOptionDto;
-import cana.codelessautomation.api.resources.action.service.dtos.GetActionsByTestCaseIdDto;
+import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.action.service.dtos.*;
+import cana.codelessautomation.api.resources.action.service.processors.mappers.ActionServiceProcessorMapper;
 import cana.codelessautomation.api.resources.action.service.repositories.ActionOptionRepository;
 import cana.codelessautomation.api.resources.action.service.repositories.ActionRepository;
-import cana.codelessautomation.api.resources.action.service.dtos.CreateActionDto;
-import cana.codelessautomation.api.resources.action.service.processors.mappers.ActionServiceProcessorMapper;
-import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionDao;
 import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,6 +37,44 @@ public class ActionServiceProcessorImpl implements ActionServiceProcessor {
             return errors;
         }
         return createActionOption(createActionDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> processDeleteActionById(DeleteActionByIdDto deleteActionByIdDto) {
+        var errors = deleteActionById(deleteActionByIdDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return updateActionOrder(deleteActionByIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> processUpdateActionOrder(UpdateActionOrderDto updateActionOrderDto) {
+        return updateActionOrder(updateActionOrderDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> processGetActionsByTestCaseId(GetActionsByTestCaseIdDto getActionsByTestCaseIdDto) {
+        return getActionsByTestCaseId(getActionsByTestCaseIdDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateActionOrder(UpdateActionOrderDto updateActionOrderDto) {
+        for (ActionOrderDto actionOrderDto : updateActionOrderDto.getActionOrderDtos()) {
+            if (actionOrderDto.getCurrentExecutionOrder().equals(actionOrderDto.getOldExecutionOrder())) {
+                continue;
+            }
+            var actionDao = actionServiceProcessorMapper.mapActionDao(updateActionOrderDto, actionOrderDto);
+            actionRepository.persist(actionDao);
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> deleteActionById(DeleteActionByIdDto deleteActionByIdDto) {
+        var actionDao = actionServiceProcessorMapper.mapDeleteActionDao(deleteActionByIdDto.getActionDao());
+        actionRepository.persist(actionDao);
+        return Collections.emptyList();
     }
 
     @Override
@@ -71,14 +109,22 @@ public class ActionServiceProcessorImpl implements ActionServiceProcessor {
     }
 
     @Override
-    public List<ErrorMessageDto> processGetActionsByTestCaseId(GetActionsByTestCaseIdDto getActionsByTestCaseIdDto) {
-        return getActionsByTestCaseId(getActionsByTestCaseIdDto);
-    }
-
-    @Override
     public List<ErrorMessageDto> getActionsByTestCaseId(GetActionsByTestCaseIdDto getActionsByTestCaseIdDto) {
         var actions = actionRepository.findByTestCaseId(getActionsByTestCaseIdDto.getTestCaseId());
         getActionsByTestCaseIdDto.setActionDaos(actions);
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> updateActionOrder(DeleteActionByIdDto deleteActionByIdDto) {
+        var actionDaos = actionRepository.findByGreaterThan(deleteActionByIdDto.getActionDao().getOrderNumber());
+        Long currentOrder = deleteActionByIdDto.getActionDao().getOrderNumber();
+        for (ActionDao actionDao : actionDaos) {
+            actionDao.setModifiedOn(OffsetDateTime.now());
+            currentOrder += 1;
+            actionDao.setOrderNumber(currentOrder);
+            actionRepository.persist(actionDao);
+        }
         return Collections.emptyList();
     }
 }
