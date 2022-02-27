@@ -47,6 +47,7 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
     @Override
     public CreateScheduleDto mapCreateScheduleDto(Long applicationId, CreateScheduleModel createScheduleModel, Long testPlanId) {
         CreateScheduleDto createScheduleDto = new CreateScheduleDto();
+        createScheduleDto.setRetryCount(createScheduleModel.getRetryCount());
         createScheduleDto.setEnvironmentId(createScheduleModel.getEnvironmentId());
         createScheduleDto.setUserId(createScheduleModel.getUserId());
         createScheduleDto.setTestPlanId(testPlanId);

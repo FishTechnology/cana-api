@@ -5,7 +5,6 @@ import cana.codelessautomation.api.commons.exceptions.ValidationException;
 import cana.codelessautomation.api.commons.utilities.CanaUtility;
 import cana.codelessautomation.api.resources.schedule.service.dtos.*;
 import cana.codelessautomation.api.resources.schedule.service.processors.ScheduleServiceProcessor;
-import cana.codelessautomation.api.resources.schedule.service.repositories.ScheduleIterationRepository;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleStatusDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleEntity;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.entities.ScheduleSummaryEntity;
@@ -24,9 +23,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Inject
     ScheduleServiceProcessor scheduleServiceProcessor;
-
-    @Inject
-    ScheduleIterationRepository scheduleIterationRepository;
 
     @Override
     public List<ErrorMessageDto> createSchedule(CreateScheduleDto createScheduleDto) {

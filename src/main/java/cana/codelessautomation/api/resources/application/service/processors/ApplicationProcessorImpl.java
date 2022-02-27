@@ -29,11 +29,10 @@ public class ApplicationProcessorImpl implements ApplicationProcessor {
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
         }
-        return createSystemConfig(createApplicationDto);
+        return createApplicationConfig(createApplicationDto);
     }
 
-    @Override
-    public List<ErrorMessageDto> createSystemConfig(CreateApplicationDto createApplicationDto) {
+    public List<ErrorMessageDto> createApplicationConfig(CreateApplicationDto createApplicationDto) {
         return Collections.emptyList();
     }
 

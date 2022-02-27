@@ -32,4 +32,8 @@ public class ConfigRepository implements PanacheRepository<ConfigDao> {
     public List<ConfigDao> findByAppId(Long applicationId) {
         return list("applicationId = ?1 and isActive=true", applicationId);
     }
+
+    public List<ConfigDao> findConfigsByType(ConfigTypeDao configType) {
+        return list("type = ?1  and isActive=true", configType.name());
+    }
 }

@@ -31,6 +31,7 @@ public class CreateScheduleDto {
     private Long applicationId;
     private TestplanDao testplan;
     private ConfigDao environment;
+    private Integer retryCount;
     private CustomDetailDao customDetail;
     private CreateNotificationDto notification;
     private List<ScheduleDao> schedules;

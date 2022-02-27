@@ -13,6 +13,8 @@ public interface ConfigServiceProcessor {
 
     List<ErrorMessageDto> getConfigsByUserId(GetConfigsByConfigTypeDto getConfigsByConfigTypeDto);
 
+    List<ErrorMessageDto> getConfigByType(GetConfigsByConfigTypeDto getConfigsByConfigTypeDto);
+
     List<ErrorMessageDto> processorCreateConfig(CreateConfigDto createConfigDto);
 
     List<ErrorMessageDto> createConfig(CreateConfigDto createConfigDto);

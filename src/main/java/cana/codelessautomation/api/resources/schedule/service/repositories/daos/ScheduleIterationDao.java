@@ -51,4 +51,7 @@ public class ScheduleIterationDao {
     @JMap
     @Column(name = "total_duration")
     private String totalDuration;
+    @JMap
+    @Column(name = "retry_count")
+    private Integer retryCount;
 }

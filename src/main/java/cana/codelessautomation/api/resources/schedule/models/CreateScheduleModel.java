@@ -12,6 +12,7 @@ public class CreateScheduleModel {
     private Boolean isRecordVideoEnabled;
     private Boolean isDisableScreenshot;
     private Boolean isCaptureNetworkTraffic;
+    private Integer retryCount;
     @ValidEnumString(enumRef = BrowserType.class, message = ScheduleServiceErrorCode.getBrowserTypeInValidError)
     private String browserType;
     private CreateNotificationModel notification;

@@ -58,9 +58,16 @@ public class ConfigResourceMapperImpl implements ConfigResourceMapper {
         configModel.setType(configDao.getType());
         configModel.setName(configDao.getName());
         configModel.setComments(configDao.getComments());
-        configModel.setUserId(configDao.getUserId().toString());
+        
+        if (!Objects.isNull(configDao.getUserId())) {
+            configModel.setUserId(configDao.getUserId().toString());
+        }
         configModel.setIsActive(configDao.getIsActive());
-        configModel.setApplicationId(configDao.getApplicationId().toString());
+
+        if (!Objects.isNull(configDao.getApplicationId())) {
+            configModel.setApplicationId(configDao.getApplicationId().toString());
+        }
+
         if (!Objects.isNull(configDao.getIdentifier())) {
             configModel.setIdentifier(configDao.getIdentifier().toString());
         }

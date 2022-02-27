@@ -15,6 +15,7 @@ import org.apache.commons.lang3.EnumUtils;
 import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 public class ConfigKeyValueResourceMapperImpl implements ConfigKeyValueResourceMapper {
@@ -74,7 +75,10 @@ public class ConfigKeyValueResourceMapperImpl implements ConfigKeyValueResourceM
         configKeyValueModel.setModifiedBy(configKeyValueDao.getModifiedBy());
         configKeyValueModel.setCreatedOn(configKeyValueDao.getCreatedOn().toString());
         configKeyValueModel.setModifiedOn(configKeyValueDao.getModifiedOn().toString());
-        configKeyValueModel.setUserId(configKeyValueDao.getUserId().toString());
+        if (!Objects.isNull(configKeyValueModel.getUserId())) {
+            configKeyValueModel.setUserId(configKeyValueDao.getUserId().toString());
+        }
+
         configKeyValueModel.setComments(configKeyValueDao.getComments());
         configKeyValueModel.setIsActive(configKeyValueDao.getIsActive());
         configKeyValueModel.setType(configKeyValueDao.getType().name());

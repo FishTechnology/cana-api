@@ -7,6 +7,8 @@ import cana.codelessautomation.api.resources.config.services.configservice.dtos.
 import cana.codelessautomation.api.resources.config.services.configservice.dtos.GetConfigsByConfigTypeDto;
 import cana.codelessautomation.api.resources.config.services.configservice.processors.mappers.ConfigServiceProcessorMapper;
 import cana.codelessautomation.api.resources.config.services.configservice.repositories.ConfigRepository;
+import cana.codelessautomation.api.resources.config.services.configservice.repositories.daos.ConfigTypeDao;
+import org.apache.commons.collections.CollectionUtils;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,7 +26,22 @@ public class ConfigServiceProcessorImpl implements ConfigServiceProcessor {
 
     @Override
     public List<ErrorMessageDto> processorGetConfigsByAppId(GetConfigsByConfigTypeDto getConfigsByConfigTypeDto) {
+        var errors = getConfigByType(getConfigsByConfigTypeDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
         return getConfigsByUserId(getConfigsByConfigTypeDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> getConfigByType(GetConfigsByConfigTypeDto getConfigsByConfigTypeDto) {
+        var configDaos =
+                configRepository.findConfigsByType(getConfigsByConfigTypeDto.getConfigType());
+        if (Objects.isNull(configDaos)) {
+            return Collections.emptyList();
+        }
+        getConfigsByConfigTypeDto.setConfigDaos(configDaos);
+        return Collections.emptyList();
     }
 
     @Override
@@ -55,6 +72,10 @@ public class ConfigServiceProcessorImpl implements ConfigServiceProcessor {
 
     @Override
     public List<ErrorMessageDto> getConfigsByUserId(GetConfigsByConfigTypeDto getConfigsByConfigTypeDto) {
+
+        if (getConfigsByConfigTypeDto.getConfigType() == ConfigTypeDao.SYSTEM_VARIABLE) {
+            return Collections.emptyList();
+        }
         var configDaos =
                 configRepository.findByUserId(getConfigsByConfigTypeDto.getApplicationId(), getConfigsByConfigTypeDto.getConfigType());
 

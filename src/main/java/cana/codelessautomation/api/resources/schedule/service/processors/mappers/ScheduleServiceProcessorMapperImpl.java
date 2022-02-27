@@ -43,6 +43,7 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
         scheduleIterationDao.setIsRecordVideoEnabled(createScheduleDto.getIsRecordVideoEnabled());
         scheduleIterationDao.setIsCaptureNetworkTraffic(createScheduleDto.getIsCaptureNetworkTraffic());
         scheduleIterationDao.setBrowserType(createScheduleDto.getBrowserType());
+        scheduleIterationDao.setRetryCount(createScheduleDto.getRetryCount());
         return scheduleIterationDao;
     }
 
@@ -86,6 +87,7 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
     public ScheduleIterationDao mapScheduleIterationDao(ReScheduleStatusDto reScheduleStatusDto) {
         ScheduleIterationDao existingScheduleIteration = reScheduleStatusDto.getScheduleIteration();
         ScheduleIterationDao scheduleIterationDao = new ScheduleIterationDao();
+        scheduleIterationDao.setRetryCount(existingScheduleIteration.getRetryCount());
         scheduleIterationDao.setStatus(ScheduleStatusDao.QUEUE);
         scheduleIterationDao.setComments(reScheduleStatusDto.getComments());
         scheduleIterationDao.setScheduleId(reScheduleStatusDto.getScheduleId());

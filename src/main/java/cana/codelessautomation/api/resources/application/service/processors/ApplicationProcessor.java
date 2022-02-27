@@ -11,7 +11,7 @@ import java.util.List;
 public interface ApplicationProcessor {
     List<ErrorMessageDto> processCreateApplication(CreateApplicationDto createApplicationDto);
 
-    List<ErrorMessageDto> createSystemConfig(CreateApplicationDto createApplicationDto);
+    List<ErrorMessageDto> createApplicationConfig(CreateApplicationDto createApplicationDto);
 
     List<ErrorMessageDto> createApplication(CreateApplicationDto createApplicationDto);
 
