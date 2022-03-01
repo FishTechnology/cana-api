@@ -52,6 +52,7 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionOptionDao.setModifiedOn(OffsetDateTime.now());
         actionOptionDao.setCreatedBy(createActionDto.getCreatedBy());
         actionOptionDao.setModifiedBy(createActionDto.getModifiedBy());
+        actionOptionDao.setDuration(createActionOptionDto.getDuration());
         actionOptionDao.setConditionType(createActionOptionDto.getConditionType());
         return actionOptionDao;
     }

@@ -50,6 +50,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
             createActionOptionDto.setOptionType(EnumUtils.getEnumIgnoreCase(ActionOptionTypeDao.class, createActionOptionModel.getOptionType()));
             createActionOptionDto.setWaitDuration(createActionOptionModel.getWaitDuration());
             createActionOptionDto.setOrder(createActionOptionModel.getOrder());
+            createActionOptionDto.setDuration(createActionOptionModel.getDuration());
             createActionOptionDto.setConditionType(EnumUtils.getEnumIgnoreCase(UIOptionConditionTypeDao.class, createActionOptionModel.getConditionType()));
             createActionOptionDtos.add(createActionOptionDto);
         }

@@ -10,4 +10,5 @@ public class CreateActionOptionDto {
     private Long waitDuration;
     private Long order;
     private UIOptionConditionTypeDao conditionType;
+    private Long duration;
 }

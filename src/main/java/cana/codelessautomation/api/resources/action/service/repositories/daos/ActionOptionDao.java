@@ -33,6 +33,8 @@ public class ActionOptionDao {
     @JMap
     private Boolean isActive;
     @JMap
+    private Long duration;
+    @JMap
     @Enumerated(EnumType.STRING)
     @Column(name = "condition_type")
     private UIOptionConditionTypeDao conditionType;
