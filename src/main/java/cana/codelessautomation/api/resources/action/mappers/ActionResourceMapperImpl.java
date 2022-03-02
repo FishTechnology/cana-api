@@ -30,6 +30,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
         createActionDto.setIsAssertVerification(createActionModel.getIsAssertVerification());
         createActionDto.setUiActionType(EnumUtils.getEnumIgnoreCase(UIActionTypeDao.class, createActionModel.getUiActionType()));
         createActionDto.setIsOptional(createActionModel.getIsOptional());
+        createActionDto.setConditionType(EnumUtils.getEnumIgnoreCase(ConditionType.class, createActionModel.getConditionType()));
         List<CreateActionOptionDto> createActionOptionDtos = new ArrayList<>();
 
         if (createActionModel.getBrowserOptions() != null) {

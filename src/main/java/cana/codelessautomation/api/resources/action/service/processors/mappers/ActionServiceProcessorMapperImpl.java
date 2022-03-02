@@ -30,6 +30,7 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionDao.setUiActionType(createActionDto.getUiActionType());
         actionDao.setIsAssertVerification(createActionDto.getIsAssertVerification());
         actionDao.setIsOptional(createActionDto.getIsOptional());
+        actionDao.setConditionType(createActionDto.getConditionType());
         if (createActionDto.getBrowserDetailDto() != null
                 && createActionDto.getBrowserDetailDto().getActionType() != null) {
             actionDao.setBrowserActionType(createActionDto.getBrowserDetailDto().getActionType());

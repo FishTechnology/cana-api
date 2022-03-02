@@ -1,6 +1,7 @@
 package cana.codelessautomation.api.resources.action.service.dtos;
 
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionTypeDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ConditionType;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.UIActionTypeDao;
 import cana.codelessautomation.api.resources.customer.service.repository.daos.CustomDetailDao;
 import cana.codelessautomation.api.resources.testcase.service.repositories.daos.TestCaseDao;
@@ -31,4 +32,5 @@ public class CreateActionDto {
     private List<CreateActionOptionDto> optionDtos;
     private BrowserDetailDto browserDetailDto;
     private Boolean isOptional;
+    private ConditionType conditionType;
 }

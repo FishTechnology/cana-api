@@ -3,6 +3,7 @@ package cana.codelessautomation.api.resources.action.models;
 import cana.codelessautomation.api.commons.validators.ValidEnumString;
 import cana.codelessautomation.api.resources.action.service.errorcodes.ActionErrorCode;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionTypeDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ConditionType;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.UIActionTypeDao;
 import lombok.Data;
 
@@ -33,4 +34,6 @@ public class CreateActionModel {
     @Valid
     private BrowserDetailModel browserOptions;
     private Boolean isOptional;
+    @ValidEnumString(enumRef = ConditionType.class, isOptional = true, message = ActionErrorCode.getActionConditionTypeInValid)
+    private String conditionType;
 }
