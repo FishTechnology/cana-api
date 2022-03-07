@@ -66,7 +66,7 @@ public class GlobalVariableProcessorMapperImpl implements GlobalVariableProcesso
         actionOptionDao.setActionId(createGlobalVariable.getId());
         actionOptionDao.setOptionType(uiControlOptionDto.getOptionType());
         actionOptionDao.setOrderNumber(uiControlOptionDto.getOrder());
-        actionOptionDao.setWaitDuration(uiControlOptionDto.getWaitDuration());
+        actionOptionDao.setDuration(uiControlOptionDto.getWaitDuration());
         actionOptionDao.setCreatedBy(createGlobalVariable.getCreatedBy());
         actionOptionDao.setCreatedOn(OffsetDateTime.now());
         actionOptionDao.setIsActive(createGlobalVariable.getIsActive());

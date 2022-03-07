@@ -1,9 +1,7 @@
 package cana.codelessautomation.api.resources.action.service.repositories.daos;
 
 public enum ActionOptionTypeDao {
-    WAIT_FOR,
+    CONTROL,
     WAIT,
-    OPTIONAL,
-    CONTAINS,
-    SIZE
+    CONTENT,
 }

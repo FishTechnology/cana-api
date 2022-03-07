@@ -1,6 +1,6 @@
 package cana.codelessautomation.api.resources.action.service.repositories.daos;
 
-public enum UIOptionConditionTypeDao {
+public enum UIOptionControlTypeDao {
     VISIBLE,
     EXIST,
     HIDDEN,

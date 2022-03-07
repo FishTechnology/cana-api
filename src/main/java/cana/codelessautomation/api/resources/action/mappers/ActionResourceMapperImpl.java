@@ -52,7 +52,9 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
             createActionOptionDto.setWaitDuration(createActionOptionModel.getWaitDuration());
             createActionOptionDto.setOrder(createActionOptionModel.getOrder());
             createActionOptionDto.setDuration(createActionOptionModel.getDuration());
-            createActionOptionDto.setConditionType(EnumUtils.getEnumIgnoreCase(UIOptionConditionTypeDao.class, createActionOptionModel.getConditionType()));
+            createActionOptionDto.setOptionalControlType(EnumUtils.getEnumIgnoreCase(UIOptionControlTypeDao.class, createActionOptionModel.getOptionControlType()));
+            createActionOptionDto.setValue(createActionOptionModel.getValue());
+            createActionOptionDto.setOptionContentType(EnumUtils.getEnumIgnoreCase(UIOptionContentTypeDao.class, createActionOptionModel.getOptionContentType()));
             createActionOptionDtos.add(createActionOptionDto);
         }
         createActionDto.setOptionDtos(createActionOptionDtos);
@@ -124,9 +126,13 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
                 actionOptionModel.setCreatedOn(actionOptionDao.getCreatedOn().toString());
                 actionOptionModel.setOptionType(actionOptionDao.getOptionType().name());
                 actionOptionModel.setOrder(actionOptionDao.getOrderNumber());
-                actionOptionModel.setWaitDuration(actionOptionDao.getWaitDuration());
-                if (!Objects.isNull(actionOptionDao.getConditionType())) {
-                    actionOptionModel.setConditionType(actionOptionDao.getConditionType().name());
+                actionOptionModel.setDuration(actionOptionDao.getDuration());
+                if (!Objects.isNull(actionOptionDao.getControlType())) {
+                    actionOptionModel.setControlType(actionOptionDao.getControlType().name());
+                }
+
+                if (!Objects.isNull(actionOptionDao.getContentType())) {
+                    actionOptionModel.setContentType(actionOptionDao.getContentType().name());
                 }
 
                 actionOptionModels.add(actionOptionModel);
@@ -169,7 +175,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
                 ActionOptionModel actionOptionModel = new ActionOptionModel();
                 actionOptionModel.setOptionType(actionOptionDao.getOptionType().name());
                 actionOptionModel.setOrder(actionOptionDao.getOrderNumber());
-                actionOptionModel.setWaitDuration(actionOptionDao.getWaitDuration());
+                actionOptionModel.setDuration(actionOptionDao.getDuration());
                 actionOptionModels.add(actionOptionModel);
             }
             scheduledActionDetail.setActionOptionModels(actionOptionModels);

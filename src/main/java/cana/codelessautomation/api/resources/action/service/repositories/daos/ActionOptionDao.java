@@ -19,8 +19,6 @@ public class ActionOptionDao {
     @Enumerated(EnumType.STRING)
     private ActionOptionTypeDao optionType;
     @JMap
-    private Long waitDuration;
-    @JMap
     private Long orderNumber;
     @JMap
     private OffsetDateTime createdOn;
@@ -35,7 +33,14 @@ public class ActionOptionDao {
     @JMap
     private Long duration;
     @JMap
+    private String value;
+    @JMap
     @Enumerated(EnumType.STRING)
-    @Column(name = "condition_type")
-    private UIOptionConditionTypeDao conditionType;
+    @Column(name = "control_type")
+    private UIOptionControlTypeDao controlType;
+
+    @JMap
+    @Enumerated(EnumType.STRING)
+    @Column(name = "content_type")
+    private UIOptionContentTypeDao contentType;
 }

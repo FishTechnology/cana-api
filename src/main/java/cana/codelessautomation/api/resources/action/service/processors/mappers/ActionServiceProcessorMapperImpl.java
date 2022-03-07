@@ -46,7 +46,7 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         ActionOptionDao actionOptionDao = new ActionOptionDao();
         actionOptionDao.setActionId(createActionDto.getId());
         actionOptionDao.setOrderNumber(createActionOptionDto.getOrder());
-        actionOptionDao.setWaitDuration(createActionOptionDto.getWaitDuration());
+        actionOptionDao.setDuration(createActionOptionDto.getWaitDuration());
         actionOptionDao.setOptionType(createActionOptionDto.getOptionType());
         actionOptionDao.setIsActive(createActionDto.getIsActive());
         actionOptionDao.setCreatedOn(OffsetDateTime.now());
@@ -54,7 +54,9 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionOptionDao.setCreatedBy(createActionDto.getCreatedBy());
         actionOptionDao.setModifiedBy(createActionDto.getModifiedBy());
         actionOptionDao.setDuration(createActionOptionDto.getDuration());
-        actionOptionDao.setConditionType(createActionOptionDto.getConditionType());
+        actionOptionDao.setControlType(createActionOptionDto.getOptionalControlType());
+        actionOptionDao.setValue(createActionOptionDto.getValue());
+        actionOptionDao.setContentType(createActionOptionDto.getOptionContentType());
         return actionOptionDao;
     }
 

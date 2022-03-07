@@ -17,10 +17,11 @@ public class ActionErrorCode extends BaseErrorCode {
     public static final String getActionBrowserActionTypeIsNotValid = "CanaApi.{0}.{1}.Action.Browser.ActionType.IsNotValid";
     public static final String getActionBrowserActionTypeIsEmpty = "CanaApi.{0}.{1}.Action.Browser.ActionType.IsEmpty";
     public static final String getActionBrowserActionTypeIsNull = "CanaApi.{0}.{1}.Action.Browser.ActionType.IsNull";
-    public static final String getActionUIOptionConditionTypeIsInValid = "CanaApi.{0}.{1}.Action.UIOption.ConditionType.IsNotValid";
+    public static final String getActionUIOptionControlTypeIsInValid = "CanaApi.{0}.{1}.Action.UIOption.ConditionType.IsNotValid";
     public static final String getActionUIOptionConditionTypeIsNull = "CanaApi.{0}.{1}.Action.UIOption.ConditionType.Null";
     public static final String getActionUIOptionConditionTypeIsEmpty = "CanaApi.{0}.{1}.Action.UIOption.ConditionType.Empty";
     public static final String getActionConditionTypeInValid = "CanaApi.{0}.{1}.Action.ConditionType.IsNotValid";
+    public static final String getActionUIOptionContentTypeIsInValid = "CanaApi.{0}.{1}.Action.AssertType.IsNotValid";
 
     public static final String getTestCaseIdAndActionNotMapped() {
         return "CanaApi.{0}.{1}.TestCaseId.And.ActionId.Not.Mapped";

@@ -3,7 +3,8 @@ package cana.codelessautomation.api.resources.action.models;
 import cana.codelessautomation.api.commons.validators.ValidEnumString;
 import cana.codelessautomation.api.resources.action.service.errorcodes.ActionErrorCode;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionOptionTypeDao;
-import cana.codelessautomation.api.resources.action.service.repositories.daos.UIOptionConditionTypeDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.UIOptionContentTypeDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.UIOptionControlTypeDao;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -20,9 +21,18 @@ public class CreateActionOptionModel {
     private Long order;
     //@NotEmpty(message = ActionErrorCode.getActionUIOptionConditionTypeIsEmpty)
     //@NotNull(message = ActionErrorCode.getActionUIOptionConditionTypeIsNull)
-    @ValidEnumString(enumRef = UIOptionConditionTypeDao.class, isOptional = true, message = ActionErrorCode.getActionUIOptionConditionTypeIsInValid)
-    private String conditionType;
+    @ValidEnumString(enumRef = UIOptionControlTypeDao.class, isOptional = true, message = ActionErrorCode.getActionUIOptionControlTypeIsInValid)
+    private String OptionControlType;
+
+    @ValidEnumString(enumRef = UIOptionContentTypeDao.class, isOptional = true, message = ActionErrorCode.getActionUIOptionContentTypeIsInValid)
+    private String optionContentType;
 
     @DefaultValue("4")
     private Long duration;
+
+    @DefaultValue("false")
+    private Boolean isValueValidation;
+
+    @DefaultValue("4")
+    private String value;
 }
