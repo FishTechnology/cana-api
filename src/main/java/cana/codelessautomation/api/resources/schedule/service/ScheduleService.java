@@ -31,4 +31,6 @@ public interface ScheduleService {
     ScheduleEntity getRunningSchedule();
 
     ScheduleEntity getScheduleToExecute();
+
+    List<ErrorMessageDto> updateScheduleSession(UpdateScheduleSessionDto updateScheduleSessionDto);
 }

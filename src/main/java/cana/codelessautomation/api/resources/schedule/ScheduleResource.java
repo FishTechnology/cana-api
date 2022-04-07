@@ -177,6 +177,22 @@ public class ScheduleResource {
         return Collections.emptyList();
     }
 
+    @PUT
+    @Path("schedules/{scheduleId}/iterations/{iterationId}/session")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
+    public List<ErrorMessageModel> updateScheduleSession(@Valid @PathParam Long scheduleId,
+                                                         @Valid @PathParam Long iterationId,
+                                                         @Valid UpdateScheduleSessionModel updateScheduleSession) throws ValidationException {
+        var updateScheduleSessionDto = scheduleResourceMapper.mapUpdateScheduleSessionDto(scheduleId, iterationId, updateScheduleSession);
+        var errors = scheduleService.updateScheduleSession(updateScheduleSessionDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return CanaUtility.getErrorMessageModels(errors);
+        }
+        return Collections.emptyList();
+    }
+
     private List<ErrorMessageModel> updateScheduleStatus(UpdateScheduleStatusReadyDto updateScheduleStatusReadyDto) {
         var errors = scheduleService.updateScheduleStatus(updateScheduleStatusReadyDto);
         if (CollectionUtils.isNotEmpty(errors)) {

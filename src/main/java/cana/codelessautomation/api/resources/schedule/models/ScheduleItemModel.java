@@ -9,4 +9,5 @@ public class ScheduleItemModel {
     private String environmentName;
     private String status;
     private String lastExecute;
+    private String sessionId;
 }

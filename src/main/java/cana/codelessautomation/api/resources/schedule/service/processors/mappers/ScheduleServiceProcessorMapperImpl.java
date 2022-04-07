@@ -3,6 +3,7 @@ package cana.codelessautomation.api.resources.schedule.service.processors.mapper
 import cana.codelessautomation.api.commons.CanaConstants;
 import cana.codelessautomation.api.resources.schedule.service.dtos.CreateScheduleDto;
 import cana.codelessautomation.api.resources.schedule.service.dtos.ReScheduleStatusDto;
+import cana.codelessautomation.api.resources.schedule.service.dtos.UpdateScheduleSessionDto;
 import cana.codelessautomation.api.resources.schedule.service.dtos.UpdateScheduleStatusReadyDto;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleIterationDao;
@@ -107,6 +108,13 @@ public class ScheduleServiceProcessorMapperImpl implements ScheduleServiceProces
         scheduleIterationDao.setStatus(ScheduleStatusDao.RE_SCHEDULE);
         scheduleIterationDao.setModifiedOn(OffsetDateTime.now());
         scheduleIterationDao.setModifiedBy(reScheduleStatusDto.getModifiedBy());
+        return scheduleIterationDao;
+    }
+
+    @Override
+    public ScheduleIterationDao mapScheduleIterationSession(UpdateScheduleSessionDto updateScheduleSessionDto, ScheduleIterationDao scheduleIterationDao) {
+        scheduleIterationDao.setSessionId(updateScheduleSessionDto.getSessionId());
+        scheduleIterationDao.setModifiedOn(OffsetDateTime.now());
         return scheduleIterationDao;
     }
 }

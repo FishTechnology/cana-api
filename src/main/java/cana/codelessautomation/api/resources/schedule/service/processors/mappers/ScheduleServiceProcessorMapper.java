@@ -2,6 +2,7 @@ package cana.codelessautomation.api.resources.schedule.service.processors.mapper
 
 import cana.codelessautomation.api.resources.schedule.service.dtos.CreateScheduleDto;
 import cana.codelessautomation.api.resources.schedule.service.dtos.ReScheduleStatusDto;
+import cana.codelessautomation.api.resources.schedule.service.dtos.UpdateScheduleSessionDto;
 import cana.codelessautomation.api.resources.schedule.service.dtos.UpdateScheduleStatusReadyDto;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleDao;
 import cana.codelessautomation.api.resources.schedule.service.repositories.daos.ScheduleIterationDao;
@@ -20,4 +21,6 @@ public interface ScheduleServiceProcessorMapper {
     ScheduleIterationDao mapScheduleIterationDao(ReScheduleStatusDto reScheduleStatusDto);
 
     ScheduleIterationDao mapScheduleIterationDao(ReScheduleStatusDto reScheduleStatusDto, ScheduleIterationDao scheduleIterationDao);
+
+    ScheduleIterationDao mapScheduleIterationSession(UpdateScheduleSessionDto updateScheduleSessionDto, ScheduleIterationDao scheduleIterationDao);
 }

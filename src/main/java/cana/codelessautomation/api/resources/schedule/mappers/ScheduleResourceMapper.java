@@ -61,4 +61,6 @@ public interface ScheduleResourceMapper {
     ScheduleIterationsDto mapScheduleIterationsDto(Long scheduleId, Long scheduleIterationId);
 
     GetScheduleIterationsDto mapGetScheduleIterationsDto(Long applicationId, Long scheduleId);
+
+    UpdateScheduleSessionDto mapUpdateScheduleSessionDto(Long scheduleId, Long iterationId, UpdateScheduleSessionModel updateScheduleSession);
 }

@@ -55,6 +55,7 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         createScheduleDto.setIsCaptureNetworkTraffic(createScheduleModel.getIsCaptureNetworkTraffic());
         createScheduleDto.setIsDisableScreenshot(createScheduleModel.getIsDisableScreenshot());
         createScheduleDto.setIsRecordVideoEnabled(createScheduleModel.getIsRecordVideoEnabled());
+        createScheduleDto.setResolution(createScheduleModel.getResolution());
         createScheduleDto.setBrowserType(EnumUtils.getEnumIgnoreCase(BrowserType.class, createScheduleModel.getBrowserType()));
         if (createScheduleModel.getNotification() != null) {
             createScheduleDto.setNotification(new CreateNotificationDto());
@@ -89,6 +90,7 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
             }
             scheduleItemModel.setEnvironmentName(scheduleDao.getEnvironmentDaos().getName());
             scheduleItemModel.setTestplanName(scheduleDao.getTestplanDaos().getName());
+            scheduleItemModel.setSessionId(scheduleIteration.getSessionId());
             scheduleItemModels.add(scheduleItemModel);
         }
         schedulePageModel.setScheduleItem(scheduleItemModels);
@@ -121,6 +123,8 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         scheduleIterationModel.setIsRecordVideoEnabled(scheduleIterationDao.getIsRecordVideoEnabled());
         scheduleIterationModel.setIsCaptureNetworkTraffic(scheduleIterationDao.getIsCaptureNetworkTraffic());
         scheduleIterationModel.setBrowserType(scheduleIterationDao.getBrowserType().name());
+        scheduleIterationModel.setSessionId(scheduleIterationDao.getSessionId());
+        scheduleIterationModel.setResolution(scheduleIterationDao.getResolution());
         return scheduleIterationModel;
     }
 
@@ -318,5 +322,14 @@ public class ScheduleResourceMapperImpl implements ScheduleResourceMapper {
         getScheduleIterationsDto.setScheduleId(scheduleId);
         getScheduleIterationsDto.setApplicationId(applicationId);
         return getScheduleIterationsDto;
+    }
+
+    @Override
+    public UpdateScheduleSessionDto mapUpdateScheduleSessionDto(Long scheduleId, Long iterationId, UpdateScheduleSessionModel updateScheduleSessionModel) {
+        UpdateScheduleSessionDto updateScheduleSession = new UpdateScheduleSessionDto();
+        updateScheduleSession.setSessionId(updateScheduleSessionModel.getSessionId());
+        updateScheduleSession.setScheduleId(scheduleId);
+        updateScheduleSession.setIterationId(iterationId);
+        return updateScheduleSession;
     }
 }

@@ -35,4 +35,8 @@ public class ScheduleServiceErrorCode extends BaseErrorCode {
     public String getTestPlanIsAlreadyScheduled() {
         return "CanaApi." + getResourceName() + "." + getHttpMethod() + ".TestPlan.Already.Scheduled";
     }
+
+    public String getScheduleIterationIsEmpty() {
+        return "CanaApi." + getResourceName() + "." + getHttpMethod() + ".Schedule.ScheduleIteration.Is.Empty";
+    }
 }

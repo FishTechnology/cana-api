@@ -52,7 +52,7 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
             createActionOptionDto.setWaitDuration(createActionOptionModel.getWaitDuration());
             createActionOptionDto.setOrder(createActionOptionModel.getOrder());
             createActionOptionDto.setDuration(createActionOptionModel.getDuration());
-            createActionOptionDto.setOptionalControlType(EnumUtils.getEnumIgnoreCase(UIOptionControlTypeDao.class, createActionOptionModel.getOptionControlType()));
+            createActionOptionDto.setControlConditionType(EnumUtils.getEnumIgnoreCase(UIControlConditionTypeDao.class, createActionOptionModel.getControlConditionType()));
             createActionOptionDto.setValue(createActionOptionModel.getValue());
             createActionOptionDto.setOptionContentType(EnumUtils.getEnumIgnoreCase(UIOptionContentTypeDao.class, createActionOptionModel.getOptionContentType()));
             createActionOptionDtos.add(createActionOptionDto);
@@ -127,8 +127,8 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
                 actionOptionModel.setOptionType(actionOptionDao.getOptionType().name());
                 actionOptionModel.setOrder(actionOptionDao.getOrderNumber());
                 actionOptionModel.setDuration(actionOptionDao.getDuration());
-                if (!Objects.isNull(actionOptionDao.getControlType())) {
-                    actionOptionModel.setControlType(actionOptionDao.getControlType().name());
+                if (!Objects.isNull(actionOptionDao.getControlConditionType())) {
+                    actionOptionModel.setControlConditionType(actionOptionDao.getControlConditionType().name());
                 }
 
                 if (!Objects.isNull(actionOptionDao.getContentType())) {

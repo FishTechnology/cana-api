@@ -35,4 +35,5 @@ public class CreateScheduleDto {
     private CustomDetailDao customDetail;
     private CreateNotificationDto notification;
     private List<ScheduleDao> schedules;
+    private String resolution;
 }

@@ -54,7 +54,7 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionOptionDao.setCreatedBy(createActionDto.getCreatedBy());
         actionOptionDao.setModifiedBy(createActionDto.getModifiedBy());
         actionOptionDao.setDuration(createActionOptionDto.getDuration());
-        actionOptionDao.setControlType(createActionOptionDto.getOptionalControlType());
+        actionOptionDao.setControlConditionType(createActionOptionDto.getControlConditionType());
         actionOptionDao.setValue(createActionOptionDto.getValue());
         actionOptionDao.setContentType(createActionOptionDto.getOptionContentType());
         return actionOptionDao;

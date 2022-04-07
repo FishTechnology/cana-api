@@ -184,6 +184,44 @@ public class ScheduleServiceVerifierImpl implements ScheduleServiceVerifier {
     }
 
     @Override
+    public List<ErrorMessageDto> verifyUpdateScheduleSession(UpdateScheduleSessionDto updateScheduleSessionDto) {
+        var errors = isScheduleIdValid(updateScheduleSessionDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
+        return isIterationIdValid(updateScheduleSessionDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> isIterationIdValid(UpdateScheduleSessionDto updateScheduleSessionDto) {
+        if (CollectionUtils.isEmpty(updateScheduleSessionDto.getSchedule().getScheduleIterations())) {
+            return CanaUtility.getErrorMessages(scheduleServiceErrorCode.getScheduleIterationIsEmpty(), "ScheduleIteration empty for scheduleId=" + updateScheduleSessionDto.getScheduleId());
+        }
+        var iteration = updateScheduleSessionDto
+                .getSchedule()
+                .getScheduleIterations()
+                .stream()
+                .filter(iter -> Objects.equals(iter.getId(), updateScheduleSessionDto.getIterationId()))
+                .findFirst();
+
+        if (iteration.isEmpty()) {
+            return CanaUtility.getErrorMessages(scheduleServiceErrorCode.getScheduleIterationNotFound(), "ScheduleIteration is not found for IterationId=" + updateScheduleSessionDto.getIterationId());
+        }
+
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<ErrorMessageDto> isScheduleIdValid(UpdateScheduleSessionDto updateScheduleSessionDto) {
+        var response = isScheduleIdValid(updateScheduleSessionDto.getScheduleId());
+        if (CollectionUtils.isNotEmpty(response.getKey())) {
+            return response.getKey();
+        }
+        updateScheduleSessionDto.setSchedule(response.getValue());
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<ErrorMessageDto> isScheduleIdValid(GetScheduleIterationsDto getScheduleIterationsDto) {
         var response = isScheduleIdValid(getScheduleIterationsDto.getScheduleId());
         if (CollectionUtils.isNotEmpty(response.getKey())) {

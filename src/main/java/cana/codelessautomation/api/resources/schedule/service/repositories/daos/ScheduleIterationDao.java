@@ -54,4 +54,9 @@ public class ScheduleIterationDao {
     @JMap
     @Column(name = "retry_count")
     private Integer retryCount;
+    @JMap
+    @Column(name = "session_id")
+    private String sessionId;
+    @JMap
+    private String resolution;
 }

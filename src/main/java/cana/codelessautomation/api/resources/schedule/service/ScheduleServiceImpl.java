@@ -125,4 +125,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleEntity getScheduleToExecute() {
         return ScheduleEntity.findByStatus(ScheduleStatusDao.QUEUE);
     }
+
+    @Override
+    public List<ErrorMessageDto> updateScheduleSession(UpdateScheduleSessionDto updateScheduleSessionDto) {
+        var errors = scheduleServiceVerifier.verifyUpdateScheduleSession(updateScheduleSessionDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            throw new ValidationException(CanaUtility.getErrorMessageModels(errors));
+        }
+        return scheduleServiceProcessor.processUpdateScheduleSession(updateScheduleSessionDto);
+    }
 }

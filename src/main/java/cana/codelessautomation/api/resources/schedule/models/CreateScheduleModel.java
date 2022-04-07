@@ -15,5 +15,6 @@ public class CreateScheduleModel {
     private Integer retryCount;
     @ValidEnumString(enumRef = BrowserType.class, message = ScheduleServiceErrorCode.getBrowserTypeInValidError)
     private String browserType;
+    private String resolution;
     private CreateNotificationModel notification;
 }
