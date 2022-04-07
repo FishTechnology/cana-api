@@ -10,5 +10,5 @@ public class UpdateScheduleSessionDto {
     private Long iterationId;
     private String sessionId;
     private ScheduleDao schedule;
-    private ApplicationDao applicationDao;
+    private ApplicationDao application;
 }
