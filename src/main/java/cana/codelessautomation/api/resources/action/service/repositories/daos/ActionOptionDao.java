@@ -36,7 +36,7 @@ public class ActionOptionDao {
     private String value;
     @JMap
     @Enumerated(EnumType.STRING)
-    @Column(name = "control_type")
+    @Column(name = "control_condition_type")
     private UIControlConditionTypeDao controlConditionType;
 
     @JMap
