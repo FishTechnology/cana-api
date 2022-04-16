@@ -2,6 +2,7 @@ package cana.codelessautomation.api.resources.action.mappers;
 
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.action.models.ActionDetailModel;
+import cana.codelessautomation.api.resources.action.models.ActionKeyModel;
 import cana.codelessautomation.api.resources.action.models.CreateActionModel;
 import cana.codelessautomation.api.resources.action.models.UpdateActionOrderModel;
 import cana.codelessautomation.api.resources.action.service.dtos.CreateActionDto;
@@ -9,6 +10,7 @@ import cana.codelessautomation.api.resources.action.service.dtos.DeleteActionByI
 import cana.codelessautomation.api.resources.action.service.dtos.GetActionsByTestCaseIdDto;
 import cana.codelessautomation.api.resources.action.service.dtos.UpdateActionOrderDto;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionKeyDao;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.entities.ActionDaoEntity;
 import cana.codelessautomation.api.resources.commonmodels.ResultModel;
 import cana.codelessautomation.api.resources.schedule.models.ScheduledActionDetailModel;
@@ -25,6 +27,8 @@ public interface ActionResourceMapper {
     List<ActionDetailModel> mapActionDetailModels(GetActionsByTestCaseIdDto getActionsByTestCaseIdDto);
 
     ActionDetailModel mapActionDetailModel(ActionDao actionDao);
+
+    List<ActionKeyModel> mapActionKeys(List<ActionKeyDao> actionKeys);
 
     ScheduledActionDetailModel mapScheduledActionDetailModel(ActionDaoEntity actionDaoEntity);
 

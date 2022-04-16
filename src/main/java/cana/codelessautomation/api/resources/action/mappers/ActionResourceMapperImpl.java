@@ -33,6 +33,17 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
         createActionDto.setConditionType(EnumUtils.getEnumIgnoreCase(ConditionType.class, createActionModel.getConditionType()));
         List<CreateActionOptionDto> createActionOptionDtos = new ArrayList<>();
 
+        if (CollectionUtils.isNotEmpty(createActionModel.getUiActionKeys())) {
+            List<UIKeyDetailDto> uiKeyDetailDtos = new ArrayList<>();
+            for (CreateActionKeyModel createActionKeyModel : createActionModel.getUiActionKeys()) {
+                UIKeyDetailDto uiKeyDetailDto = new UIKeyDetailDto();
+                uiKeyDetailDto.setOrderNumber(createActionKeyModel.getOrderNumber());
+                uiKeyDetailDto.setKey(EnumUtils.getEnumIgnoreCase(UIKey.class, createActionKeyModel.getKey()));
+                uiKeyDetailDtos.add(uiKeyDetailDto);
+            }
+            createActionDto.setUiActionKeys(uiKeyDetailDtos);
+        }
+
         if (createActionModel.getBrowserOptions() != null) {
             BrowserDetailDto browserDetailDto = new BrowserDetailDto();
             browserDetailDto.setActionType(EnumUtils.getEnumIgnoreCase(BrowserActionTypeDao.class, createActionModel.getBrowserOptions().getActionType()));
@@ -111,6 +122,10 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
             actionDetailModel.setConditionType(actionDao.getConditionType().name());
         }
 
+        if (CollectionUtils.isNotEmpty(actionDao.getActionKeys())) {
+            actionDetailModel.setActionKeys(mapActionKeys(actionDao.getActionKeys()));
+        }
+
         if (CollectionUtils.isNotEmpty(actionDao.getActionOptionDaos())) {
             List<ActionOptionModel> actionOptionModels = new ArrayList<>();
             for (ActionOptionDao actionOptionDao : actionDao.getActionOptionDaos()) {
@@ -146,6 +161,25 @@ public class ActionResourceMapperImpl implements ActionResourceMapper {
         actionDetailModel.setBrowserValue(actionDao.getBrowserValue());
         actionDetailModel.setIsAssertVerification(actionDao.getIsAssertVerification());
         return actionDetailModel;
+    }
+
+    @Override
+    public List<ActionKeyModel> mapActionKeys(List<ActionKeyDao> actionKeys) {
+        List<ActionKeyModel> actionKeyModels = new ArrayList<>();
+        for (ActionKeyDao actionKeyDao : actionKeys) {
+            ActionKeyModel actionOptionModel = new ActionKeyModel();
+            actionOptionModel.setId(actionKeyDao.getId());
+            actionOptionModel.setActionId(actionKeyDao.getActionId());
+            actionOptionModel.setKey(actionKeyDao.getKey().name());
+            actionOptionModel.setModifiedBy(actionKeyDao.getModifiedBy());
+            actionOptionModel.setModifiedOn(actionKeyDao.getModifiedOn().toString());
+            actionOptionModel.setCreatedBy(actionKeyDao.getCreatedBy());
+            actionOptionModel.setCreatedOn(actionKeyDao.getCreatedOn().toString());
+            actionOptionModel.setIsActive(actionKeyDao.getIsActive());
+            actionKeyModels.add(actionOptionModel);
+        }
+
+        return actionKeyModels;
     }
 
     @Override

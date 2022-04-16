@@ -1,10 +1,8 @@
 package cana.codelessautomation.api.resources.action.service.processors.mappers;
 
-import cana.codelessautomation.api.resources.action.service.dtos.ActionOrderDto;
-import cana.codelessautomation.api.resources.action.service.dtos.CreateActionDto;
-import cana.codelessautomation.api.resources.action.service.dtos.CreateActionOptionDto;
-import cana.codelessautomation.api.resources.action.service.dtos.UpdateActionOrderDto;
+import cana.codelessautomation.api.resources.action.service.dtos.*;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionKeyDao;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionOptionDao;
 
 public interface ActionServiceProcessorMapper {
@@ -15,4 +13,6 @@ public interface ActionServiceProcessorMapper {
     ActionDao mapDeleteActionDao(ActionDao actionDao);
 
     ActionDao mapActionDao(UpdateActionOrderDto updateActionOrderDto, ActionOrderDto actionOrderDto);
+
+    ActionKeyDao mapActionKeyDao(CreateActionDto createActionDto, UIKeyDetailDto uiKeyDetailDto);
 }

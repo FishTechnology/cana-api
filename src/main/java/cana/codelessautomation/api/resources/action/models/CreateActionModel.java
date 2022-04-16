@@ -32,6 +32,8 @@ public class CreateActionModel {
     @Valid
     private List<CreateActionOptionModel> uiControlOptions;
     @Valid
+    private List<CreateActionKeyModel> uiActionKeys;
+    @Valid
     private BrowserDetailModel browserOptions;
     private Boolean isOptional;
     @ValidEnumString(enumRef = ConditionType.class, isOptional = true, message = ActionErrorCode.getActionConditionTypeInValid)

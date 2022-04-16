@@ -3,6 +3,7 @@ package cana.codelessautomation.api.resources.action.service.processors;
 import cana.codelessautomation.api.commons.dtos.ErrorMessageDto;
 import cana.codelessautomation.api.resources.action.service.dtos.*;
 import cana.codelessautomation.api.resources.action.service.processors.mappers.ActionServiceProcessorMapper;
+import cana.codelessautomation.api.resources.action.service.repositories.ActionKeyRepository;
 import cana.codelessautomation.api.resources.action.service.repositories.ActionOptionRepository;
 import cana.codelessautomation.api.resources.action.service.repositories.ActionRepository;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionDao;
@@ -26,6 +27,9 @@ public class ActionServiceProcessorImpl implements ActionServiceProcessor {
     @Inject
     ActionOptionRepository actionOptionRepository;
 
+    @Inject
+    ActionKeyRepository actionKeyRepository;
+
     @Override
     public List<ErrorMessageDto> processCreateAction(CreateActionDto createActionDto) {
         var errors = getActionOrder(createActionDto);
@@ -36,7 +40,25 @@ public class ActionServiceProcessorImpl implements ActionServiceProcessor {
         if (CollectionUtils.isNotEmpty(errors)) {
             return errors;
         }
+        errors = createActionKey(createActionDto);
+        if (CollectionUtils.isNotEmpty(errors)) {
+            return errors;
+        }
         return createActionOption(createActionDto);
+    }
+
+    @Override
+    public List<ErrorMessageDto> createActionKey(CreateActionDto createActionDto) {
+        if (CollectionUtils.isEmpty(createActionDto.getUiActionKeys())) {
+            return Collections.emptyList();
+        }
+
+        for (UIKeyDetailDto uiKeyDetailDto : createActionDto.getUiActionKeys()) {
+            var actionKeyDao = actionServiceProcessorMapper.mapActionKeyDao(createActionDto, uiKeyDetailDto);
+            actionKeyRepository.persist(actionKeyDao);
+        }
+
+        return Collections.emptyList();
     }
 
     @Override

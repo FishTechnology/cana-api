@@ -33,4 +33,5 @@ public class CreateActionDto {
     private BrowserDetailDto browserDetailDto;
     private Boolean isOptional;
     private ConditionType conditionType;
+    private List<UIKeyDetailDto> uiActionKeys;
 }

@@ -1,10 +1,8 @@
 package cana.codelessautomation.api.resources.action.service.processors.mappers;
 
-import cana.codelessautomation.api.resources.action.service.dtos.ActionOrderDto;
-import cana.codelessautomation.api.resources.action.service.dtos.CreateActionDto;
-import cana.codelessautomation.api.resources.action.service.dtos.CreateActionOptionDto;
-import cana.codelessautomation.api.resources.action.service.dtos.UpdateActionOrderDto;
+import cana.codelessautomation.api.resources.action.service.dtos.*;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionDao;
+import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionKeyDao;
 import cana.codelessautomation.api.resources.action.service.repositories.daos.ActionOptionDao;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -73,5 +71,19 @@ public class ActionServiceProcessorMapperImpl implements ActionServiceProcessorM
         actionDao.setOrderNumber(actionOrderDto.getCurrentExecutionOrder());
         actionDao.setModifiedOn(OffsetDateTime.now());
         return actionDao;
+    }
+
+    @Override
+    public ActionKeyDao mapActionKeyDao(CreateActionDto createActionDto, UIKeyDetailDto uiKeyDetailDto) {
+        ActionKeyDao actionKeyDao = new ActionKeyDao();
+        actionKeyDao.setActionId(createActionDto.getId());
+        actionKeyDao.setKey(uiKeyDetailDto.getKey());
+        actionKeyDao.setOrderNumber(uiKeyDetailDto.getOrderNumber());
+        actionKeyDao.setIsActive(uiKeyDetailDto.getIsActive());
+        actionKeyDao.setCreatedOn(OffsetDateTime.now());
+        actionKeyDao.setModifiedOn(OffsetDateTime.now());
+        actionKeyDao.setCreatedBy(createActionDto.getCreatedBy());
+        actionKeyDao.setModifiedBy(createActionDto.getModifiedBy());
+        return actionKeyDao;
     }
 }

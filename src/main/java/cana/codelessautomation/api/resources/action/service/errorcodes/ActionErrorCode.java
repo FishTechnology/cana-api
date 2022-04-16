@@ -22,6 +22,7 @@ public class ActionErrorCode extends BaseErrorCode {
     public static final String getActionUIOptionConditionTypeIsEmpty = "CanaApi.{0}.{1}.Action.UIOption.ConditionType.Empty";
     public static final String getActionConditionTypeInValid = "CanaApi.{0}.{1}.Action.ConditionType.IsNotValid";
     public static final String getActionUIOptionContentTypeIsInValid = "CanaApi.{0}.{1}.Action.AssertType.IsNotValid";
+    public static final String getKeyIsInValid = "CanaApi.{0}.{1}.Action.Key.InValid";
 
     public static final String getTestCaseIdAndActionNotMapped() {
         return "CanaApi.{0}.{1}.TestCaseId.And.ActionId.Not.Mapped";

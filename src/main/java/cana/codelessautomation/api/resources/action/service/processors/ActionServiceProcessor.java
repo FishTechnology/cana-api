@@ -25,6 +25,8 @@ public interface ActionServiceProcessor {
 
     List<ErrorMessageDto> getActionsByTestCaseId(GetActionsByTestCaseIdDto getActionsByTestCaseIdDto);
 
+    List<ErrorMessageDto> createActionKey(CreateActionDto createActionDto);
+
     List<ErrorMessageDto> processDeleteActionById(DeleteActionByIdDto deleteActionByIdDto);
 
     List<ErrorMessageDto> updateActionOrder(DeleteActionByIdDto deleteActionByIdDto);

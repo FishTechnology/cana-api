@@ -61,4 +61,7 @@ public class ActionDao {
 
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "actionId")
     private List<ActionOptionDao> actionOptionDaos;
+    
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "actionId")
+    private List<ActionKeyDao> actionKeys;
 }
